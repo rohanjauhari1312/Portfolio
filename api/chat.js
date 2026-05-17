@@ -35,6 +35,23 @@ CONTACT:
 - Instagram: @rohan_jauhari
 - X: @rohanjauhari`
 
+const SECRET_REPLY = `The secret? Rohan drinks way too much coffee and has never once closed a browser tab in his life. Now you know.`
+
+function isAskingForSecret(text) {
+  const t = text.toLowerCase()
+  return t.includes('secret') || t.includes('easter egg')
+}
+
+async function streamString(res, text) {
+  const words = text.split(' ')
+  for (const word of words) {
+    res.write(`data: ${JSON.stringify({ text: word + ' ' })}\n\n`)
+    await new Promise(r => setTimeout(r, 28))
+  }
+  res.write('data: [DONE]\n\n')
+  res.end()
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
@@ -45,6 +62,11 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
   res.setHeader('Access-Control-Allow-Origin', '*')
+
+  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')
+  if (lastUserMsg && isAskingForSecret(lastUserMsg.content)) {
+    return streamString(res, SECRET_REPLY)
+  }
 
   try {
     const stream = client.messages.stream({

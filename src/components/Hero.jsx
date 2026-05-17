@@ -5,7 +5,7 @@ import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
 
 const NAME = 'Rohan Jauhari'
-const TAGLINE = 'Product Manager'
+const TAGLINE = 'Product Management'
 
 const ABOUT = 'I build products that make complex things feel simple, automating workflows for enterprise teams, turning raw data into decisions, and shipping AI into the hands of everyday users.'
 
@@ -16,7 +16,7 @@ const EDUCATION = [
     degree: 'MS · Information Systems',
     period: 'Sep 2024 – Aug 2026',
     note: 'GPA 3.73',
-    color: '#ef4444',
+    color: '#60a5fa',
     location: 'Boston, MA',
   },
   {
