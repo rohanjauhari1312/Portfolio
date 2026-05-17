@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
+import { trackSection, trackExternalLink } from '../hooks/useAnalytics'
 
 const JOBS = [
   {
@@ -119,6 +120,7 @@ function JobCard({ job, index, isMobile }) {
                 href={job.href}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackExternalLink(job.href, job.company)}
                 style={{
                   fontSize: isMobile ? 15 : 17, fontWeight: 700, color: '#f5f5f5',
                   letterSpacing: '-0.01em', textDecoration: 'none',
@@ -220,7 +222,7 @@ export default function Experience() {
 
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setTitleVisible(true); obs.disconnect() } },
+      ([e]) => { if (e.isIntersecting) { setTitleVisible(true); trackSection('work_experience'); obs.disconnect() } },
       { threshold: 0.1 }
     )
     if (titleRef.current) obs.observe(titleRef.current)

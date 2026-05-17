@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
+import { trackClick, trackEvent } from '../hooks/useAnalytics'
 
 const SUGGESTED = [
   'What has Rohan worked on?',
@@ -120,6 +121,7 @@ export default function ChatBot() {
     const content = (text || input).trim()
     if (!content || loading) return
 
+    trackEvent('chatbot_message_sent', { message_preview: content.slice(0, 50) })
     const userMsg = { role: 'user', content }
     const next = [...messages, userMsg]
     setMessages(next)
@@ -373,7 +375,7 @@ export default function ChatBot() {
 
       {/* Floating button */}
       <button
-        onClick={() => setOpen(p => !p)}
+        onClick={() => { const next = !open; setOpen(next); if (next) trackClick('chatbot_open', 'chatbot') }}
         style={{
           position: 'fixed',
           bottom: isMobile ? 80 : 24,

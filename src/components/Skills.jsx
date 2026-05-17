@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
+import { trackSection, trackClick } from '../hooks/useAnalytics'
 
 const CATEGORIES = [
   {
@@ -127,6 +128,10 @@ export default function Skills() {
   }, [])
 
   useEffect(() => {
+    if (entered) trackSection('skills')
+  }, [entered])
+
+  useEffect(() => {
     if (!entered) return
     const t0 = setTimeout(() => setShowRaw(true), 400)
     const t1 = setTimeout(() => setShowSub(true), 900)
@@ -215,6 +220,7 @@ export default function Skills() {
 
   const handleAnalyze = () => {
     if (phase !== 'grid') return
+    trackClick('analyze_skills', 'skills')
 
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     if (sectionRef.current) setLockedHeight(sectionRef.current.offsetHeight)

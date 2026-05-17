@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
+import { trackSection, trackExternalLink, trackClick } from '../hooks/useAnalytics'
 
 const PROJECTS = [
   {
@@ -191,6 +192,7 @@ function ProjectCard({ project, index, onNavigate }) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackExternalLink(project.link, `try_${project.id}`)}
                 style={{
                   padding: '5px 12px', borderRadius: 7,
                   fontSize: 11.5, fontWeight: 700,
@@ -209,7 +211,7 @@ function ProjectCard({ project, index, onNavigate }) {
             )}
             {project.hasDetail && (
               <button
-                onClick={() => onNavigate && onNavigate('nourish')}
+                onClick={() => { trackClick('view_project_nourish', 'projects'); onNavigate && onNavigate('nourish') }}
                 style={{
                   padding: '5px 12px', borderRadius: 7,
                   fontSize: 11.5, fontWeight: 700,
@@ -283,7 +285,7 @@ export default function Projects({ onNavigate }) {
 
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setTitleVisible(true); obs.disconnect() } },
+      ([e]) => { if (e.isIntersecting) { setTitleVisible(true); trackSection('projects'); obs.disconnect() } },
       { threshold: 0.2 }
     )
     if (titleRef.current) obs.observe(titleRef.current)
