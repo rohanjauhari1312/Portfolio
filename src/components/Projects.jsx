@@ -25,6 +25,26 @@ const PROJECTS = [
     status: 'Personal Project',
   },
   {
+    id: 'supportiq',
+    image: '/rag.png',
+    link: 'https://rohanjauhari.com/ragproject',
+    name: 'SupportIQ',
+    tagline: 'RAG Pipeline for Internal Support Knowledge Retrieval',
+    description:
+      'Support teams waste time digging through docs and past tickets for answers that already exist. Built a RAG pipeline indexing internal docs and past tickets so support reps can query in plain English and get grounded, cited answers instantly. Designed retrieval as an MCP-compatible tool so the knowledge base can plug into any LLM workflow, and defined evaluation metrics to track answer accuracy and time-to-resolution improvement.',
+    gradient: 'linear-gradient(135deg, #0f0a2e 0%, #1e1060 50%, #2d1b8a 100%)',
+    iconBg: 'linear-gradient(135deg, #6d28d9, #a78bfa)',
+    icon: 'R',
+    accentColor: '#a78bfa',
+    tags: ['RAG', 'Pinecone', 'LLM', 'MCP', 'Vector DB'],
+    metrics: [
+      { v: 'RAG', l: 'Pipeline' },
+      { v: 'MCP', l: 'Compatible' },
+      { v: 'Cited', l: 'Answers' },
+    ],
+    status: 'Personal Project',
+  },
+  {
     id: 'swifthire',
     image: '/swifthire.jpg',
     name: 'SwiftHire',
@@ -138,19 +158,20 @@ function ProjectCard({ project, index, onNavigate }) {
         transform: visible ? 'translateY(0)' : 'translateY(36px)',
         transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`,
         background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        border: `1px solid ${project.accentColor}30`,
         borderRadius: 16,
         overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
-        transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms, box-shadow 0.25s ease, border-color 0.25s ease`,
+        boxShadow: `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`,
+        transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = `${project.accentColor}30`
-        e.currentTarget.style.boxShadow = `0 0 40px ${project.accentColor}12`
+        e.currentTarget.style.borderColor = `${project.accentColor}90`
+        e.currentTarget.style.boxShadow = `0 0 24px ${project.accentColor}80, 0 0 60px ${project.accentColor}45, 0 0 100px ${project.accentColor}20, inset 0 0 0 1px ${project.accentColor}30`
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-        e.currentTarget.style.boxShadow = 'none'
+        e.currentTarget.style.borderColor = `${project.accentColor}30`
+        e.currentTarget.style.boxShadow = `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`
       }}
     >
       <ProjectImage project={project} />
@@ -158,12 +179,54 @@ function ProjectCard({ project, index, onNavigate }) {
       <div style={{ padding: '22px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Name + tagline */}
         <div style={{ marginBottom: 12 }}>
-          <h3 style={{
-            fontSize: 18, fontWeight: 700, color: '#f5f5f5',
-            margin: '0 0 4px', letterSpacing: '-0.01em',
-          }}>
-            {project.name}
-          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+            <h3 style={{
+              fontSize: 18, fontWeight: 700, color: '#f5f5f5',
+              margin: 0, letterSpacing: '-0.01em',
+            }}>
+              {project.name}
+            </h3>
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '5px 12px', borderRadius: 7,
+                  fontSize: 11.5, fontWeight: 700,
+                  background: project.accentColor,
+                  color: '#0a0a0a',
+                  textDecoration: 'none',
+                  letterSpacing: '0.02em',
+                  boxShadow: `0 0 14px ${project.accentColor}70, 0 0 28px ${project.accentColor}30`,
+                  transition: 'opacity 0.2s, box-shadow 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.boxShadow = `0 0 22px ${project.accentColor}90, 0 0 44px ${project.accentColor}45` }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.boxShadow = `0 0 14px ${project.accentColor}70, 0 0 28px ${project.accentColor}30` }}
+              >
+                Try it
+              </a>
+            )}
+            {project.hasDetail && (
+              <button
+                onClick={() => onNavigate && onNavigate('nourish')}
+                style={{
+                  padding: '5px 12px', borderRadius: 7,
+                  fontSize: 11.5, fontWeight: 700,
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  color: '#f5f5f5',
+                  cursor: 'pointer',
+                  letterSpacing: '0.02em',
+                  transition: 'background 0.2s, border-color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.14)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)' }}
+              >
+                View Project
+              </button>
+            )}
+          </div>
           <span style={{ fontSize: 12, color: project.accentColor, fontWeight: 500 }}>
             {project.tagline}
           </span>
@@ -206,45 +269,6 @@ function ProjectCard({ project, index, onNavigate }) {
           ))}
         </div>
 
-        {/* Action buttons */}
-        {(project.link || project.hasDetail) && (
-          <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-block', padding: '9px 18px', borderRadius: 8,
-                  fontSize: 12.5, fontWeight: 600,
-                  background: project.accentColor, color: '#0a0a0a',
-                  textDecoration: 'none',
-                  boxShadow: `0 0 14px ${project.accentColor}40`,
-                }}
-              >
-                Try {project.name}
-              </a>
-            )}
-            {project.hasDetail && (
-              <button
-                onClick={() => onNavigate && onNavigate('nourish')}
-                style={{
-                  padding: '9px 18px', borderRadius: 8,
-                  fontSize: 12.5, fontWeight: 600,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: 'rgba(255,255,255,0.6)',
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s, color 0.2s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; e.currentTarget.style.color = '#f5f5f5' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
-              >
-                {project.name} Overview
-              </button>
-            )}
-          </div>
-        )}
       </div>
     </div>
   )
@@ -254,6 +278,8 @@ export default function Projects({ onNavigate }) {
   const [titleVisible, setTitleVisible] = useState(false)
   const titleRef = useRef(null)
   const isMobile = useIsMobile()
+
+  const wobbleStyle = ``
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -266,6 +292,7 @@ export default function Projects({ onNavigate }) {
 
   return (
     <section style={{ background: 'rgba(10,10,10,0.85)', padding: isMobile ? '24px 0 48px' : '40px 0 80px' }} id="projects">
+      <style>{wobbleStyle}</style>
       {/* Subtle divider */}
       <div style={{
         height: 1,

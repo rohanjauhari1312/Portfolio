@@ -93,12 +93,13 @@ function JobCard({ job, index, isMobile }) {
         transform: visible ? 'translateY(0)' : 'translateY(32px)',
         transition: `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms`,
         background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        border: `1px solid ${job.accentColor}22`,
         borderLeft: `3px solid ${job.accentColor}`,
         borderRadius: 16,
         padding: isMobile ? '20px' : '28px 32px',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
+        boxShadow: `0 0 0 1px ${job.accentColor}08, 0 4px 24px ${job.accentColor}0a`,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 18 }}>
