@@ -186,24 +186,24 @@ export default function ChatBot() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
   }
 
-  const drawerW = isMobile ? '100vw' : 380
-  const drawerH = isMobile ? '85vh' : 520
+  const drawerW = isMobile ? 'calc(100vw - 32px)' : 380
+  const drawerH = isMobile ? 460 : 520
 
   return (
     <>
       {/* Chat drawer */}
       <div style={{
         position: 'fixed',
-        bottom: isMobile ? 0 : 88,
-        right: isMobile ? 0 : 24,
+        bottom: isMobile ? 88 : 88,
+        right: isMobile ? 16 : 24,
         width: drawerW,
         height: open ? drawerH : 0,
-        borderRadius: isMobile ? '20px 20px 0 0' : 16,
+        borderRadius: 16,
         overflow: 'hidden',
-        background: isMobile ? '#0a0a0a' : 'rgba(12,12,12,0.97)',
+        background: 'rgba(12,12,12,0.97)',
         border: open ? '1px solid rgba(250,204,21,0.14)' : 'none',
-        backdropFilter: isMobile ? 'none' : 'blur(24px)',
-        WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         boxShadow: open ? '0 0 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(250,204,21,0.06)' : 'none',
         transition: 'height 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease',
         zIndex: 200,
