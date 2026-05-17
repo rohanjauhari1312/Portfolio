@@ -253,14 +253,6 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Tagline + Name */}
               <div>
-                <FadeIn delay={100}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-                    <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px #facc15', animation: 'glowPulse 2s ease-in-out infinite' }} />
-                    <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#facc15' }}>
-                      {TAGLINE}
-                    </span>
-                  </div>
-                </FadeIn>
                 <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} />
               </div>
 
@@ -459,28 +451,6 @@ export default function Hero({ onNavigate }) {
 
             {/* RIGHT COLUMN — text */}
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
-
-              <FadeIn delay={100}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 }}>
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      width: 8, height: 8, borderRadius: '50%',
-                      background: '#facc15',
-                      boxShadow: '0 0 8px #facc15',
-                      animation: 'glowPulse 2s ease-in-out infinite',
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 11, fontWeight: 600,
-                      letterSpacing: '0.22em', textTransform: 'uppercase', color: '#facc15',
-                    }}
-                  >
-                    {TAGLINE}
-                  </span>
-                </div>
-              </FadeIn>
 
               <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
 

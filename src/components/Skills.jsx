@@ -277,6 +277,7 @@ export default function Skills() {
         @keyframes scrollLeft  { from { transform: translateX(0) }    to { transform: translateX(-50%) } }
         @keyframes scrollRight { from { transform: translateX(-50%) } to { transform: translateX(0) }    }
         @keyframes etlFill     { from { width: 0% }                   to { width: 100% }                 }
+        @keyframes domainExpand { from { max-height: 0; opacity: 0; margin-bottom: 0; } to { max-height: 160px; opacity: 1; margin-bottom: 20px; } }
         .etl-progress-fill {
           height: 100%;
           width: 0%;
@@ -434,7 +435,11 @@ export default function Skills() {
                 textAlign: 'center', marginBottom: 20,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16,
               }}>
-                <div>
+                {done && (
+                <div style={{
+                  overflow: 'hidden',
+                  animation: 'domainExpand 0.7s cubic-bezier(.22,1,.36,1) forwards',
+                }}>
                   <div style={{
                     fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontWeight: 900, color: 'rgba(255,255,255,0.28)',
                     letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 12, textAlign: 'center',
@@ -445,6 +450,7 @@ export default function Skills() {
                     {CATEGORIES.length} domains · {ALL_SKILLS.length} skills classified
                   </div>
                 </div>
+                )}
                 {done && (
                   <button
                     onClick={handleReplay}
