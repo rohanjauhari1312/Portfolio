@@ -1,5 +1,9 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/ragproject", "destination": "https://supportiq-oywb.onrender.com/" },
+    { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" }
+  ]
 }
