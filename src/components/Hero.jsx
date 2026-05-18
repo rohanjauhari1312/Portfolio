@@ -542,9 +542,9 @@ export default function Hero({ onNavigate }) {
                     }}>{e.period}</span>
                     {e.note && (
                       <span style={{
-                        fontSize: 11, color: e.color,
-                        background: `${e.color}12`,
-                        border: `1px solid ${e.color}30`,
+                        fontSize: 11, color: 'rgba(255,255,255,0.38)',
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.08)',
                         padding: '3px 10px', borderRadius: 6,
                         fontWeight: 600,
                       }}>{e.note}</span>
