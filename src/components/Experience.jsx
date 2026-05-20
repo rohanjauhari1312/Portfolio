@@ -173,10 +173,33 @@ function JobCard({ job, index, isMobile }) {
           <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.6)', marginTop: 3 }}>
             {job.role}
           </div>
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.32)', marginTop: 4, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <span>{job.period}</span>
-            <span>·</span>
-            <span>{job.location}</span>
+          <div style={{ marginTop: 6, display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              fontSize: 11, fontWeight: 600, letterSpacing: '0.03em',
+              color: job.accentColor,
+              background: job.bgColor,
+              border: `1px solid ${job.accentColor}30`,
+              padding: '3px 9px', borderRadius: 6,
+            }}>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {job.period}
+            </span>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              fontSize: 11, fontWeight: 500,
+              color: 'rgba(255,255,255,0.35)',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              padding: '3px 9px', borderRadius: 6,
+            }}>
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              {job.location}
+            </span>
           </div>
         </div>
       </div>
