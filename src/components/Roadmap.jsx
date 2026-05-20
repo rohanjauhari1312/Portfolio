@@ -84,33 +84,18 @@ export default function Roadmap() {
         zIndex: 200,
         pointerEvents: show ? 'auto' : 'none',
       }}>
-        {/* Liquid glass tile */}
         <div style={{
           position: 'relative',
           width: isMobile ? 'calc(100vw - 40px)' : 560,
-          borderRadius: 20,
+          borderRadius: 18,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: 'rgba(255,255,255,0.09)',
-          backdropFilter: 'blur(48px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(48px) saturate(200%)',
-          border: '1px solid rgba(255,255,255,0.22)',
-          boxShadow: [
-            'inset 0 1.5px 0 rgba(255,255,255,0.28)',
-            'inset 0 -1px 0 rgba(255,255,255,0.06)',
-            `0 0 0 1px rgba(0,0,0,0.15)`,
-            '0 20px 48px rgba(0,0,0,0.45)',
-            `0 0 24px ${dynamicColor}18`,
-          ].join(', '),
-          transition: 'box-shadow 0.4s ease',
-          overflow: 'hidden',
+          background: 'rgba(10,10,10,0.93)',
+          backdropFilter: isMobile ? 'none' : 'blur(20px)',
+          WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px)',
+          border: `1px solid ${dynamicColor}35`,
+          boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 20px ${dynamicColor}18`,
+          transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
         }}>
-          {/* Specular highlight layer */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            height: '45%', borderRadius: '20px 20px 0 0',
-            background: 'linear-gradient(to bottom, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0) 100%)',
-            pointerEvents: 'none',
-          }} />
 
           {/* Header */}
           <div style={{

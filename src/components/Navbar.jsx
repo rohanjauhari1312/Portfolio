@@ -50,17 +50,10 @@ export default function Navbar() {
           display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-end' : 'flex-start',
           gap: 40,
           padding: isMobile ? '0 20px' : '0 40px',
-          background: scrolled || menuOpen
-            ? 'rgba(255,255,255,0.07)'
-            : 'transparent',
-          borderBottom: scrolled || menuOpen
-            ? '1px solid rgba(255,255,255,0.14)'
-            : '1px solid transparent',
-          backdropFilter: scrolled || menuOpen ? 'blur(40px) saturate(180%)' : 'none',
-          WebkitBackdropFilter: scrolled || menuOpen ? 'blur(40px) saturate(180%)' : 'none',
-          boxShadow: scrolled || menuOpen
-            ? 'inset 0 -1px 0 rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.16), 0 8px 32px rgba(0,0,0,0.25)'
-            : 'none',
+          background: scrolled || menuOpen ? 'rgba(10,10,10,0.88)' : 'transparent',
+          borderBottom: scrolled || menuOpen ? '1px solid rgba(250,204,21,0.08)' : '1px solid transparent',
+          backdropFilter: scrolled || menuOpen ? 'blur(18px)' : 'none',
+          WebkitBackdropFilter: scrolled || menuOpen ? 'blur(18px)' : 'none',
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0)' : 'translateY(-12px)',
           transition: 'background 0.4s, border-color 0.4s, box-shadow 0.4s, opacity 0.6s, transform 0.6s',
@@ -132,11 +125,10 @@ export default function Navbar() {
       {isMobile && (
         <div style={{
           position: 'fixed', top: 64, left: 0, right: 0, zIndex: 99,
-          background: 'rgba(255,255,255,0.07)',
-          backdropFilter: 'blur(40px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-          borderBottom: '1px solid rgba(255,255,255,0.12)',
-          boxShadow: 'inset 0 -1px 0 rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.3)',
+          background: 'rgba(10,10,10,0.96)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          borderBottom: '1px solid rgba(250,204,21,0.08)',
           display: 'flex', flexDirection: 'column',
           maxHeight: menuOpen ? 360 : 0,
           overflow: 'hidden',
