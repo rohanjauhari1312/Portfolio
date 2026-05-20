@@ -380,7 +380,7 @@ export default function ChatBot() {
         onMouseLeave={e => { e.currentTarget.style.boxShadow = open ? 'none' : '0 0 20px rgba(250,204,21,0.3), 0 4px 16px rgba(0,0,0,0.4)' }}
         style={{
           position: 'fixed',
-          bottom: isMobile ? 80 : 24,
+          bottom: isMobile ? 150 : 24,
           right: 24,
           width: 60, height: 60, borderRadius: '50%',
           background: open ? 'rgba(10,10,10,0.9)' : 'transparent',
