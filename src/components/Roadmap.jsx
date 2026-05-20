@@ -22,7 +22,7 @@ const MILESTONES = [
   },
   {
     id: 'nu',
-    company: 'Northeastern Research',
+    company: 'NU Research',
     logo: '/northeastern.png',
     role: 'Research Assistant · Agentic AI',
     period: 'Jan 2026 – Present',
@@ -64,19 +64,26 @@ function getDynamicColor(progress) {
 }
 
 export default function Roadmap() {
-  const sectionRef = useRef(null)
+  const anchorRef = useRef(null)
+  const [show, setShow] = useState(false)
   const [progress, setProgress] = useState(0)
   const isMobile = useIsMobile()
 
   useEffect(() => {
     const onScroll = () => {
-      const el = sectionRef.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      const scrollable = el.offsetHeight - window.innerHeight
-      if (scrollable <= 0) return
-      const scrolled = Math.max(0, -rect.top)
-      setProgress(Math.min(1, scrolled / scrollable))
+      const anchor = anchorRef.current
+      if (!anchor) return
+      const anchorTop = anchor.getBoundingClientRect().top + window.scrollY
+      const docHeight = document.documentElement.scrollHeight
+      const viewH = window.innerHeight
+      const scrollY = window.scrollY
+
+      const triggerAt = anchorTop - viewH * 0.6
+      setShow(scrollY > triggerAt)
+
+      const range = docHeight - viewH - anchorTop
+      if (range <= 0) return
+      setProgress(Math.min(1, Math.max(0, (scrollY - anchorTop) / range)))
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
@@ -89,96 +96,107 @@ export default function Roadmap() {
   }, 0)
 
   const dynamicColor = getDynamicColor(progress)
-  const fillWidth = `${progress * 100}%`
+  const activeMilestone = MILESTONES[activeIndex]
 
   return (
-    <div
-      ref={sectionRef}
-      id="roadmap"
-      style={{
-        height: isMobile ? '280vh' : '370vh',
-        position: 'relative',
-        background: 'rgba(10,10,10,0.85)',
-      }}
-    >
+    <>
+      {/* Zero-height anchor placed in the DOM flow */}
+      <div ref={anchorRef} id="roadmap" style={{ height: 0, pointerEvents: 'none' }} />
+
       <style>{`
-        @keyframes dotPulse {
-          0%, 100% { box-shadow: 0 0 0 0 currentColor; transform: translate(-50%, -50%) scale(1); }
-          50% { transform: translate(-50%, -50%) scale(1.15); }
-        }
         @keyframes futurePulse {
-          0%, 100% { opacity: 0.7; }
+          0%, 100% { opacity: 0.6; }
           50% { opacity: 1; }
         }
       `}</style>
 
-      <div style={{
-        height: 1,
-        background: 'linear-gradient(to right, transparent, rgba(250,204,21,0.12), transparent)',
-      }} />
-
-      <div style={{
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          width: '100%',
-          maxWidth: 1320,
-          margin: '0 auto',
-          padding: isMobile ? '0 24px' : '0 64px',
-        }}>
-
+      {/* Floating strip */}
+      <div
+        style={{
+          position: 'fixed',
+          bottom: isMobile ? 14 : 24,
+          left: '50%',
+          transform: `translateX(-50%) translateY(${show ? 0 : 48}px)`,
+          opacity: show ? 1 : 0,
+          transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
+          zIndex: 200,
+          pointerEvents: show ? 'auto' : 'none',
+        }}
+      >
+        <div
+          style={{
+            background: 'rgba(10,10,10,0.92)',
+            border: `1px solid ${dynamicColor}35`,
+            borderRadius: 16,
+            backdropFilter: isMobile ? 'none' : 'blur(20px)',
+            WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px)',
+            padding: isMobile ? '10px 14px' : '14px 22px',
+            width: isMobile ? 'calc(100vw - 40px)' : 480,
+            boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 20px ${dynamicColor}18`,
+            transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+          }}
+        >
           {/* Header */}
-          <div style={{ marginBottom: isMobile ? 36 : 52 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            marginBottom: isMobile ? 8 : 10,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
               <span style={{
-                width: 7, height: 7, borderRadius: '50%',
+                width: 6, height: 6, borderRadius: '50%',
                 background: dynamicColor,
-                boxShadow: `0 0 8px ${dynamicColor}`,
+                boxShadow: `0 0 6px ${dynamicColor}`,
                 display: 'inline-block',
-                transition: 'background 0.4s ease, box-shadow 0.4s ease',
+                transition: 'background 0.4s ease',
               }} />
               <span style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: '0.2em',
+                fontSize: 9.5, fontWeight: 600, letterSpacing: '0.18em',
                 textTransform: 'uppercase', color: dynamicColor,
                 transition: 'color 0.4s ease',
               }}>
                 Product Roadmap
               </span>
             </div>
-            <h2 style={{
-              fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800,
-              color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 10px',
-            }}>
-              The arc so far.
-            </h2>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.28)', margin: 0, letterSpacing: '0.03em' }}>
-              Scroll to progress through the timeline
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              {activeMilestone.logo ? (
+                <div style={{
+                  width: 16, height: 16, borderRadius: 4,
+                  background: '#fff', overflow: 'hidden', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <img src={activeMilestone.logo} alt={activeMilestone.company}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </div>
+              ) : (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke={dynamicColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ animation: 'futurePulse 2s ease-in-out infinite' }}>
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              )}
+              <span style={{
+                fontSize: 10, fontWeight: 600,
+                color: activeIndex === N - 1 ? dynamicColor : 'rgba(255,255,255,0.45)',
+                transition: 'color 0.4s ease',
+              }}>
+                {activeMilestone.company}
+              </span>
+            </div>
           </div>
 
           {/* Progress track */}
-          <div style={{ position: 'relative', marginBottom: isMobile ? 28 : 36 }}>
-            {/* Track bg */}
+          <div style={{ position: 'relative', marginBottom: isMobile ? 6 : 8 }}>
             <div style={{
               height: 3, background: 'rgba(255,255,255,0.06)',
               borderRadius: 999, position: 'relative',
             }}>
-              {/* Fill */}
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: `linear-gradient(to right, #a855f7, #1a73e8, #ef4444, #facc15)`,
-                width: fillWidth,
-                transition: 'width 0.08s linear',
-                boxShadow: `0 0 12px ${dynamicColor}90, 0 0 24px ${dynamicColor}40`,
+                background: 'linear-gradient(to right, #a855f7, #1a73e8, #ef4444, #facc15)',
+                width: `${progress * 100}%`,
+                transition: 'width 0.06s linear',
+                boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
-
-              {/* Milestone dots */}
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N - 1)) * 100
                 const reached = i <= activeIndex
@@ -187,16 +205,14 @@ export default function Roadmap() {
                   <div
                     key={m.id}
                     style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: `${pos}%`,
+                      position: 'absolute', top: '50%', left: `${pos}%`,
                       transform: 'translate(-50%, -50%)',
-                      width: isCurrent ? 18 : 13,
-                      height: isCurrent ? 18 : 13,
+                      width: isCurrent ? 12 : 8,
+                      height: isCurrent ? 12 : 8,
                       borderRadius: '50%',
                       background: reached ? m.color : 'rgba(255,255,255,0.08)',
                       border: `2px solid ${reached ? m.color : 'rgba(255,255,255,0.12)'}`,
-                      boxShadow: isCurrent ? `0 0 14px ${m.color}90, 0 0 28px ${m.color}40` : 'none',
+                      boxShadow: isCurrent ? `0 0 8px ${m.color}90, 0 0 16px ${m.color}40` : 'none',
                       transition: 'all 0.4s cubic-bezier(.22,1,.36,1)',
                       zIndex: 2,
                     }}
@@ -206,107 +222,36 @@ export default function Roadmap() {
             </div>
           </div>
 
-          {/* Milestone cards */}
-          <div style={{
-            display: 'flex',
-            gap: isMobile ? 10 : 20,
-            alignItems: 'stretch',
-          }}>
-            {MILESTONES.map((m, i) => {
-              const active = i === activeIndex
-              const passed = i < activeIndex
-              const upcoming = i > activeIndex
-
-              return (
-                <div
-                  key={m.id}
-                  style={{
-                    flex: 1,
-                    padding: isMobile ? '14px 12px' : '22px 20px',
-                    borderRadius: 14,
-                    background: active
-                      ? `${m.color}12`
-                      : passed ? `${m.color}07` : 'rgba(255,255,255,0.015)',
-                    border: `1px solid ${active ? m.color + '45' : passed ? m.color + '22' : 'rgba(255,255,255,0.05)'}`,
-                    borderTop: `2px solid ${passed || active ? m.color : 'rgba(255,255,255,0.06)'}`,
-                    opacity: upcoming ? 0.38 : 1,
-                    transform: active ? 'translateY(-6px)' : 'translateY(0)',
-                    transition: 'all 0.5s cubic-bezier(.22,1,.36,1)',
-                    boxShadow: active ? `0 0 28px ${m.color}22, 0 8px 32px rgba(0,0,0,0.25)` : 'none',
-                  }}
-                >
-                  {/* Logo */}
-                  <div style={{
-                    width: isMobile ? 30 : 40, height: isMobile ? 30 : 40,
-                    borderRadius: 9, marginBottom: isMobile ? 10 : 14,
-                    background: m.logo ? '#fff' : `${m.color}18`,
-                    border: `1px solid ${m.color}30`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    overflow: 'hidden', padding: m.logo ? 3 : 0,
-                    boxShadow: active ? `0 0 14px ${m.color}50` : 'none',
-                    transition: 'box-shadow 0.4s ease',
-                  }}>
-                    {m.logo ? (
-                      <img src={m.logo} alt={m.company} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
-                    ) : (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={m.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                        style={{ animation: active ? 'futurePulse 2s ease-in-out infinite' : 'none' }}>
-                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                      </svg>
-                    )}
-                  </div>
-
-                  <div style={{
-                    fontSize: isMobile ? 10.5 : 12.5, fontWeight: 700,
-                    color: active ? '#f5f5f5' : passed ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)',
-                    marginBottom: 3, lineHeight: 1.2,
-                    transition: 'color 0.4s ease',
-                  }}>
-                    {m.company}
-                  </div>
-
-                  {!isMobile && (
-                    <div style={{
-                      fontSize: 10.5, color: 'rgba(255,255,255,0.32)',
-                      marginBottom: 10, lineHeight: 1.4,
-                    }}>
-                      {m.role}
-                    </div>
-                  )}
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-start' }}>
-                    <span style={{
-                      fontSize: isMobile ? 8 : 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                      color: m.color, background: `${m.color}15`, border: `1px solid ${m.color}35`,
-                      padding: '2px 7px', borderRadius: 4,
-                      animation: m.future && active ? 'futurePulse 2s ease-in-out infinite' : 'none',
-                    }}>
-                      {m.status}
-                    </span>
-                    {!isMobile && (
-                      <span style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.22)' }}>{m.period}</span>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
+          {/* Milestone labels */}
+          <div style={{ display: 'flex' }}>
+            {MILESTONES.map((m, i) => (
+              <div
+                key={m.id}
+                style={{
+                  flex: 1,
+                  textAlign: i === 0 ? 'left' : i === N - 1 ? 'right' : 'center',
+                }}
+              >
+                <span style={{
+                  fontSize: isMobile ? 8 : 9,
+                  fontWeight: 600,
+                  color: i === activeIndex
+                    ? m.color
+                    : i < activeIndex
+                    ? 'rgba(255,255,255,0.38)'
+                    : 'rgba(255,255,255,0.14)',
+                  transition: 'color 0.4s ease',
+                  animation: m.future && i === activeIndex ? 'futurePulse 2s ease-in-out infinite' : 'none',
+                }}>
+                  {isMobile && m.company.length > 10
+                    ? m.company.split(' ')[0]
+                    : m.company}
+                </span>
+              </div>
+            ))}
           </div>
-
-          {/* Scroll hint */}
-          <div style={{
-            position: 'absolute',
-            bottom: 36, left: '50%', transform: 'translateX(-50%)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-            opacity: progress < 0.04 ? 0.45 : 0,
-            transition: 'opacity 0.5s ease',
-            pointerEvents: 'none',
-          }}>
-            <span style={{ fontSize: 10, color: '#facc15', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Scroll</span>
-            <div style={{ width: 1, height: 36, background: 'linear-gradient(to bottom, #facc15, transparent)' }} />
-          </div>
-
         </div>
       </div>
-    </div>
+    </>
   )
 }
