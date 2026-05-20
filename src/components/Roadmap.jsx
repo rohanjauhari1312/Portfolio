@@ -69,11 +69,16 @@ export default function Roadmap() {
       const scrollY = window.scrollY
 
       const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
-      setShow(scrollY + viewH > skillsBottom - viewH * 0.2)
+      const workBottom   = workEl.offsetTop + workEl.offsetHeight
+
+      // Show after Skills scrolls away, hide once Work Experience is past
+      const afterSkills = scrollY + viewH > skillsBottom - viewH * 0.2
+      const beforeWorkEnd = scrollY < workBottom + viewH * 0.1
+      setShow(afterSkills && beforeWorkEnd)
 
       // Progress: education section top → work section bottom
       const start      = educationEl.offsetTop
-      const end        = workEl.offsetTop + workEl.offsetHeight
+      const end        = workBottom
       const viewCenter = scrollY + viewH * 0.5
       const range      = end - start
       if (range <= 0) return
