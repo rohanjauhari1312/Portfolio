@@ -3,13 +3,13 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
   {
-    id: 'lnmiit',
-    company: 'LNMIIT',
-    logo: '/lnmiit.png',
-    role: 'BTech · Computer Science',
-    period: '2017 – 2021',
-    status: 'Graduated',
-    color: '#60a5fa',
+    id: 'nu',
+    company: 'Northeastern',
+    logo: '/northeastern.png',
+    role: 'MS · Information Systems',
+    period: '2024 – 2026',
+    status: 'Education',
+    color: '#ef4444',
   },
   {
     id: 'avo',
@@ -28,25 +28,6 @@ const MILESTONES = [
     period: 'Aug – Dec 2025',
     status: 'Completed',
     color: '#1a73e8',
-  },
-  {
-    id: 'nu',
-    company: 'Northeastern',
-    logo: '/northeastern.png',
-    role: 'MS + Research · Agentic AI',
-    period: 'Jan 2026 – Present',
-    status: 'Active',
-    color: '#ef4444',
-  },
-  {
-    id: 'next',
-    company: 'Next Role',
-    logo: null,
-    role: 'Product · Strategy · AI',
-    period: 'Open',
-    status: 'Open',
-    color: '#facc15',
-    future: true,
   },
 ]
 
@@ -81,8 +62,8 @@ export default function Roadmap() {
     const onScroll = () => {
       const skillsEl    = document.getElementById('skills')
       const educationEl = document.getElementById('education')
-      const contactEl   = document.getElementById('contact')
-      if (!skillsEl || !educationEl || !contactEl) return
+      const workEl      = document.getElementById('work')
+      if (!skillsEl || !educationEl || !workEl) return
 
       const viewH   = window.innerHeight
       const scrollY = window.scrollY
@@ -90,11 +71,11 @@ export default function Roadmap() {
       const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
       setShow(scrollY + viewH > skillsBottom - viewH * 0.2)
 
-      // Map viewport center through education → contact
-      const start     = educationEl.offsetTop
-      const end       = contactEl.offsetTop
-      const viewCenter = scrollY + viewH * 0.45
-      const range     = end - start
+      // Progress: education section top → work section bottom
+      const start      = educationEl.offsetTop
+      const end        = workEl.offsetTop + workEl.offsetHeight
+      const viewCenter = scrollY + viewH * 0.5
+      const range      = end - start
       if (range <= 0) return
       setProgress(Math.min(1, Math.max(0, (viewCenter - start) / range)))
     }
@@ -205,7 +186,7 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #60a5fa, #a855f7, #1a73e8, #ef4444, #facc15)',
+                background: 'linear-gradient(to right, #ef4444, #a855f7, #1a73e8)',
                 width: `${progress * 100}%`,
                 transition: 'width 0.06s linear',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
