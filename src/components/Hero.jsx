@@ -512,15 +512,27 @@ export default function Hero({ onNavigate }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {EDUCATION.map(e => (
-              <div key={e.school} style={{
-                width: '100%',
-                padding: isMobile ? '20px' : '24px 28px', borderRadius: 16,
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.07)',
-                borderLeft: `3px solid ${e.color}`,
-                display: 'flex', gap: 16, alignItems: 'flex-start',
-                boxShadow: `0 0 40px ${e.color}08`,
-              }}>
+              <div key={e.school}
+                style={{
+                  width: '100%',
+                  padding: isMobile ? '20px' : '24px 28px', borderRadius: 16,
+                  background: `linear-gradient(135deg, ${e.color}08 0%, rgba(255,255,255,0.02) 60%)`,
+                  border: `1px solid ${e.color}30`,
+                  borderLeft: `3px solid ${e.color}`,
+                  display: 'flex', gap: 16, alignItems: 'flex-start',
+                  boxShadow: `0 0 18px ${e.color}18, inset 0 0 0 1px ${e.color}10`,
+                  transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+                  cursor: 'default',
+                }}
+                onMouseEnter={ev => {
+                  ev.currentTarget.style.boxShadow = `0 0 24px ${e.color}80, 0 0 60px ${e.color}45, 0 0 100px ${e.color}20, inset 0 0 0 1px ${e.color}30`
+                  ev.currentTarget.style.borderColor = `${e.color}90`
+                }}
+                onMouseLeave={ev => {
+                  ev.currentTarget.style.boxShadow = `0 0 18px ${e.color}18, inset 0 0 0 1px ${e.color}10`
+                  ev.currentTarget.style.borderColor = `${e.color}30`
+                }}
+              >
                 <div style={{
                   width: 56, height: 56, borderRadius: 12, flexShrink: 0,
                   background: '#fff', padding: 3,
