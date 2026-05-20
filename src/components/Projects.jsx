@@ -30,7 +30,7 @@ const PROJECTS = [
     image: '/rag.png',
     link: 'https://rohanjauhari.com/ragproject',
     name: 'SupportIQ',
-    tagline: 'RAG Pipeline for Internal Support Knowledge Retrieval',
+    tagline: 'MCP-Enabled RAG Pipeline for Internal Support Knowledge Retrieval',
     description:
       'Support teams waste time digging through docs and past tickets for answers that already exist. Built a RAG pipeline indexing internal docs and past tickets so support reps can query in plain English and get grounded, cited answers instantly. Designed retrieval as an MCP-compatible tool so the knowledge base can plug into any LLM workflow, and defined evaluation metrics to track answer accuracy and time-to-resolution improvement.',
     gradient: 'linear-gradient(135deg, #0f0a2e 0%, #1e1060 50%, #2d1b8a 100%)',
