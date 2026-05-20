@@ -142,7 +142,6 @@ export default function Contact() {
                 padding: '11px 24px', borderRadius: 10, fontSize: 13, fontWeight: 600,
                 background: 'rgba(250,204,21,0.1)', color: '#facc15',
                 border: '1px solid rgba(250,204,21,0.22)', textDecoration: 'none',
-                boxShadow: '0 0 14px rgba(250,204,21,0.25), 0 0 28px rgba(250,204,21,0.10)',
                 transition: 'background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s',
                 display: 'inline-block',
               }}
@@ -155,7 +154,7 @@ export default function Contact() {
               onMouseLeave={e => {
                 e.currentTarget.style.background = 'rgba(250,204,21,0.1)'
                 e.currentTarget.style.borderColor = 'rgba(250,204,21,0.22)'
-                e.currentTarget.style.boxShadow = '0 0 14px rgba(250,204,21,0.25), 0 0 28px rgba(250,204,21,0.10)'
+                e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
@@ -169,7 +168,6 @@ export default function Contact() {
                 padding: '11px 24px', borderRadius: 10, fontSize: 13, fontWeight: 600,
                 background: 'rgba(10,102,194,0.12)', color: '#60a5fa',
                 border: '1px solid rgba(10,102,194,0.3)', textDecoration: 'none',
-                boxShadow: '0 0 14px rgba(96,165,250,0.25), 0 0 28px rgba(96,165,250,0.10)',
                 transition: 'background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s',
                 display: 'inline-flex', alignItems: 'center', gap: 7,
               }}
@@ -182,7 +180,7 @@ export default function Contact() {
               onMouseLeave={e => {
                 e.currentTarget.style.background = 'rgba(10,102,194,0.12)'
                 e.currentTarget.style.borderColor = 'rgba(10,102,194,0.3)'
-                e.currentTarget.style.boxShadow = '0 0 14px rgba(96,165,250,0.25), 0 0 28px rgba(96,165,250,0.10)'
+                e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
@@ -207,7 +205,6 @@ export default function Contact() {
                 background: l.bg, border: `1px solid ${l.color}25`,
                 color: l.color, textDecoration: 'none',
                 display: 'flex', alignItems: 'center', gap: 12,
-                boxShadow: `0 0 14px ${l.color}25, 0 0 28px ${l.color}10`,
                 transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
                 minWidth: isMobile ? 'auto' : 200,
               }}
@@ -218,7 +215,7 @@ export default function Contact() {
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = `0 0 14px ${l.color}25, 0 0 28px ${l.color}10`
+                e.currentTarget.style.boxShadow = 'none'
                 e.currentTarget.style.borderColor = `${l.color}25`
               }}
             >

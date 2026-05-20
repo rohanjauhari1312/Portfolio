@@ -305,7 +305,6 @@ export default function ChatBot() {
               background: input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)',
               border: 'none', cursor: input.trim() && !loading ? 'pointer' : 'default',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: input.trim() && !loading ? '0 0 14px rgba(250,204,21,0.60), 0 0 28px rgba(250,204,21,0.25)' : 'none',
               transition: 'background 0.2s, box-shadow 0.2s',
             }}
           >
@@ -377,6 +376,8 @@ export default function ChatBot() {
       {/* Floating button */}
       <button
         onClick={() => { const next = !open; setOpen(next); if (next) trackClick('chatbot_open', 'chatbot') }}
+        onMouseEnter={e => { if (!open) e.currentTarget.style.boxShadow = '0 0 18px rgba(250,204,21,0.55), 0 0 36px rgba(250,204,21,0.20), 0 4px 16px rgba(0,0,0,0.4)' }}
+        onMouseLeave={e => { e.currentTarget.style.boxShadow = open ? 'none' : '0 0 20px rgba(250,204,21,0.3), 0 4px 16px rgba(0,0,0,0.4)' }}
         style={{
           position: 'fixed',
           bottom: isMobile ? 80 : 24,

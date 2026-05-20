@@ -402,13 +402,15 @@ export default function Skills() {
                 transform: showBtn ? 'translateY(0)' : 'translateY(10px)',
                 transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
               }}>
-                <button onClick={handleAnalyze} style={{
+                <button onClick={handleAnalyze}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 18px rgba(250,204,21,0.60), 0 0 40px rgba(250,204,21,0.25)' }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
+                  style={{
                   position: 'relative', overflow: 'hidden',
                   background: '#facc15', color: '#0a0a0a', border: 'none',
                   padding: '14px 30px', borderRadius: 10, fontSize: 14,
                   fontWeight: 700, cursor: 'pointer', letterSpacing: '0.01em',
-                  boxShadow: showBtn ? '0 0 18px rgba(250,204,21,0.60), 0 0 40px rgba(250,204,21,0.25)' : 'none',
-                  transition: 'box-shadow 0.3s ease, transform 0.2s ease',
+                  transition: 'box-shadow 0.3s ease',
                 }}>
                   <span style={{ position: 'relative', zIndex: 2 }}>
                     Analyze for Business Intelligence
