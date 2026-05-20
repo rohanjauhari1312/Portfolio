@@ -3,31 +3,41 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
   {
-    id: 'nu',
+    id: 'lnmiit',
+    company: 'LNMIIT',
+    logo: '/lnmiit.png',
+    color: '#60a5fa',
+  },
+  {
+    id: 'nu-ms',
     company: 'Northeastern',
     logo: '/northeastern.png',
-    role: 'MS · Information Systems',
-    period: '2024 – 2026',
-    status: 'Education',
     color: '#ef4444',
   },
   {
     id: 'avo',
-    company: 'Avo Automation',
+    company: 'Avo',
     logo: '/avo.jpeg',
-    role: 'Product Engineer → Sr. Product Engineer',
-    period: '2021 – 2024',
-    status: 'Shipped',
     color: '#a855f7',
   },
   {
     id: 'mckinsey',
     company: 'McKinsey',
     logo: '/mckinsey.png',
-    role: 'Product Analyst Co-op',
-    period: 'Aug – Dec 2025',
-    status: 'Completed',
     color: '#1a73e8',
+  },
+  {
+    id: 'nu-research',
+    company: 'NU Research',
+    logo: '/northeastern.png',
+    color: '#f97316',
+  },
+  {
+    id: 'next',
+    company: 'Next',
+    logo: null,
+    color: '#facc15',
+    future: true,
   },
 ]
 
@@ -62,23 +72,24 @@ export default function Roadmap() {
     const onScroll = () => {
       const skillsEl    = document.getElementById('skills')
       const educationEl = document.getElementById('education')
-      const workEl      = document.getElementById('work')
-      if (!skillsEl || !educationEl || !workEl) return
+      const projectsEl  = document.getElementById('projects')
+      const contactEl   = document.getElementById('contact')
+      if (!skillsEl || !educationEl || !projectsEl || !contactEl) return
 
       const viewH   = window.innerHeight
       const scrollY = window.scrollY
 
-      const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
-      const workBottom   = workEl.offsetTop + workEl.offsetHeight
+      const skillsBottom  = skillsEl.offsetTop + skillsEl.offsetHeight
+      const contactTop    = contactEl.offsetTop
 
-      // Show after Skills scrolls away, hide once Work Experience is past
-      const afterSkills = scrollY + viewH > skillsBottom - viewH * 0.2
-      const beforeWorkEnd = scrollY < workBottom + viewH * 0.1
-      setShow(afterSkills && beforeWorkEnd)
+      // Show after Skills, hide once Contact comes on screen
+      const afterSkills   = scrollY + viewH > skillsBottom - viewH * 0.2
+      const beforeContact = scrollY + viewH < contactTop + viewH * 0.3
+      setShow(afterSkills && beforeContact)
 
-      // Progress: education section top → work section bottom
+      // Progress: education top → projects top (Next fires when projects enter)
       const start      = educationEl.offsetTop
-      const end        = workBottom
+      const end        = projectsEl.offsetTop
       const viewCenter = scrollY + viewH * 0.5
       const range      = end - start
       if (range <= 0) return
@@ -191,7 +202,7 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #ef4444, #a855f7, #1a73e8)',
+                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #facc15)',
                 width: `${progress * 100}%`,
                 transition: 'width 0.06s linear',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
