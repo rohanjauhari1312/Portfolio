@@ -113,7 +113,7 @@ export default function Roadmap() {
                 fontSize: 9.5, fontWeight: 700, letterSpacing: '0.18em',
                 textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)',
               }}>
-                Product Roadmap
+                Rohan as a Product
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
