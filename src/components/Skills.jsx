@@ -407,8 +407,8 @@ export default function Skills() {
                   background: '#facc15', color: '#0a0a0a', border: 'none',
                   padding: '14px 30px', borderRadius: 10, fontSize: 14,
                   fontWeight: 700, cursor: 'pointer', letterSpacing: '0.01em',
-                  boxShadow: showBtn ? '0 0 22px rgba(255,60,60,0.35), 0 0 8px rgba(255,60,60,0.2)' : 'none',
-                  transition: 'box-shadow 0.6s ease',
+                  boxShadow: showBtn ? '0 0 18px rgba(250,204,21,0.60), 0 0 40px rgba(250,204,21,0.25)' : 'none',
+                  transition: 'box-shadow 0.3s ease, transform 0.2s ease',
                 }}>
                   <span style={{ position: 'relative', zIndex: 2 }}>
                     Analyze for Business Intelligence

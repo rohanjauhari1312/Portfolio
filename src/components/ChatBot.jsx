@@ -305,7 +305,8 @@ export default function ChatBot() {
               background: input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)',
               border: 'none', cursor: input.trim() && !loading ? 'pointer' : 'default',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'background 0.2s',
+              boxShadow: input.trim() && !loading ? '0 0 14px rgba(250,204,21,0.60), 0 0 28px rgba(250,204,21,0.25)' : 'none',
+              transition: 'background 0.2s, box-shadow 0.2s',
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={input.trim() && !loading ? '#0a0a0a' : 'rgba(255,255,255,0.25)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
