@@ -98,8 +98,8 @@ function JobCard({ job, index, isMobile }) {
         borderLeft: `3px solid ${job.accentColor}`,
         borderRadius: 16,
         padding: isMobile ? '20px' : '28px 32px',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
+        backdropFilter: isMobile ? 'none' : 'blur(8px)',
+        WebkitBackdropFilter: isMobile ? 'none' : 'blur(8px)',
         boxShadow: `0 0 0 1px ${job.accentColor}08, 0 4px 24px ${job.accentColor}0a`,
       }}
     >

@@ -16,7 +16,7 @@ const EDUCATION = [
     degree: 'MS · Information Systems',
     period: 'Sep 2024 – Aug 2026',
     note: 'GPA 3.73',
-    color: '#ef4444',
+    color: '#60a5fa',
     location: 'Boston, MA',
   },
   {

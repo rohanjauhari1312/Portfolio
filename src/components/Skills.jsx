@@ -550,7 +550,7 @@ export default function Skills() {
             padding: isMobile ? '20px 24px 60px' : '28px 64px 80px',
           }}>
           <div style={{ maxWidth: 1320, margin: '0 auto' }}>
-            <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: 4, marginBottom: 12 }}>
               {ETL_STAGES.map((st, i) => (
                 <div key={st.key} style={{
                   flex: 1, padding: isMobile ? '8px 8px' : '10px 14px', borderRadius: 8,

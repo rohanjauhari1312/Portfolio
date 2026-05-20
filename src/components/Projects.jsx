@@ -342,8 +342,8 @@ export default function Projects({ onNavigate }) {
         {/* Cards grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 24,
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: isMobile ? 16 : 24,
         }}>
           {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} onNavigate={onNavigate} />)}
         </div>

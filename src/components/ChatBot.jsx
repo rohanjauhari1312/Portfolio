@@ -187,7 +187,7 @@ export default function ChatBot() {
   }
 
   const drawerW = isMobile ? 'calc(100vw - 32px)' : 380
-  const drawerH = isMobile ? 460 : 520
+  const drawerH = isMobile ? 420 : 520
 
   return (
     <>
@@ -202,8 +202,8 @@ export default function ChatBot() {
         overflow: 'hidden',
         background: 'rgba(12,12,12,0.97)',
         border: open ? '1px solid rgba(250,204,21,0.14)' : 'none',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
+        backdropFilter: isMobile ? 'none' : 'blur(24px)',
+        WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
         boxShadow: open ? '0 0 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(250,204,21,0.06)' : 'none',
         transition: 'height 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease',
         zIndex: 200,
