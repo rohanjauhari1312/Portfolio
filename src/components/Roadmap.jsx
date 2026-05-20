@@ -89,7 +89,7 @@ export default function Roadmap() {
           width: isMobile ? 'calc(100vw - 40px)' : 560,
           borderRadius: 18,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: 'rgba(10,10,10,0.93)',
+          background: 'rgba(10,10,10,0.55)',
           backdropFilter: isMobile ? 'none' : 'blur(20px)',
           WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px)',
           border: `1px solid ${dynamicColor}35`,
