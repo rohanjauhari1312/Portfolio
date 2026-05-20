@@ -4,6 +4,7 @@ import useIsMobile from './hooks/useIsMobile'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Skills from './components/Skills'
+import Education from './components/Education'
 import Roadmap from './components/Roadmap'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
@@ -58,6 +59,7 @@ export default function App() {
         <Navbar />
         <Hero onNavigate={navigateTo} />
         <Skills />
+        <Education />
         <Roadmap />
         <Experience />
         <Projects onNavigate={navigateTo} />

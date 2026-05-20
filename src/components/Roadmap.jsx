@@ -224,31 +224,57 @@ export default function Roadmap() {
 
           {/* Milestone labels */}
           <div style={{ display: 'flex' }}>
-            {MILESTONES.map((m, i) => (
-              <div
-                key={m.id}
-                style={{
-                  flex: 1,
-                  textAlign: i === 0 ? 'left' : i === N - 1 ? 'right' : 'center',
-                }}
-              >
-                <span style={{
-                  fontSize: isMobile ? 8 : 9,
-                  fontWeight: 600,
-                  color: i === activeIndex
-                    ? m.color
-                    : i < activeIndex
-                    ? 'rgba(255,255,255,0.38)'
-                    : 'rgba(255,255,255,0.14)',
-                  transition: 'color 0.4s ease',
-                  animation: m.future && i === activeIndex ? 'futurePulse 2s ease-in-out infinite' : 'none',
-                }}>
-                  {isMobile && m.company.length > 10
-                    ? m.company.split(' ')[0]
-                    : m.company}
-                </span>
-              </div>
-            ))}
+            {MILESTONES.map((m, i) => {
+              const isActive = i === activeIndex
+              const isPast = i < activeIndex
+              const labelColor = isActive ? m.color : isPast ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.14)'
+              const short = isMobile && m.company.length > 10 ? m.company.split(' ')[0] : m.company
+              return (
+                <div
+                  key={m.id}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: i === 0 ? 'flex-start' : i === N - 1 ? 'flex-end' : 'center',
+                    gap: 3,
+                  }}
+                >
+                  {m.logo ? (
+                    <div style={{
+                      width: 16, height: 16, borderRadius: 4,
+                      background: '#fff', overflow: 'hidden', flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      opacity: isActive ? 1 : isPast ? 0.55 : 0.2,
+                      transition: 'opacity 0.4s ease, box-shadow 0.4s ease',
+                      boxShadow: isActive ? `0 0 6px ${m.color}80` : 'none',
+                    }}>
+                      <img src={m.logo} alt={m.company}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
+                  ) : (
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke={isActive ? m.color : 'rgba(255,255,255,0.14)'}
+                      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      style={{
+                        transition: 'stroke 0.4s ease',
+                        animation: isActive ? 'futurePulse 2s ease-in-out infinite' : 'none',
+                      }}>
+                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                  )}
+                  <span style={{
+                    fontSize: isMobile ? 8 : 9,
+                    fontWeight: 600,
+                    color: labelColor,
+                    transition: 'color 0.4s ease',
+                    animation: m.future && isActive ? 'futurePulse 2s ease-in-out infinite' : 'none',
+                  }}>
+                    {short}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
