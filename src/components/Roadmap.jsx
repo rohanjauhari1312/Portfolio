@@ -3,6 +3,15 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
   {
+    id: 'lnmiit',
+    company: 'LNMIIT',
+    logo: '/lnmiit.png',
+    role: 'BTech · Computer Science',
+    period: '2017 – 2021',
+    status: 'Graduated',
+    color: '#60a5fa',
+  },
+  {
     id: 'avo',
     company: 'Avo Automation',
     logo: '/avo.jpeg',
@@ -13,7 +22,7 @@ const MILESTONES = [
   },
   {
     id: 'mckinsey',
-    company: 'McKinsey & Company',
+    company: 'McKinsey',
     logo: '/mckinsey.png',
     role: 'Product Analyst Co-op',
     period: 'Aug – Dec 2025',
@@ -22,9 +31,9 @@ const MILESTONES = [
   },
   {
     id: 'nu',
-    company: 'NU Research',
+    company: 'Northeastern',
     logo: '/northeastern.png',
-    role: 'Research Assistant · Agentic AI',
+    role: 'MS + Research · Agentic AI',
     period: 'Jan 2026 – Present',
     status: 'Active',
     color: '#ef4444',
@@ -34,7 +43,7 @@ const MILESTONES = [
     company: 'Next Role',
     logo: null,
     role: 'Product · Strategy · AI',
-    period: 'Open to opportunities',
+    period: 'Open',
     status: 'Open',
     color: '#facc15',
     future: true,
@@ -64,26 +73,26 @@ function getDynamicColor(progress) {
 }
 
 export default function Roadmap() {
-  const anchorRef = useRef(null)
   const [show, setShow] = useState(false)
   const [progress, setProgress] = useState(0)
   const isMobile = useIsMobile()
 
   useEffect(() => {
     const onScroll = () => {
-      const anchor = anchorRef.current
-      if (!anchor) return
-      const anchorTop = anchor.getBoundingClientRect().top + window.scrollY
+      const skillsEl = document.getElementById('skills')
+      if (!skillsEl) return
+
+      const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
       const docHeight = document.documentElement.scrollHeight
       const viewH = window.innerHeight
       const scrollY = window.scrollY
 
-      const triggerAt = anchorTop - viewH * 0.6
-      setShow(scrollY > triggerAt)
+      // show once Skills section bottom is within 20% of the viewport bottom
+      setShow(scrollY + viewH > skillsBottom - viewH * 0.2)
 
-      const range = docHeight - viewH - anchorTop
+      const range = docHeight - viewH - skillsBottom
       if (range <= 0) return
-      setProgress(Math.min(1, Math.max(0, (scrollY - anchorTop) / range)))
+      setProgress(Math.min(1, Math.max(0, (scrollY - skillsBottom) / range)))
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
@@ -100,8 +109,8 @@ export default function Roadmap() {
 
   return (
     <>
-      {/* Zero-height anchor placed in the DOM flow */}
-      <div ref={anchorRef} id="roadmap" style={{ height: 0, pointerEvents: 'none' }} />
+      {/* Zero-height anchor in DOM flow */}
+      <div id="roadmap" style={{ height: 0, pointerEvents: 'none' }} />
 
       <style>{`
         @keyframes futurePulse {
@@ -110,13 +119,12 @@ export default function Roadmap() {
         }
       `}</style>
 
-      {/* Floating strip */}
       <div
         style={{
           position: 'fixed',
           bottom: isMobile ? 14 : 24,
           left: '50%',
-          transform: `translateX(-50%) translateY(${show ? 0 : 48}px)`,
+          transform: `translateX(-50%) translateY(${show ? 0 : 56}px)`,
           opacity: show ? 1 : 0,
           transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
           zIndex: 200,
@@ -125,13 +133,13 @@ export default function Roadmap() {
       >
         <div
           style={{
-            background: 'rgba(10,10,10,0.92)',
+            background: 'rgba(10,10,10,0.93)',
             border: `1px solid ${dynamicColor}35`,
             borderRadius: 16,
             backdropFilter: isMobile ? 'none' : 'blur(20px)',
             WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px)',
             padding: isMobile ? '10px 14px' : '14px 22px',
-            width: isMobile ? 'calc(100vw - 40px)' : 480,
+            width: isMobile ? 'calc(100vw - 40px)' : 520,
             boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 20px ${dynamicColor}18`,
             transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
           }}
@@ -160,15 +168,16 @@ export default function Roadmap() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
               {activeMilestone.logo ? (
                 <div style={{
-                  width: 16, height: 16, borderRadius: 4,
+                  width: 18, height: 18, borderRadius: 5,
                   background: '#fff', overflow: 'hidden', flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: `0 0 6px ${dynamicColor}60`,
                 }}>
                   <img src={activeMilestone.logo} alt={activeMilestone.company}
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
               ) : (
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
                   stroke={dynamicColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                   style={{ animation: 'futurePulse 2s ease-in-out infinite' }}>
                   <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
@@ -176,7 +185,7 @@ export default function Roadmap() {
               )}
               <span style={{
                 fontSize: 10, fontWeight: 600,
-                color: activeIndex === N - 1 ? dynamicColor : 'rgba(255,255,255,0.45)',
+                color: activeIndex === N - 1 ? dynamicColor : 'rgba(255,255,255,0.5)',
                 transition: 'color 0.4s ease',
               }}>
                 {activeMilestone.company}
@@ -185,14 +194,14 @@ export default function Roadmap() {
           </div>
 
           {/* Progress track */}
-          <div style={{ position: 'relative', marginBottom: isMobile ? 6 : 8 }}>
+          <div style={{ position: 'relative', marginBottom: isMobile ? 8 : 10 }}>
             <div style={{
               height: 3, background: 'rgba(255,255,255,0.06)',
               borderRadius: 999, position: 'relative',
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #a855f7, #1a73e8, #ef4444, #facc15)',
+                background: 'linear-gradient(to right, #60a5fa, #a855f7, #1a73e8, #ef4444, #facc15)',
                 width: `${progress * 100}%`,
                 transition: 'width 0.06s linear',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
@@ -222,13 +231,12 @@ export default function Roadmap() {
             </div>
           </div>
 
-          {/* Milestone labels */}
+          {/* Milestone logos + labels */}
           <div style={{ display: 'flex' }}>
             {MILESTONES.map((m, i) => {
               const isActive = i === activeIndex
               const isPast = i < activeIndex
               const labelColor = isActive ? m.color : isPast ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.14)'
-              const short = isMobile && m.company.length > 10 ? m.company.split(' ')[0] : m.company
               return (
                 <div
                   key={m.id}
@@ -237,40 +245,51 @@ export default function Roadmap() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: i === 0 ? 'flex-start' : i === N - 1 ? 'flex-end' : 'center',
-                    gap: 3,
+                    gap: 4,
                   }}
                 >
                   {m.logo ? (
                     <div style={{
-                      width: 16, height: 16, borderRadius: 4,
-                      background: '#fff', overflow: 'hidden', flexShrink: 0,
+                      width: isMobile ? 20 : 24,
+                      height: isMobile ? 20 : 24,
+                      borderRadius: 6,
+                      background: '#fff',
+                      overflow: 'hidden',
+                      flexShrink: 0,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      opacity: isActive ? 1 : isPast ? 0.55 : 0.2,
+                      opacity: isActive ? 1 : isPast ? 0.5 : 0.18,
                       transition: 'opacity 0.4s ease, box-shadow 0.4s ease',
-                      boxShadow: isActive ? `0 0 6px ${m.color}80` : 'none',
+                      boxShadow: isActive ? `0 0 8px ${m.color}90` : 'none',
                     }}>
                       <img src={m.logo} alt={m.company}
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                     </div>
                   ) : (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                      stroke={isActive ? m.color : 'rgba(255,255,255,0.14)'}
-                      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                      style={{
-                        transition: 'stroke 0.4s ease',
-                        animation: isActive ? 'futurePulse 2s ease-in-out infinite' : 'none',
-                      }}>
-                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                    </svg>
+                    <div style={{
+                      width: isMobile ? 20 : 24,
+                      height: isMobile ? 20 : 24,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke={isActive ? m.color : 'rgba(255,255,255,0.14)'}
+                        strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                        style={{
+                          transition: 'stroke 0.4s ease',
+                          animation: isActive ? 'futurePulse 2s ease-in-out infinite' : 'none',
+                        }}>
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                      </svg>
+                    </div>
                   )}
                   <span style={{
-                    fontSize: isMobile ? 8 : 9,
+                    fontSize: isMobile ? 7.5 : 8.5,
                     fontWeight: 600,
                     color: labelColor,
                     transition: 'color 0.4s ease',
                     animation: m.future && isActive ? 'futurePulse 2s ease-in-out infinite' : 'none',
+                    whiteSpace: 'nowrap',
                   }}>
-                    {short}
+                    {m.company}
                   </span>
                 </div>
               )
