@@ -304,63 +304,6 @@ export default function Experience() {
           </p>
         </div>
 
-        {/* Career roadmap strip */}
-        <div style={{
-          marginBottom: 40,
-          padding: isMobile ? '18px 20px' : '20px 28px',
-          borderRadius: 14,
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
-          opacity: titleVisible ? 1 : 0,
-          transform: titleVisible ? 'translateY(0)' : 'translateY(16px)',
-          transition: 'opacity 0.6s ease 200ms, transform 0.7s cubic-bezier(.22,1,.36,1) 200ms',
-        }}>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: 16 }}>Career Roadmap</div>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 0 }}>
-            {/* connecting line */}
-            <div style={{
-              position: 'absolute', top: 8, left: 8,
-              right: isMobile ? 8 : '12.5%',
-              height: 1,
-              background: 'linear-gradient(to right, rgba(250,204,21,0.4), rgba(250,204,21,0.15), rgba(250,204,21,0.05))',
-            }} />
-
-            {[
-              { label: 'Avo Automation', sub: '2021 – 2024', status: 'Shipped', color: '#a855f7', done: true },
-              { label: 'McKinsey', sub: 'Aug – Dec 2025', status: 'Co-op', color: '#1a73e8', done: true },
-              { label: 'NU Research', sub: 'Jan 2026 – Now', status: 'Active', color: '#ef4444', done: false, active: true },
-              { label: 'Next Role', sub: 'Product · Strategy · AI', status: 'Open', color: '#facc15', done: false, future: true },
-            ].map((node, i, arr) => (
-              <div key={node.label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-                <div style={{
-                  width: 16, height: 16, borderRadius: '50%', marginBottom: 10,
-                  background: node.future ? 'transparent' : node.color,
-                  border: `2px solid ${node.color}`,
-                  boxShadow: node.active || node.future ? `0 0 10px ${node.color}80, 0 0 20px ${node.color}30` : 'none',
-                  animation: node.active || node.future ? 'glowPulse 2s ease-in-out infinite' : 'none',
-                  flexShrink: 0,
-                }} />
-                <div style={{ textAlign: 'center', maxWidth: isMobile ? 64 : 100 }}>
-                  <div style={{
-                    fontSize: isMobile ? 9.5 : 11, fontWeight: 700,
-                    color: node.future ? '#facc15' : '#f5f5f5',
-                    marginBottom: 2, lineHeight: 1.2,
-                  }}>{node.label}</div>
-                  <div style={{ fontSize: isMobile ? 8.5 : 10, color: 'rgba(255,255,255,0.32)', marginBottom: 5, lineHeight: 1.3 }}>{node.sub}</div>
-                  <span style={{
-                    fontSize: isMobile ? 8 : 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: node.color,
-                    background: `${node.color}15`,
-                    border: `1px solid ${node.color}35`,
-                    padding: '2px 6px', borderRadius: 4,
-                    animation: node.future ? 'glowPulse 2s ease-in-out infinite' : 'none',
-                  }}>{node.status}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {JOBS.map((job, i) => <JobCard key={job.id} job={job} index={i} isMobile={isMobile} />)}
         </div>
