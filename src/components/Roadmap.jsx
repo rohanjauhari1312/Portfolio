@@ -79,20 +79,24 @@ export default function Roadmap() {
 
   useEffect(() => {
     const onScroll = () => {
-      const skillsEl = document.getElementById('skills')
-      if (!skillsEl) return
+      const skillsEl    = document.getElementById('skills')
+      const educationEl = document.getElementById('education')
+      const contactEl   = document.getElementById('contact')
+      if (!skillsEl || !educationEl || !contactEl) return
 
-      const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
-      const docHeight = document.documentElement.scrollHeight
-      const viewH = window.innerHeight
+      const viewH   = window.innerHeight
       const scrollY = window.scrollY
 
-      // show once Skills section bottom is within 20% of the viewport bottom
+      const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
       setShow(scrollY + viewH > skillsBottom - viewH * 0.2)
 
-      const range = docHeight - viewH - skillsBottom
+      // Map viewport center through education → contact
+      const start     = educationEl.offsetTop
+      const end       = contactEl.offsetTop
+      const viewCenter = scrollY + viewH * 0.45
+      const range     = end - start
       if (range <= 0) return
-      setProgress(Math.min(1, Math.max(0, (scrollY - skillsBottom) / range)))
+      setProgress(Math.min(1, Math.max(0, (viewCenter - start) / range)))
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
