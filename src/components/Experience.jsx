@@ -104,8 +104,8 @@ function JobCard({ job, index, isMobile }) {
         transition: `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = `0 0 32px ${job.accentColor}35, inset 0 0 0 1px ${job.accentColor}20`
-        e.currentTarget.style.borderColor = `${job.accentColor}55`
+        e.currentTarget.style.boxShadow = `0 0 24px ${job.accentColor}80, 0 0 60px ${job.accentColor}45, 0 0 100px ${job.accentColor}20, inset 0 0 0 1px ${job.accentColor}30`
+        e.currentTarget.style.borderColor = `${job.accentColor}90`
       }}
       onMouseLeave={e => {
         e.currentTarget.style.boxShadow = `0 0 18px ${job.accentColor}18, inset 0 0 0 1px ${job.accentColor}10`
