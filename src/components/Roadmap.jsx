@@ -31,7 +31,9 @@ export default function Roadmap() {
   const isMobile = useIsMobile()
 
   useEffect(() => {
-    const onScroll = () => {
+    let rafId = null
+
+    const compute = () => {
       const skillsEl    = document.getElementById('skills')
       const educationEl = document.getElementById('education')
       const projectsEl  = document.getElementById('projects')
@@ -55,9 +57,15 @@ export default function Roadmap() {
       if (range <= 0) return
       setProgress(Math.min(1, Math.max(0, (viewCenter - start) / range)))
     }
+
+    const onScroll = () => {
+      if (rafId) return
+      rafId = requestAnimationFrame(() => { compute(); rafId = null })
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
+    compute()
+    return () => { window.removeEventListener('scroll', onScroll); if (rafId) cancelAnimationFrame(rafId) }
   }, [])
 
   const activeIndex = MILESTONES.reduce((acc, _, i) => progress >= i / (N-1) ? i : acc, 0)
@@ -152,7 +160,7 @@ export default function Roadmap() {
                 height: '100%', borderRadius: 999,
                 background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #facc15)',
                 width: `${progress * 100}%`,
-                transition: 'width 0.06s linear',
+                transition: 'width 0.12s ease-out',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
               {MILESTONES.map((m, i) => {
