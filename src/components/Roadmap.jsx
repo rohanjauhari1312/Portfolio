@@ -45,8 +45,10 @@ export default function Roadmap() {
       const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
       const contactTop   = contactEl.offsetTop
 
+      const educationInView = scrollY + viewH > educationEl.offsetTop + viewH * 0.2
+
       setShow(
-        scrollY + viewH > skillsBottom - viewH * 0.2 &&
+        educationInView &&
         scrollY + viewH < contactTop + viewH * 0.3
       )
 
