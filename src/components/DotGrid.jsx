@@ -154,6 +154,8 @@ export default function DotGrid({ dotColor = 'rgba(251,169,40,0.5)' }) {
       const mx = mouseRef.current.x
       const my = mouseRef.current.y
 
+      if (mobileRef.current) { rafRef.current = requestAnimationFrame(draw); return }
+
       for (const dot of dotsRef.current) {
         const floatX = dot.baseX + Math.sin(t * dot.freqX + dot.phaseX) * dot.ampX
         const floatY = dot.baseY + Math.sin(t * dot.freqY + dot.phaseY) * dot.ampY

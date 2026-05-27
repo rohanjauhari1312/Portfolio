@@ -15,7 +15,7 @@ const TRAITS = [
   { label: 'User Obsessed',       sub: '100+ user interviews and counting',   color: '#fb923c', bg: 'rgba(251,146,60,0.08)',  border: 'rgba(251,146,60,0.2)'  },
 ]
 
-function AnimatedName({ name, onTyped, fast }) {
+function AnimatedName({ name, onTyped, fast, center }) {
   const [count, setCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
 
@@ -45,7 +45,7 @@ function AnimatedName({ name, onTyped, fast }) {
   return (
     <h1
       className="font-extrabold tracking-tight leading-[1.05] mb-10"
-      style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap' }}
+      style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left' }}
     >
       {name.slice(0, count)}
       <span
@@ -231,7 +231,7 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Tagline + Name */}
               <div>
-                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} />
+                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
               </div>
 
               {/* 2. Photo with badges */}
