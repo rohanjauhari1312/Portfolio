@@ -51,7 +51,7 @@ export default function App() {
 
   return (
     <>
-      <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : 'rgba(251,169,40,0.5)'} />
+      {!isMobile && <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : 'rgba(251,169,40,0.5)'} />}
       {!isMobile && <CustomCursor />}
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
