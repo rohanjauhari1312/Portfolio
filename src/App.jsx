@@ -51,6 +51,31 @@ export default function App() {
 
   return (
     <>
+      <style>{`
+        @property --ba {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+        @keyframes spin-border {
+          to { --ba: 360deg; }
+        }
+        .page-border {
+          position: fixed;
+          inset: 0;
+          z-index: 998;
+          pointer-events: none;
+          border: 1.5px solid transparent;
+          border-image: conic-gradient(
+            from var(--ba),
+            #facc15, #fb923c, #ef4444, #a855f7, #60a5fa, #4ade80, #facc15
+          ) 1;
+          animation: spin-border 6s linear infinite;
+          opacity: 0.55;
+        }
+      `}</style>
+      <div className="page-border" />
+
       <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : 'rgba(251,169,40,0.5)'} />
       {!isMobile && <CustomCursor />}
 
