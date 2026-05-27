@@ -99,11 +99,11 @@ export default function Roadmap() {
           width: isMobile ? 'calc(100vw - 40px)' : 560,
           borderRadius: 18,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: isMobile ? 'rgba(10,10,10,0.82)' : 'rgba(10,10,10,0.55)',
-          backdropFilter: isMobile ? 'none' : 'blur(20px)',
-          WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px)',
-          border: `1px solid ${dynamicColor}35`,
-          boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 20px ${dynamicColor}18`,
+          background: isMobile ? 'rgba(10,10,10,0.88)' : 'rgba(10,10,10,0.78)',
+          backdropFilter: isMobile ? 'none' : 'blur(24px)',
+          WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
+          border: `1px solid ${dynamicColor}55`,
+          boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), 0 0 28px ${dynamicColor}25`,
           transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
         }}>
 
