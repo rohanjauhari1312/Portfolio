@@ -55,7 +55,16 @@ export default function App() {
       {!isMobile && <CustomCursor />}
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
-      <div style={{ display: view === 'nourish' ? 'none' : 'block', background: '#0a0a0a', minHeight: '100vh' }}>
+      <div style={{
+        display: view === 'nourish' ? 'none' : 'block',
+        minHeight: '100vh',
+        background: `
+          radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
+          radial-gradient(ellipse 60% 35% at 85% 90%, rgba(96,165,250,0.04) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 30% at 75% 20%, rgba(168,85,247,0.03) 0%, transparent 60%),
+          #0a0a0a
+        `,
+      }}>
         <Navbar />
         <Hero onNavigate={navigateTo} />
         <Skills />
