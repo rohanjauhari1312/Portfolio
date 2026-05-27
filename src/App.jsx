@@ -64,6 +64,7 @@ export default function App() {
           radial-gradient(ellipse 50% 30% at 75% 20%, rgba(168,85,247,0.03) 0%, transparent 60%),
           #0a0a0a
         `,
+        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)',
       }}>
         <Navbar />
         <Hero onNavigate={navigateTo} />
