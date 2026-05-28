@@ -229,15 +229,19 @@ export default function Hero({ onNavigate }) {
             // ─── MOBILE: stacked order — Name → Photo → NN card → About → Traits ───
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-              {/* 1. Tagline + Name */}
+              {/* 1. Name + tagline */}
               <div>
-                <p style={{
-                  fontSize: 12, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.06em',
-                  margin: '0 0 10px', textAlign: 'center', fontWeight: 500,
-                }}>
-                  Working at the intersection of tech and business
-                </p>
                 <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
+                <p style={{
+                  fontSize: 13, margin: '0 0 0', textAlign: 'center',
+                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
+                  color: 'rgba(255,255,255,0.45)',
+                }}>
+                  Working at the intersection of{' '}
+                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                  {' '}and{' '}
+                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+                </p>
               </div>
 
               {/* 2. Photo with badges */}
@@ -436,13 +440,17 @@ export default function Hero({ onNavigate }) {
             {/* RIGHT COLUMN — text */}
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
 
-              <p style={{
-                fontSize: 12, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.06em',
-                margin: '0 0 12px', fontWeight: 500,
-              }}>
-                Working at the intersection of tech and business
-              </p>
               <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
+              <p style={{
+                fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
+                letterSpacing: '0.02em', lineHeight: 1.5,
+                color: 'rgba(255,255,255,0.45)',
+              }}>
+                Working at the intersection of{' '}
+                <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                {' '}and{' '}
+                <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+              </p>
 
               <FadeIn delay={800}>
                 <p style={{ color: 'rgba(255,255,255,0.52)', fontSize: isMobile ? 15 : 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 0 }}>
