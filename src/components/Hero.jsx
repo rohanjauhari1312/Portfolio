@@ -11,7 +11,7 @@ const ABOUT = 'I build products that make complex things feel simple, automating
 const TRAITS = [
   { label: '4+ Years in Product', sub: 'Shipped, patented, repeated',         color: '#facc15', bg: 'rgba(250,204,21,0.08)',  border: 'rgba(250,204,21,0.2)'  },
   { label: 'Agentic AI Expert',   sub: 'Multi-agent systems, LLM pipelines',  color: '#facc15', bg: 'rgba(250,204,21,0.08)',  border: 'rgba(250,204,21,0.2)'  },
-  { label: 'Data-Driven PM',      sub: 'SQL, Snowflake, Heap, Power BI',      color: '#fb923c', bg: 'rgba(251,146,60,0.08)',  border: 'rgba(251,146,60,0.2)'  },
+  { label: 'Data-Driven',         sub: 'SQL, Snowflake, Heap, Power BI',      color: '#fb923c', bg: 'rgba(251,146,60,0.08)',  border: 'rgba(251,146,60,0.2)'  },
   { label: 'User Obsessed',       sub: '100+ user interviews and counting',   color: '#fb923c', bg: 'rgba(251,146,60,0.08)',  border: 'rgba(251,146,60,0.2)'  },
 ]
 
@@ -231,6 +231,12 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Tagline + Name */}
               <div>
+                <p style={{
+                  fontSize: 12, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.06em',
+                  margin: '0 0 10px', textAlign: 'center', fontWeight: 500,
+                }}>
+                  Working at the intersection of tech and business
+                </p>
                 <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
               </div>
 
@@ -430,6 +436,12 @@ export default function Hero({ onNavigate }) {
             {/* RIGHT COLUMN — text */}
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
 
+              <p style={{
+                fontSize: 12, color: 'rgba(255,255,255,0.38)', letterSpacing: '0.06em',
+                margin: '0 0 12px', fontWeight: 500,
+              }}>
+                Working at the intersection of tech and business
+              </p>
               <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
 
               <FadeIn delay={800}>
