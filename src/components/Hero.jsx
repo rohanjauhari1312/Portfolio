@@ -304,18 +304,14 @@ export default function Hero({ onNavigate }) {
                 </p>
               </FadeIn>
 
-              {/* 5. Traits — 2x2 grid */}
+              {/* 5. Traits */}
               <FadeIn delay={900}>
-                <div style={{
-                  display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10,
-                }}>
-                  {TRAITS.map(t => (
-                    <div key={t.label} style={{
-                      padding: '10px 12px', borderRadius: 10,
-                      background: t.bg, border: `1px solid ${t.border}`,
-                    }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: t.color, lineHeight: 1.2 }}>{t.label}</div>
-                      <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.32)', marginTop: 3, lineHeight: 1.3 }}>{t.sub}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginTop: 4 }}>
+                  {TRAITS.map((t, i) => (
+                    <div key={t.label} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                      <span style={{ width: 4, height: 4, borderRadius: '50%', background: t.color, flexShrink: 0, marginBottom: 2 }} />
+                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color }}>{t.label}</span>
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: 10 }}>{t.sub}</span>
                     </div>
                   ))}
                 </div>
@@ -459,15 +455,12 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 48 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginTop: 40 }}>
                   {TRAITS.map(t => (
-                    <div key={t.label} style={{
-                      padding: '10px 16px', borderRadius: 10,
-                      background: t.bg, border: `1px solid ${t.border}`,
-                      backdropFilter: isMobile ? 'none' : 'blur(8px)',
-                    }}>
-                      <div style={{ fontSize: 12.5, fontWeight: 700, color: t.color }}>{t.label}</div>
-                      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', marginTop: 2 }}>{t.sub}</div>
+                    <div key={t.label} style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                      <span style={{ width: 4, height: 4, borderRadius: '50%', background: t.color, flexShrink: 0, marginBottom: 2 }} />
+                      <span style={{ fontSize: 14, fontWeight: 700, color: t.color }}>{t.label}</span>
+                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.28)', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: 12 }}>{t.sub}</span>
                     </div>
                   ))}
                 </div>
