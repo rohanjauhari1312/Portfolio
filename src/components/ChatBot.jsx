@@ -373,7 +373,7 @@ export default function ChatBot() {
             </svg>
           </div>
           <div>
-            <div style={{ fontSize: 10, color: 'rgba(250,204,21,0.6)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 2 }}>RohBot <span style={{ opacity: 0.45, fontWeight: 500, letterSpacing: '0.05em' }}>by Rohan</span></div>
+            <div style={{ fontSize: 10, color: 'rgba(250,204,21,0.6)', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 2 }}>RohBot by Rohan</div>
             <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', fontWeight: 400 }}>Ask me. I know his secrets!</div>
           </div>
         </div>
