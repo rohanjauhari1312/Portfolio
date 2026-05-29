@@ -98,6 +98,34 @@ const PROJECTS = [
     status: 'Case Study',
   },
   {
+    id: 'boston',
+    image: '/social-satellite-boston.jpg',
+    link: '/boston-casestudy.pdf',
+    linkLabel: 'Case Study',
+    name: 'Boston Liveability Dashboard',
+    tagline: 'Power BI · Socioeconomic Analysis · 41 Zip Codes',
+    bullets: [
+      'Collected socioeconomic data across 41 Boston zip codes via **US Census API** — income, education, unemployment, home values, and density',
+      'Built a **min-max normalization pipeline** in Excel with a weighted composite score (income 30%, unemployment 25%, education 20%)',
+      'Shipped an interactive **Power BI dashboard** with choropleth maps, ranked bar charts, and a variable selector across all 5 dimensions',
+    ],
+    gradient: 'linear-gradient(135deg, #0a0f1a 0%, #0f2240 50%, #1a3a6b 100%)',
+    iconBg: 'linear-gradient(135deg, #1d4ed8, #60a5fa)',
+    icon: 'B',
+    accentColor: '#60a5fa',
+    tags: ['Power BI', 'Data Analysis', 'Census API', 'Excel', 'Normalization'],
+    metrics: [
+      { v: '41', l: 'Zip codes' },
+      { v: '5', l: 'Dimensions' },
+      { v: 'Weighted', l: 'Composite score' },
+    ],
+    extraLinks: [
+      { label: 'Dashboard PDF', href: '/boston-dashboard.pdf' },
+      { label: 'Dataset', href: '/boston-dataset.xlsx' },
+    ],
+    status: 'Academic Project',
+  },
+  {
     id: 'housing',
     image: '/housing.jpg',
     name: 'Student Housing Platform',
@@ -275,7 +303,33 @@ function ProjectCard({ project, index, onNavigate }) {
               </button>
             )}
           </div>
-          <span style={{ fontSize: 12, color: project.accentColor, fontWeight: 500 }}>
+          {project.extraLinks && (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+              {project.extraLinks.map(el => (
+                <a
+                  key={el.href}
+                  href={el.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: '3px 10px', borderRadius: 6,
+                    fontSize: 11, fontWeight: 600,
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    color: 'rgba(255,255,255,0.55)',
+                    textDecoration: 'none',
+                    letterSpacing: '0.02em',
+                    transition: 'border-color 0.2s, color 0.2s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${project.accentColor}60`; e.currentTarget.style.color = project.accentColor }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)' }}
+                >
+                  {el.label}
+                </a>
+              ))}
+            </div>
+          )}
+          <span style={{ fontSize: 12, color: project.accentColor, fontWeight: 500, marginTop: project.extraLinks ? 8 : 0, display: 'block' }}>
             {project.tagline}
           </span>
         </div>
