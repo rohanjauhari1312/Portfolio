@@ -102,9 +102,9 @@ export default function Roadmap() {
           className="roadmap-border"
           style={{
             borderRadius: 20,
-            padding: 1.5,
+            padding: 2,
             background: 'conic-gradient(from var(--rba), #facc15, #fb923c, #ef4444, #a855f7, #60a5fa, #4ade80, #facc15)',
-            boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 28px ${dynamicColor}30`,
+            boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 40px ${dynamicColor}60`,
             transition: 'box-shadow 0.4s ease',
             width: isMobile ? 'calc(100vw - 40px)' : 560,
           }}
