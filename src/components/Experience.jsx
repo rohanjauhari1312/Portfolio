@@ -93,7 +93,8 @@ function JobCard({ job, index, isMobile }) {
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(32px)',
         transition: `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms`,
-        background: `linear-gradient(135deg, ${job.accentColor}08 0%, rgba(255,255,255,0.02) 60%)`,
+        animation: visible ? `floatCard ${3.8 + index * 0.35}s ease-in-out ${index * 0.5}s infinite` : 'none',
+        background: `linear-gradient(135deg, ${job.accentColor}08 0%, rgba(16,16,16,0.92) 60%)`,
         border: `1px solid ${job.accentColor}30`,
         borderLeft: `3px solid ${job.accentColor}`,
         borderRadius: 16,
@@ -263,6 +264,7 @@ export default function Experience() {
 
   return (
     <section style={{ background: 'rgba(10,10,10,0.85)', padding: isMobile ? '24px 0 48px' : '40px 0 80px' }} id="work">
+      <style>{`@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }`}</style>
       <div style={{
         height: 1,
         background: 'linear-gradient(to right, transparent, rgba(250,204,21,0.12), transparent)',

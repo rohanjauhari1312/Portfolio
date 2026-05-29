@@ -158,6 +158,7 @@ function ProjectCard({ project, index, onNavigate }) {
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(36px)',
         transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`,
+        animation: visible ? `floatCard ${4 + index * 0.4}s ease-in-out ${index * 0.7}s infinite` : 'none',
         background: 'rgba(255,255,255,0.03)',
         border: `1px solid ${project.accentColor}30`,
         borderRadius: 16,
@@ -294,6 +295,7 @@ export default function Projects({ onNavigate }) {
 
   return (
     <section style={{ background: 'rgba(10,10,10,0.85)', padding: isMobile ? '24px 0 48px' : '40px 0 80px' }} id="projects">
+      <style>{`@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }`}</style>
       <style>{wobbleStyle}</style>
       {/* Subtle divider */}
       <div style={{

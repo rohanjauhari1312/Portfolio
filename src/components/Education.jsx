@@ -67,6 +67,12 @@ export default function Education() {
           }} />
         </div>
 
+        <style>{`
+          @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+          }
+        `}</style>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {EDUCATION.map((e, idx) => (
             <div
@@ -74,7 +80,7 @@ export default function Education() {
               style={{
                 width: '100%',
                 padding: isMobile ? '20px' : '24px 28px', borderRadius: 16,
-                background: `linear-gradient(135deg, ${e.color}08 0%, rgba(255,255,255,0.02) 60%)`,
+                background: 'rgba(16,16,16,0.92)',
                 border: `1px solid ${e.color}30`,
                 borderLeft: `3px solid ${e.color}`,
                 display: 'flex', gap: 16, alignItems: 'flex-start',
@@ -82,7 +88,7 @@ export default function Education() {
                 transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
                 cursor: 'default',
                 opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(24px)',
+                animation: visible ? `floatCard ${3.5 + idx * 0.4}s ease-in-out ${idx * 0.6}s infinite` : 'none',
               }}
               onMouseEnter={ev => {
                 ev.currentTarget.style.boxShadow = `0 0 24px ${e.color}80, 0 0 60px ${e.color}45, 0 0 100px ${e.color}20, inset 0 0 0 1px ${e.color}30`
