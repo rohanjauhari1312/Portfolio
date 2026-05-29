@@ -325,8 +325,10 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
           60%  { transform:scale(1.3); box-shadow:0 0 8px rgba(251,146,60,0.5); }
           100% { transform:scale(1);   box-shadow:0 0 8px rgba(251,146,60,0.4); }
         }
+        @keyframes ncFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
       `}</style>
 
+      <div style={{ animation: visible ? 'ncFloat 4s ease-in-out infinite' : 'none' }}>
       <div style={{
         width: 260,
         borderRadius: 16,
@@ -476,6 +478,7 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
             )}
           </div>
         )}
+      </div>
       </div>
     </>
   )
