@@ -336,14 +336,14 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
         className="nc-border"
         style={{
           borderRadius: 17,
-          padding: 0.5,
+          padding: 0.2,
           background: 'conic-gradient(from var(--nba), #facc15 0%, #fb923c 20%, #ef4444 40%, #a855f7 55%, #60a5fa 75%, #4ade80 90%, #facc15 100%)',
           width: 260,
         }}
       >
       <div style={{
         borderRadius: 16,
-        background: 'rgba(10,10,12,0.45)',
+        background: '#0a0a0c',
         border: 'none',
         backdropFilter: 'none',
         WebkitBackdropFilter: 'blur(12px)',
