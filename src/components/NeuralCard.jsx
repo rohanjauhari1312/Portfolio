@@ -331,7 +331,12 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
         .nc-border { animation: nc-spin 4s linear infinite; }
       `}</style>
 
-      <div style={{ animation: visible ? 'ncFloat 4s ease-in-out infinite' : 'none' }}>
+      <div style={{
+        animation: visible ? 'ncFloat 4s ease-in-out infinite' : 'none',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        transition: 'opacity 0.6s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+      }}>
       <div
         className="nc-border"
         style={{
@@ -348,9 +353,6 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
         backdropFilter: 'none',
         WebkitBackdropFilter: 'blur(12px)',
         overflow: 'hidden',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(16px)',
-        transition: 'opacity 0.6s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
         boxShadow: '0 0 0 1px rgba(251,169,40,0.06), 0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(251,169,40,0.04)',
       }}>
 

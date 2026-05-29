@@ -99,7 +99,7 @@ export default function Roadmap() {
         pointerEvents: show ? 'auto' : 'none',
       }}>
         {/* Float wrapper — separate from positioning so transforms don't conflict */}
-        <div style={{ animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none' }}>
+        <div style={{ animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none', willChange: 'transform' }}>
         {/* Spinning gradient border wrapper */}
         <div
           className="roadmap-border"

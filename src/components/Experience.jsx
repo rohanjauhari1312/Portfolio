@@ -107,11 +107,9 @@ function JobCard({ job, index, isMobile }) {
       }}
       onMouseEnter={e => {
         e.currentTarget.style.boxShadow = `0 0 24px ${job.accentColor}80, 0 0 60px ${job.accentColor}45, 0 0 100px ${job.accentColor}20, inset 0 0 0 1px ${job.accentColor}30`
-        e.currentTarget.style.borderColor = `${job.accentColor}90`
       }}
       onMouseLeave={e => {
         e.currentTarget.style.boxShadow = `0 0 18px ${job.accentColor}18, inset 0 0 0 1px ${job.accentColor}10`
-        e.currentTarget.style.borderColor = `${job.accentColor}30`
       }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 18 }}>

@@ -92,11 +92,9 @@ export default function Education() {
               }}
               onMouseEnter={ev => {
                 ev.currentTarget.style.boxShadow = `0 0 24px ${e.color}80, 0 0 60px ${e.color}45, 0 0 100px ${e.color}20, inset 0 0 0 1px ${e.color}30`
-                ev.currentTarget.style.borderColor = `${e.color}90`
               }}
               onMouseLeave={ev => {
                 ev.currentTarget.style.boxShadow = `0 0 18px ${e.color}18, inset 0 0 0 1px ${e.color}10`
-                ev.currentTarget.style.borderColor = `${e.color}30`
               }}
             >
               <div style={{
