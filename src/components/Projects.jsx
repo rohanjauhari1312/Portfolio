@@ -159,7 +159,7 @@ function ProjectCard({ project, index, onNavigate }) {
         transform: visible ? 'translateY(0)' : 'translateY(36px)',
         transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`,
         animation: visible ? `floatCard ${4 + index * 0.4}s ease-in-out ${index * 0.7}s infinite` : 'none',
-        background: 'rgba(255,255,255,0.03)',
+        background: 'rgba(16,16,16,0.92)',
         border: `1px solid ${project.accentColor}30`,
         borderRadius: 16,
         overflow: 'hidden',
