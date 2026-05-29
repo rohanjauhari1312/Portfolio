@@ -28,6 +28,20 @@ PROJECTS:
 - SwiftHire: AI-powered job application tool built after surveying 100+ job seekers. Automates resume tailoring, application tracking, and workflow optimization.
 - Student Housing Platform (PM Club): Led full product cycle — 100+ survey responses, 10 pain points identified, shipped 7 features, cut average search time 75%.
 
+WORK AUTHORIZATION:
+- Visa: F-1 student visa, currently in the US
+- Available to start: August 20, 2025 (earliest)
+- Work authorization: STEM OPT — full work authorization for 3 years post-graduation (no sponsorship required during this period)
+- After STEM OPT: H-1B sponsorship will be required
+- Graduation: August 2026, Northeastern University
+
+JOB SEARCH:
+- Open to: Product Manager, Product Analyst, Product Operations roles
+- Industries of interest: AI, data, SaaS, B2B software
+- Salary expectation: $100k–$120k
+- Location: Open to anywhere in the US — remote, hybrid, or onsite all work
+- Willing to relocate anywhere in the US
+
 CONTACT:
 - Email: jauhari.r@northeastern.edu
 - LinkedIn: linkedin.com/in/rohanjauhari

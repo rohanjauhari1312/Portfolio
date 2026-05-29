@@ -56,7 +56,11 @@ function Message({ msg }) {
         color: isUser ? '#facc15' : 'rgba(255,255,255,0.8)',
         whiteSpace: 'pre-wrap',
       }}>
-        {msg.content}
+        {!isUser ? msg.content.split(/(\*\*.*?\*\*)/g).map((p, i) =>
+          p.startsWith('**') && p.endsWith('**')
+            ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{p.slice(2, -2)}</strong>
+            : p
+        ) : msg.content}
         {msg.streaming && msg.content && (
           <span style={{
             display: 'inline-block', width: 2, height: 13,
