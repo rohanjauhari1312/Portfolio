@@ -84,6 +84,7 @@ export default function Roadmap() {
         @keyframes futurePulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
         @property --rba { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes roadmap-spin { to { --rba: 360deg; } }
+        @keyframes tileFloat { 0%,100%{transform:translateX(-50%) translateY(0px)} 50%{transform:translateX(-50%) translateY(-6px)} }
         .roadmap-border { animation: roadmap-spin 4s linear infinite; }
       `}</style>
 
@@ -94,6 +95,7 @@ export default function Roadmap() {
         transform: `translateX(-50%) translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
+        animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none',
         zIndex: 200,
         pointerEvents: show ? 'auto' : 'none',
       }}>
@@ -102,7 +104,7 @@ export default function Roadmap() {
           className="roadmap-border"
           style={{
             borderRadius: 20,
-            padding: 0.5,
+            padding: 0.2,
             background: 'conic-gradient(from var(--rba), #facc15 0%, #fb923c 20%, #ef4444 40%, #a855f7 55%, #60a5fa 75%, #4ade80 90%, #facc15 100%)',
             boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 40px ${dynamicColor}60`,
             transition: 'box-shadow 0.4s ease',
@@ -111,7 +113,7 @@ export default function Roadmap() {
         >
         <div style={{
           position: 'relative',
-          borderRadius: 18,
+          borderRadius: 19.8,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
           background: isMobile ? 'rgba(10,10,10,0.95)' : 'rgba(10,10,10,0.88)',
           backdropFilter: isMobile ? 'none' : 'blur(24px)',
