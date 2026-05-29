@@ -65,6 +65,27 @@ const PROJECTS = [
     status: 'Personal Project',
   },
   {
+    id: 'instacart',
+    image: '/instacart.jpg',
+    link: '/instacart.pdf',
+    linkLabel: 'View PDF',
+    name: 'Instacart Autonomous Delivery',
+    tagline: 'Case Study · Autonomous Last-Mile Delivery',
+    description:
+      'Product case study exploring how Instacart could expand into autonomous delivery. Covers opportunity sizing, user research synthesis, go-to-market strategy, and a phased feature roadmap for integrating autonomous vehicles into the existing delivery network.',
+    gradient: 'linear-gradient(135deg, #0d1f0a 0%, #1a3a10 50%, #1f4d14 100%)',
+    iconBg: 'linear-gradient(135deg, #16a34a, #86efac)',
+    icon: 'I',
+    accentColor: '#4ade80',
+    tags: ['Case Study', 'Autonomous Delivery', 'GTM', 'Roadmapping', 'Opportunity Sizing'],
+    metrics: [
+      { v: 'B2C', l: 'Consumer product' },
+      { v: 'Phased', l: 'Rollout strategy' },
+      { v: 'Full', l: 'PM case study' },
+    ],
+    status: 'Case Study',
+  },
+  {
     id: 'housing',
     image: '/housing.jpg',
     name: 'Student Housing Platform',
@@ -207,7 +228,7 @@ function ProjectCard({ project, index, onNavigate }) {
                 onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.boxShadow = `0 0 22px ${project.accentColor}90, 0 0 44px ${project.accentColor}45` }}
                 onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.boxShadow = `0 0 14px ${project.accentColor}70, 0 0 28px ${project.accentColor}30` }}
               >
-                Try it
+                {project.linkLabel || 'Try it'}
               </a>
             )}
             {project.hasDetail && (
