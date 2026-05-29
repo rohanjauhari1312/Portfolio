@@ -3,14 +3,6 @@ import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
 import { trackSection, trackExternalLink } from '../hooks/useAnalytics'
 
-function hl(text, color) {
-  const parts = text.split(/(\*\*.*?\*\*)/g)
-  return parts.map((p, i) =>
-    p.startsWith('**') && p.endsWith('**')
-      ? <strong key={i} style={{ color, fontWeight: 700 }}>{p.slice(2, -2)}</strong>
-      : p
-  )
-}
 
 const JOBS = [
   {
@@ -25,9 +17,9 @@ const JOBS = [
     location: 'Boston, MA',
     type: 'Co-op',
     highlights: [
-      'Built an end-to-end data product covering **50+ feature-level KPIs** from raw sources to leadership dashboards, directly informing **quarterly roadmap prioritization**',
-      'Identified adoption gaps by analyzing engagement across **100+ product metrics** using Heap Analytics, shaping the next planning cycle',
-      'Reduced manual analysis effort by **60%** by shipping an **AI agent** that translated natural language queries into SQL, enabling non-technical PMs to self-serve data',
+      'Built an end-to-end data product covering 50+ feature-level KPIs from raw sources to leadership dashboards, directly informing quarterly roadmap prioritization',
+      'Identified adoption gaps by analyzing engagement across 100+ product metrics using Heap Analytics, shaping the next planning cycle',
+      'Reduced manual analysis effort by 60% by shipping an AI agent that translated natural language queries into SQL, enabling non-technical PMs to self-serve data',
     ],
     tags: ['SQL', 'Snowflake', 'Power BI', 'Heap Analytics', 'AI Agents'],
     metrics: [
@@ -49,10 +41,10 @@ const JOBS = [
     location: 'Bengaluru, India',
     type: 'Full-time',
     highlights: [
-      'Cut total manual effort by **90%** by owning **AI enablement** end-to-end: defined the roadmap, presented strategy to VP and Director stakeholders, and led 6 engineers and 2 designers to ship',
-      'Drove **33% expansion in clientele** by validating market opportunities, sizing use cases per segment, and developing tailored roadmaps and user journeys to capture them',
-      'Owned **PRD authoring** and cross-functional execution across **50+ features**, coordinating engineering, design, and go-to-market to ship on time',
-      'Reduced **churn by 50%** by building a structured feedback loop with stakeholders to surface and resolve issues across 100+ product areas',
+      'Cut total manual effort by 90% by owning AI enablement end-to-end: defined the roadmap, presented strategy to VP and Director stakeholders, and led 6 engineers and 2 designers to ship',
+      'Drove 33% expansion in clientele by validating market opportunities, sizing use cases per segment, and developing tailored roadmaps and user journeys to capture them',
+      'Owned PRD authoring and cross-functional execution across 50+ features, coordinating engineering, design, and go-to-market to ship on time',
+      'Reduced churn by 50% by building a structured feedback loop with stakeholders to surface and resolve issues across 100+ product areas',
     ],
     tags: ['SaaS', 'AI Enablement', 'B2B', 'Roadmapping', 'PRDs'],
     metrics: [
@@ -72,7 +64,7 @@ const JOBS = [
     location: 'Boston, MA',
     type: 'Research',
     highlights: [
-      'Built an **agentic monitoring system** pulling real-time data from **5+ Apple Watch sensors**, reaching **85% accuracy** predicting patient falls and hospitalizations',
+      'Built an agentic monitoring system pulling real-time data from 5+ Apple Watch sensors, reaching 85% accuracy predicting patient falls and hospitalizations',
     ],
     tags: ['Agentic AI', 'Apple Watch', 'Health Monitoring', 'Research'],
     metrics: [
@@ -235,7 +227,7 @@ function JobCard({ job, index, isMobile }) {
               width: 5, height: 5, borderRadius: '50%', flexShrink: 0, marginTop: 7,
               background: job.accentColor, opacity: 0.7,
             }} />
-            <span style={{ fontSize: isMobile ? 13 : 13.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.65 }}>{hl(h, job.accentColor)}</span>
+            <span style={{ fontSize: isMobile ? 13 : 13.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.65 }}>{h}</span>
           </li>
         ))}
       </ul>

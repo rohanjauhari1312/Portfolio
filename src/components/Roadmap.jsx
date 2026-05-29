@@ -84,7 +84,7 @@ export default function Roadmap() {
         @keyframes futurePulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
         @property --rba { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes roadmap-spin { to { --rba: 360deg; } }
-        @keyframes tileFloat { 0%,100%{transform:translateX(-50%) translateY(0px)} 50%{transform:translateX(-50%) translateY(-6px)} }
+        @keyframes tileFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
         .roadmap-border { animation: roadmap-spin 4s linear infinite; }
       `}</style>
 
@@ -95,10 +95,11 @@ export default function Roadmap() {
         transform: `translateX(-50%) translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
-        animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none',
         zIndex: 200,
         pointerEvents: show ? 'auto' : 'none',
       }}>
+        {/* Float wrapper — separate from positioning so transforms don't conflict */}
+        <div style={{ animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none' }}>
         {/* Spinning gradient border wrapper */}
         <div
           className="roadmap-border"
@@ -265,6 +266,7 @@ export default function Roadmap() {
               })}
             </div>
           </div>
+        </div>
         </div>
         </div>
       </div>
