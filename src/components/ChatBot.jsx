@@ -335,14 +335,18 @@ export default function ChatBot() {
         bottom: isMobile ? 92 : 36,
         right: 88,
         zIndex: 201,
-        pointerEvents: 'none',
+        pointerEvents: tileDrop && !open && !tileHidden ? 'auto' : 'none',
+        cursor: 'pointer',
         animation: open || tileHidden
           ? 'tileFadeOut 0.4s ease forwards'
           : tileDrop ? 'dropBounce 0.9s cubic-bezier(.22,1,.36,1) forwards' : 'none',
         opacity: tileDrop && !tileHidden ? 1 : 0,
         transition: 'opacity 0.4s ease',
       }}>
-        <div style={{ animation: !open && !tileHidden && tileDrop ? 'chatFloat 3.5s ease-in-out infinite' : 'none' }}>
+        <div
+          onClick={() => { setOpen(true); trackClick('chatbot_open', 'chatbot_tile') }}
+          style={{ animation: !open && !tileHidden && tileDrop ? 'chatFloat 3.5s ease-in-out infinite' : 'none' }}
+        >
         <div style={{
           padding: '9px 14px',
           borderRadius: 12,
@@ -365,7 +369,7 @@ export default function ChatBot() {
             boxShadow: '0 0 10px rgba(250,204,21,0.45)',
           }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
           <div>
@@ -401,7 +405,13 @@ export default function ChatBot() {
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         ) : (
-          <img src="/emoji.png" alt="Chat with Rohan's AI" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: '50%' }} />
+          <img
+            src="/emoji.png"
+            alt="Chat with Rohan's AI"
+            style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: '50%', transition: 'transform 0.25s cubic-bezier(.22,1,.36,1), filter 0.25s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.12)'; e.currentTarget.style.filter = 'brightness(1.1)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.filter = 'brightness(1)' }}
+          />
         )}
       </button>
     </>
