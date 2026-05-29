@@ -12,9 +12,9 @@ const PROJECTS = [
     name: 'Nourish Agent',
     tagline: 'Multi-agent AI Nutritionist',
     bullets: [
-      'Orchestrated multiple specialized agents — meal planner, grocery optimizer, health analyzer — coordinating in real time',
-      'Synced live wearable data (activity, sleep, heart rate) to dynamically adapt nutrition recommendations',
-      'Personalization loop updates diet plans without manual re-entry as user lifestyle data changes',
+      'Orchestrated **multiple specialized agents** — meal planner, grocery optimizer, health analyzer — coordinating in real time',
+      'Synced **live wearable data** (activity, sleep, heart rate) to dynamically adapt nutrition recommendations',
+      '**Personalization loop** updates diet plans without manual re-entry as user lifestyle data changes',
     ],
     gradient: 'linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%)',
     iconBg: 'linear-gradient(135deg, #16a34a, #4ade80)',
@@ -35,9 +35,9 @@ const PROJECTS = [
     name: 'SupportIQ',
     tagline: 'MCP-Enabled RAG Pipeline for Internal Support Knowledge Retrieval',
     bullets: [
-      'Indexed internal docs and past support tickets into a vector store; reps query in plain English and get cited answers instantly',
-      'Designed retrieval as an MCP-compatible tool so the knowledge base plugs into any LLM workflow without rework',
-      'Defined eval metrics to track answer accuracy and measure time-to-resolution improvement over baseline',
+      'Indexed internal docs and past support tickets into a **vector store**; reps query in plain English and get **cited answers** instantly',
+      'Designed retrieval as an **MCP-compatible tool** so the knowledge base plugs into any LLM workflow without rework',
+      'Defined eval metrics to track **answer accuracy** and measure **time-to-resolution** improvement over baseline',
     ],
     gradient: 'linear-gradient(135deg, #0f0a2e 0%, #1e1060 50%, #2d1b8a 100%)',
     iconBg: 'linear-gradient(135deg, #6d28d9, #a78bfa)',
@@ -57,9 +57,9 @@ const PROJECTS = [
     name: 'SwiftHire',
     tagline: 'AI-Powered Job Application Tool',
     bullets: [
-      'Surveyed 100+ job seekers to map friction across the application process before writing a line of code',
-      'AI tailors resumes per job description and auto-fills applications to cut time-per-application significantly',
-      'Built-in tracker logs application status, follow-up dates, and outcome data in one view',
+      'Surveyed **100+ job seekers** to map friction across the application process before writing a line of code',
+      'AI **tailors resumes per job description** and auto-fills applications to cut time-per-application significantly',
+      'Built-in tracker logs **application status**, follow-up dates, and outcome data in one view',
     ],
     gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
     iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
@@ -81,9 +81,9 @@ const PROJECTS = [
     name: 'Instacart Autonomous Delivery',
     tagline: 'Case Study · Autonomous Last-Mile Delivery',
     bullets: [
-      'Sized the autonomous delivery opportunity for Instacart, segmenting by geography, order density, and regulatory readiness',
-      'Synthesized user research to identify trust and reliability as the top adoption blockers, shaping feature prioritization',
-      'Defined a phased rollout roadmap — pilot zones to full network — with north star metrics and go/no-go criteria at each stage',
+      'Sized the **autonomous delivery opportunity** for Instacart, segmenting by geography, order density, and regulatory readiness',
+      'Synthesized user research to identify **trust and reliability** as the top adoption blockers, shaping feature prioritization',
+      'Defined a **phased rollout roadmap** — pilot zones to full network — with **north star metrics** and go/no-go criteria at each stage',
     ],
     gradient: 'linear-gradient(135deg, #1a0a00 0%, #7c2d00 50%, #c2410c 100%)',
     iconBg: 'linear-gradient(135deg, #ea580c, #fb923c)',
@@ -103,9 +103,9 @@ const PROJECTS = [
     name: 'Student Housing Platform',
     tagline: 'PM Club · Full Product Cycle',
     bullets: [
-      'Analyzed 100+ survey responses to identify 10 distinct pain points across the student housing search process',
-      'Defined north star and counter metrics, then mapped each to specific feature bets in the roadmap',
-      'Shipped 7 features that cut average search time by 75% from baseline',
+      'Analyzed **100+ survey responses** to identify **10 distinct pain points** across the student housing search process',
+      'Defined **north star and counter metrics**, then mapped each to specific feature bets in the roadmap',
+      'Shipped **7 features** that cut average search time by **75%** from baseline',
     ],
     gradient: 'linear-gradient(135deg, #0c1445 0%, #1e3a8a 50%, #1d4ed8 100%)',
     iconBg: 'linear-gradient(135deg, #2563eb, #60a5fa)',
@@ -120,6 +120,15 @@ const PROJECTS = [
     status: 'PM Club',
   },
 ]
+
+function hl(text, color) {
+  const parts = text.split(/(\*\*.*?\*\*)/g)
+  return parts.map((p, i) =>
+    p.startsWith('**') && p.endsWith('**')
+      ? <span key={i} style={{ color }}>{p.slice(2, -2)}</span>
+      : p
+  )
+}
 
 function ProjectImage({ project }) {
   const [imgFailed, setImgFailed] = useState(false)
@@ -279,7 +288,7 @@ function ProjectCard({ project, index, onNavigate }) {
                 width: 4, height: 4, borderRadius: '50%', flexShrink: 0, marginTop: 6,
                 background: project.accentColor, opacity: 0.7,
               }} />
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.65 }}>{b}</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.65 }}>{hl(b, project.accentColor)}</span>
             </li>
           ))}
         </ul>

@@ -82,10 +82,7 @@ export default function Roadmap() {
 
       <style>{`
         @keyframes futurePulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
-        @property --rba { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-        @keyframes roadmap-spin { to { --rba: 360deg; } }
         @keyframes tileFloat { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
-        .roadmap-border { animation: roadmap-spin 4s linear infinite; }
       `}</style>
 
       <div style={{
@@ -98,27 +95,18 @@ export default function Roadmap() {
         zIndex: 200,
         pointerEvents: show ? 'auto' : 'none',
       }}>
-        {/* Float wrapper — separate from positioning so transforms don't conflict */}
         <div style={{ animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none', willChange: 'transform' }}>
-        {/* Spinning gradient border wrapper */}
-        <div
-          className="roadmap-border"
-          style={{
-            borderRadius: 20,
-            padding: 0.2,
-            background: 'conic-gradient(from var(--rba), #facc15 0%, #fb923c 20%, #ef4444 40%, #a855f7 55%, #60a5fa 75%, #4ade80 90%, #facc15 100%)',
-            boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 40px ${dynamicColor}60`,
-            transition: 'box-shadow 0.4s ease',
-            width: isMobile ? 'calc(100vw - 40px)' : 560,
-          }}
-        >
         <div style={{
           position: 'relative',
-          borderRadius: 19.8,
+          width: isMobile ? 'calc(100vw - 40px)' : 560,
+          borderRadius: 18,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: '#0a0a0a',
+          background: isMobile ? 'rgba(10,10,10,0.95)' : 'rgba(10,10,10,0.88)',
           backdropFilter: isMobile ? 'none' : 'blur(24px)',
           WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
+          border: `1px solid ${dynamicColor}55`,
+          boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), 0 0 28px ${dynamicColor}25`,
+          transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
         }}>
 
           {/* Header */}
@@ -266,7 +254,6 @@ export default function Roadmap() {
               })}
             </div>
           </div>
-        </div>
         </div>
         </div>
       </div>
