@@ -325,6 +325,7 @@ export default function ChatBot() {
           0%, 100% { box-shadow: 0 0 12px rgba(250,204,21,0.18), 0 0 28px rgba(250,204,21,0.06); }
           50%       { box-shadow: 0 0 22px rgba(250,204,21,0.38), 0 0 48px rgba(250,204,21,0.13); }
         }
+        @keyframes chatFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
         @keyframes tileFadeOut {
           to { opacity: 0; transform: translateY(8px); }
         }
@@ -341,6 +342,7 @@ export default function ChatBot() {
         opacity: tileDrop && !tileHidden ? 1 : 0,
         transition: 'opacity 0.4s ease',
       }}>
+        <div style={{ animation: !open && !tileHidden && tileDrop ? 'chatFloat 3.5s ease-in-out infinite' : 'none' }}>
         <div style={{
           padding: '9px 14px',
           borderRadius: 12,
@@ -370,6 +372,7 @@ export default function ChatBot() {
             <div style={{ fontSize: 10, color: 'rgba(250,204,21,0.6)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 2 }}>AI Assistant</div>
             <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', fontWeight: 400 }}>Ask me. I know his secrets!</div>
           </div>
+        </div>
         </div>
       </div>
 
