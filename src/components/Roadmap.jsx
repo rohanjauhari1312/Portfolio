@@ -116,7 +116,7 @@ export default function Roadmap() {
           position: 'relative',
           borderRadius: 19.8,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: isMobile ? 'rgba(10,10,10,0.95)' : 'rgba(10,10,10,0.88)',
+          background: '#0a0a0a',
           backdropFilter: isMobile ? 'none' : 'blur(24px)',
           WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
         }}>
