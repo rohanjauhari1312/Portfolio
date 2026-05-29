@@ -326,14 +326,25 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
           100% { transform:scale(1);   box-shadow:0 0 8px rgba(251,146,60,0.4); }
         }
         @keyframes ncFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @property --nba { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        @keyframes nc-spin { to { --nba: 360deg; } }
+        .nc-border { animation: nc-spin 4s linear infinite; }
       `}</style>
 
       <div style={{ animation: visible ? 'ncFloat 4s ease-in-out infinite' : 'none' }}>
+      <div
+        className="nc-border"
+        style={{
+          borderRadius: 17,
+          padding: 0.5,
+          background: 'conic-gradient(from var(--nba), #facc15 0%, #fb923c 20%, #ef4444 40%, #a855f7 55%, #60a5fa 75%, #4ade80 90%, #facc15 100%)',
+          width: 260,
+        }}
+      >
       <div style={{
-        width: 260,
         borderRadius: 16,
         background: 'rgba(10,10,12,0.45)',
-        border: '1px solid rgba(251,169,40,0.13)',
+        border: 'none',
         backdropFilter: 'none',
         WebkitBackdropFilter: 'blur(12px)',
         overflow: 'hidden',
@@ -478,6 +489,7 @@ export default function NeuralCard({ active = false, onNavigate, onReplay }) {
             )}
           </div>
         )}
+      </div>
       </div>
       </div>
     </>
