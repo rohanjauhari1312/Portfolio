@@ -11,11 +11,14 @@ const PROJECTS = [
     hasDetail: true,
     name: 'Nourish Agent',
     tagline: 'Multi-agent AI Nutritionist',
-    description:
-      'A real-time multi-agent AI system that adapts nutrition recommendations based on wearable health data and user lifestyle. Built with agentic architecture where multiple specialized agents coordinate to personalize diet plans dynamically.',
+    bullets: [
+      'Orchestrated multiple specialized agents — meal planner, grocery optimizer, health analyzer — coordinating in real time',
+      'Synced live wearable data (activity, sleep, heart rate) to dynamically adapt nutrition recommendations',
+      'Personalization loop updates diet plans without manual re-entry as user lifestyle data changes',
+    ],
     gradient: 'linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%)',
     iconBg: 'linear-gradient(135deg, #16a34a, #4ade80)',
-    icon: '🥗',
+    icon: 'N',
     accentColor: '#4ade80',
     tags: ['Agentic AI', 'Multi-agent', 'Wearables', 'Real-time', 'LLM'],
     metrics: [
@@ -31,11 +34,14 @@ const PROJECTS = [
     link: 'https://rohanjauhari.com/ragproject',
     name: 'SupportIQ',
     tagline: 'MCP-Enabled RAG Pipeline for Internal Support Knowledge Retrieval',
-    description:
-      'Support teams waste time digging through docs and past tickets for answers that already exist. Built a RAG pipeline indexing internal docs and past tickets so support reps can query in plain English and get grounded, cited answers instantly. Designed retrieval as an MCP-compatible tool so the knowledge base can plug into any LLM workflow, and defined evaluation metrics to track answer accuracy and time-to-resolution improvement.',
+    bullets: [
+      'Indexed internal docs and past support tickets into a vector store; support reps query in plain English and get cited answers',
+      'Designed retrieval as an MCP-compatible tool so the knowledge base plugs into any LLM workflow without rework',
+      'Defined evaluation metrics to track answer accuracy and measure time-to-resolution improvement over baseline',
+    ],
     gradient: 'linear-gradient(135deg, #0f0a2e 0%, #1e1060 50%, #2d1b8a 100%)',
     iconBg: 'linear-gradient(135deg, #6d28d9, #a78bfa)',
-    icon: 'R',
+    icon: 'S',
     accentColor: '#a78bfa',
     tags: ['RAG', 'Pinecone', 'LLM', 'MCP', 'Vector DB'],
     metrics: [
@@ -50,11 +56,14 @@ const PROJECTS = [
     image: '/swifthire.jpg',
     name: 'SwiftHire',
     tagline: 'AI-Powered Job Application Tool',
-    description:
-      'Built after surveying 100+ job seekers to map every friction point in the application process. SwiftHire uses AI to automate and optimize the job search workflow, from tailoring resumes to tracking applications.',
+    bullets: [
+      'Surveyed 100+ job seekers to map friction across the application process before writing a line of code',
+      'AI tailors resumes per job description and auto-fills applications to cut time-per-application significantly',
+      'Built-in tracker logs application status, follow-up dates, and outcome data in one view',
+    ],
     gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
     iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
-    icon: '⚡',
+    icon: 'W',
     accentColor: '#facc15',
     tags: ['AI', 'User Research', 'Automation', 'Job Search', 'LLM'],
     metrics: [
@@ -71,12 +80,15 @@ const PROJECTS = [
     linkLabel: 'View PDF',
     name: 'Instacart Autonomous Delivery',
     tagline: 'Case Study · Autonomous Last-Mile Delivery',
-    description:
-      'Product case study exploring how Instacart could expand into autonomous delivery. Covers opportunity sizing, user research synthesis, go-to-market strategy, and a phased feature roadmap for integrating autonomous vehicles into the existing delivery network.',
-    gradient: 'linear-gradient(135deg, #0d1f0a 0%, #1a3a10 50%, #1f4d14 100%)',
-    iconBg: 'linear-gradient(135deg, #16a34a, #86efac)',
+    bullets: [
+      'Sized the autonomous delivery opportunity for Instacart, segmenting by geography, order density, and regulatory readiness',
+      'Synthesized user research to identify trust and reliability as the top adoption blockers, shaping the feature prioritization',
+      'Defined a phased rollout roadmap — pilot zones to full network — with north star metrics and go/no-go criteria at each stage',
+    ],
+    gradient: 'linear-gradient(135deg, #1a0a00 0%, #7c2d00 50%, #c2410c 100%)',
+    iconBg: 'linear-gradient(135deg, #ea580c, #fb923c)',
     icon: 'I',
-    accentColor: '#4ade80',
+    accentColor: '#fb923c',
     tags: ['Case Study', 'Autonomous Delivery', 'GTM', 'Roadmapping', 'Opportunity Sizing'],
     metrics: [
       { v: 'B2C', l: 'Consumer product' },
@@ -90,11 +102,14 @@ const PROJECTS = [
     image: '/housing.jpg',
     name: 'Student Housing Platform',
     tagline: 'PM Club · Full Product Cycle',
-    description:
-      'Led discovery to delivery for a student housing platform. Analyzed 100+ survey responses, identified 10 pain points, defined north star + counter metrics, and shipped 7 features that cut average search time by 75%.',
+    bullets: [
+      'Analyzed 100+ survey responses to identify 10 distinct pain points across the student housing search process',
+      'Defined north star and counter metrics, then mapped each to specific feature bets in the roadmap',
+      'Shipped 7 features that cut average search time by 75% from baseline',
+    ],
     gradient: 'linear-gradient(135deg, #0c1445 0%, #1e3a8a 50%, #1d4ed8 100%)',
     iconBg: 'linear-gradient(135deg, #2563eb, #60a5fa)',
-    icon: '🏠',
+    icon: 'H',
     accentColor: '#60a5fa',
     tags: ['Product Discovery', 'UX Research', 'OKRs', 'Metrics', 'Figma'],
     metrics: [
@@ -257,12 +272,17 @@ function ProjectCard({ project, index, onNavigate }) {
         </div>
 
         {/* Description */}
-        <p style={{
-          fontSize: 13.5, color: 'rgba(255,255,255,0.52)',
-          lineHeight: 1.65, margin: '0 0 18px',
-        }}>
-          {project.description}
-        </p>
+        <ul style={{ margin: '0 0 18px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {project.bullets.map((b, i) => (
+            <li key={i} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+              <span style={{
+                width: 4, height: 4, borderRadius: '50%', flexShrink: 0, marginTop: 6,
+                background: project.accentColor, opacity: 0.7,
+              }} />
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.65 }}>{b}</span>
+            </li>
+          ))}
+        </ul>
 
         {/* Metrics row */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 18, flexWrap: 'wrap' }}>
