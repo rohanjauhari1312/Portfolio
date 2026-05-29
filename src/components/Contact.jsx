@@ -2,6 +2,66 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
 
+function ResumeActions({ isMobile }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/resume.pdf`
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Rohan Jauhari — Resume', url }); return } catch (_) {}
+    }
+    await navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const btn = (accent) => ({
+    display: 'inline-flex', alignItems: 'center', gap: 7,
+    padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600,
+    cursor: 'pointer', textDecoration: 'none',
+    background: `rgba(${accent},0.1)`, color: `rgb(${accent})`,
+    border: `1px solid rgba(${accent},0.25)`,
+    transition: 'background 0.2s, box-shadow 0.2s, transform 0.2s',
+  })
+  const hover = (e, accent) => { e.currentTarget.style.background = `rgba(${accent},0.18)`; e.currentTarget.style.boxShadow = `0 0 22px rgba(${accent},0.4)`; e.currentTarget.style.transform = 'translateY(-2px)' }
+  const leave = (e, accent) => { e.currentTarget.style.background = `rgba(${accent},0.1)`; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }
+
+  return (
+    <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: isMobile ? 32 : 48 }}>
+      <a href="/resume.pdf" target="_blank" rel="noreferrer"
+        style={btn('250,204,21')}
+        onMouseEnter={e => hover(e, '250,204,21')} onMouseLeave={e => leave(e, '250,204,21')}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+        View Resume
+      </a>
+
+      <a href="/resume.pdf" download="Rohan_Jauhari_Resume.pdf"
+        style={btn('96,165,250')}
+        onMouseEnter={e => hover(e, '96,165,250')} onMouseLeave={e => leave(e, '96,165,250')}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download
+      </a>
+
+      <button onClick={handleShare}
+        style={{ ...btn(copied ? '74,222,128' : '168,85,247'), outline: 'none' }}
+        onMouseEnter={e => !copied && hover(e, '168,85,247')} onMouseLeave={e => leave(e, copied ? '74,222,128' : '168,85,247')}>
+        {copied ? (
+          <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Link Copied</>
+        ) : (
+          <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>Share</>
+        )}
+      </button>
+    </div>
+  )
+}
+
 const LINKS = [
   {
     label: 'GitHub',
@@ -191,6 +251,9 @@ export default function Contact() {
             </a>
           </div>
         </div>
+
+        {/* Resume actions */}
+        <ResumeActions isMobile={isMobile} />
 
         {/* Social link cards */}
         <div style={{ ...fade(280), display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'stretch' : undefined, marginBottom: isMobile ? 32 : 48 }}>
