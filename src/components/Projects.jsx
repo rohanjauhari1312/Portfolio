@@ -57,12 +57,15 @@ const PROJECTS = [
     link: '/swifthire.pdf',
     linkLabel: 'Product Doc',
     hasDetail: 'swifthire',
+    extraLinks: [
+      { label: 'Try the board', href: 'https://swifthire-board.vercel.app/' },
+    ],
     name: 'SwiftHire',
     tagline: 'Automated Job Search Pipeline',
     bullets: [
-      'Built an **end-to-end pipeline** — from job alert to cold email draft — that runs in under 10 minutes with 3 manual decision points',
-      'Monitors **23 companies** via Greenhouse and Ashby APIs every 15 minutes, filters by recency, YOE, and sponsorship, fires macOS alerts for new roles',
-      'Chrome extension auto-downloads the **tailored resume** from Claude and pre-fills an Outlook compose window with a recruiter contact from Apollo',
+      'From job alert to a **cold email sitting in Outlook drafts** — automated in under 10 minutes, with three decisions left for the human',
+      'Python poller checks Greenhouse and Ashby APIs every 15 min; Chrome extension **auto-downloads the tailored resume** from Claude and looks up a recruiter on Apollo',
+      'Resume is rewritten per JD by Claude, cold email is drafted, **Outlook is pre-filled** with the right contact — you read, attach, send',
     ],
     gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
     iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
