@@ -4,6 +4,8 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/ragproject", "destination": "https://supportiq-oywb.onrender.com/" },
-    { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" }
+    { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" },
+    { "source": "/swifthire", "destination": "/index.html" },
+    { "source": "/nourish", "destination": "/index.html" }
   ]
 }

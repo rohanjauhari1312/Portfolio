@@ -54,22 +54,25 @@ const PROJECTS = [
   {
     id: 'swifthire',
     image: '/swifthire.jpg',
+    link: '/swifthire.pdf',
+    linkLabel: 'Product Doc',
+    hasDetail: 'swifthire',
     name: 'SwiftHire',
-    tagline: 'AI-Powered Job Application Tool',
+    tagline: 'Automated Job Search Pipeline',
     bullets: [
-      'Surveyed **100+ job seekers** to map friction across the application process before writing a line of code',
-      'AI **tailors resumes per job description** and auto-fills applications to cut time-per-application significantly',
-      'Built-in tracker logs **application status**, follow-up dates, and outcome data in one view',
+      'Built an **end-to-end pipeline** — from job alert to cold email draft — that runs in under 10 minutes with 3 manual decision points',
+      'Monitors **23 companies** via Greenhouse and Ashby APIs every 15 minutes, filters by recency, YOE, and sponsorship, fires macOS alerts for new roles',
+      'Chrome extension auto-downloads the **tailored resume** from Claude and pre-fills an Outlook compose window with a recruiter contact from Apollo',
     ],
     gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
     iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
     icon: 'W',
     accentColor: '#facc15',
-    tags: ['AI', 'User Research', 'Automation', 'Job Search', 'LLM'],
+    tags: ['AI', 'Automation', 'Python', 'Chrome Extension', 'Claude API'],
     metrics: [
-      { v: '100+', l: 'Users surveyed' },
-      { v: 'AI', l: 'Powered workflow' },
-      { v: 'End-to-end', l: 'Automation' },
+      { v: '23', l: 'Companies monitored' },
+      { v: '15 min', l: 'Polling interval' },
+      { v: '< 10 min', l: 'Alert to cold email' },
     ],
     status: 'Personal Project',
   },
@@ -238,7 +241,6 @@ function ProjectCard({ project, index, onNavigate }) {
         overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
         boxShadow: `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`,
-        transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = `${project.accentColor}90`
@@ -285,7 +287,7 @@ function ProjectCard({ project, index, onNavigate }) {
             )}
             {project.hasDetail && (
               <button
-                onClick={() => { trackClick('view_project_nourish', 'projects'); onNavigate && onNavigate('nourish') }}
+                onClick={() => { trackClick(`view_project_${project.hasDetail}`, 'projects'); onNavigate && onNavigate(project.hasDetail) }}
                 style={{
                   padding: '5px 12px', borderRadius: 7,
                   fontSize: 11.5, fontWeight: 700,

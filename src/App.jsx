@@ -13,18 +13,23 @@ import ScrollTop from './components/ScrollTop'
 import ChatBot from './components/ChatBot'
 import DotGrid from './components/DotGrid'
 import NourishDetail from './components/NourishDetail'
+import SwiftHireDetail from './components/SwiftHireDetail'
+
+const DETAIL_PATHS = ['nourish', 'swifthire']
 
 export default function App() {
   const isMobile = useIsMobile()
-  const [view, setView] = useState(() =>
-    window.location.pathname === '/nourish' ? 'nourish' : 'home'
-  )
+  const [view, setView] = useState(() => {
+    const p = window.location.pathname.replace('/', '')
+    return DETAIL_PATHS.includes(p) ? p : 'home'
+  })
 
   useEffect(() => {
     const onPop = (e) => {
-      const isNourish = window.location.pathname === '/nourish'
-      setView(isNourish ? 'nourish' : 'home')
-      if (!isNourish) {
+      const p = window.location.pathname.replace('/', '')
+      const isDetail = DETAIL_PATHS.includes(p)
+      setView(isDetail ? p : 'home')
+      if (!isDetail) {
         const savedY = e.state?.scrollY ?? 0
         requestAnimationFrame(() => requestAnimationFrame(() => {
           window.scrollTo(0, savedY)
@@ -76,12 +81,12 @@ export default function App() {
       `}</style>
       <div className="page-border" />
 
-      <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : 'rgba(251,169,40,0.5)'} />
+      <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : view === 'swifthire' ? 'rgba(250,204,21,0.18)' : 'rgba(251,169,40,0.5)'} />
       {!isMobile && <CustomCursor />}
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
       <div style={{
-        display: view === 'nourish' ? 'none' : 'block',
+        display: (view === 'nourish' || view === 'swifthire') ? 'none' : 'block',
         minHeight: '100vh',
         background: `
           radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
@@ -104,6 +109,7 @@ export default function App() {
       </div>
 
       {view === 'nourish' && <NourishDetail onBack={navigateBack} />}
+      {view === 'swifthire' && <SwiftHireDetail onBack={navigateBack} />}
     </>
   )
 }
