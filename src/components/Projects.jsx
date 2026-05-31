@@ -54,11 +54,11 @@ const PROJECTS = [
   {
     id: 'swifthire',
     image: '/swifthire.jpg',
-    link: '/swifthire.pdf',
-    linkLabel: 'Product Doc',
+    link: 'https://swifthire-board.vercel.app/',
+    linkLabel: 'Try it',
     hasDetail: 'swifthire',
     extraLinks: [
-      { label: 'Try the board', href: 'https://swifthire-board.vercel.app/' },
+      { label: 'Product Doc', href: '/swifthire.pdf' },
     ],
     name: 'SwiftHire',
     tagline: 'Automated Job Search Pipeline',
