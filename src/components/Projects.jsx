@@ -258,10 +258,10 @@ function ProjectCard({ project, index, onNavigate }) {
       <div style={{ padding: '22px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Name + tagline */}
         <div style={{ marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
             <h3 style={{
               fontSize: 18, fontWeight: 700, color: '#f5f5f5',
-              margin: 0, letterSpacing: '-0.01em',
+              margin: 0, letterSpacing: '-0.01em', marginRight: 2,
             }}>
               {project.name}
             </h3>
@@ -306,34 +306,30 @@ function ProjectCard({ project, index, onNavigate }) {
                 View Project
               </button>
             )}
+            {project.extraLinks && project.extraLinks.map(el => (
+              <a
+                key={el.href}
+                href={el.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '5px 12px', borderRadius: 7,
+                  fontSize: 11.5, fontWeight: 600,
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  color: 'rgba(255,255,255,0.55)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.02em',
+                  transition: 'border-color 0.2s, color 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${project.accentColor}60`; e.currentTarget.style.color = project.accentColor }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)' }}
+              >
+                {el.label}
+              </a>
+            ))}
           </div>
-          {project.extraLinks && (
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
-              {project.extraLinks.map(el => (
-                <a
-                  key={el.href}
-                  href={el.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: '3px 10px', borderRadius: 6,
-                    fontSize: 11, fontWeight: 600,
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    color: 'rgba(255,255,255,0.55)',
-                    textDecoration: 'none',
-                    letterSpacing: '0.02em',
-                    transition: 'border-color 0.2s, color 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${project.accentColor}60`; e.currentTarget.style.color = project.accentColor }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)' }}
-                >
-                  {el.label}
-                </a>
-              ))}
-            </div>
-          )}
-          <span style={{ fontSize: 12, color: project.accentColor, fontWeight: 500, marginTop: project.extraLinks ? 8 : 0, display: 'block' }}>
+          <span style={{ fontSize: 12, color: project.accentColor, fontWeight: 500, marginTop: 6, display: 'block' }}>
             {project.tagline}
           </span>
         </div>
