@@ -127,7 +127,6 @@ const PROJECTS = [
     ],
     extraLinks: [
       { label: 'Dashboard PDF', href: '/boston-dashboard.pdf' },
-      { label: 'Dataset', href: '/boston-dataset.xlsx' },
     ],
     status: 'Academic Project',
   },
