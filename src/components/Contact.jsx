@@ -191,7 +191,7 @@ export default function Contact() {
           />
 
           <p style={{ ...fade(160), fontSize: 17, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, margin: '0 0 40px' }}>
-            Product, strategy, or operations — if you&apos;re building in AI, data, or SaaS, I&apos;d love to connect.
+            Product, strategy, or operations. If you&apos;re building in AI, data, or SaaS, I&apos;d love to connect.
           </p>
 
           <div style={{ ...fade(220), display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

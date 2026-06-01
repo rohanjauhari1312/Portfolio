@@ -17,7 +17,7 @@ const PIPELINE = [
   {
     type: 'auto',
     title: 'Resume tailored + cold email drafted',
-    detail: 'Paste the JD. Claude rewrites your resume for that specific role — right projects, adjusted language, reordered sections — and writes a cold email: subject, personalised opening, body.',
+    detail: 'Paste the JD. Claude rewrites your resume for that specific role (right projects, adjusted language, reordered sections) and writes a cold email: subject, personalised opening, body.',
   },
   {
     type: 'auto',
@@ -50,7 +50,7 @@ const BUILT = [
   {
     name: 'Job Board',
     sub: 'swifthire-board.vercel.app',
-    detail: 'React app on Vercel. No backend, no database. Job data is a JS file rewritten every time the poller finds a new role — which also triggers a Vercel redeploy automatically.',
+    detail: 'React app on Vercel. No backend, no database. Job data is a JS file rewritten every time the poller finds a new role, which also triggers a Vercel redeploy automatically.',
     chips: ['Posted within 2 days', 'YOE under 4', 'Sponsorship filter', 'City filter', 'Role type: PM / SE / FDE', 'Company stage', 'Search + sort'],
   },
   {
@@ -71,7 +71,7 @@ const TRADEOFFS = [
   { decision: 'Static site on Vercel', why: 'Zero infrastructure. Deploys in under 2 min.', tradeoff: 'New data requires a full redeploy.' },
   { decision: 'Greenhouse + Ashby only', why: 'Both have stable public APIs. Most targets use one.', tradeoff: 'Misses companies on Workday or Lever.' },
   { decision: '3-day notification cutoff', why: 'Prevents alert floods when adding new companies.', tradeoff: 'Older roles that are still worth applying to will not notify.' },
-  { decision: 'Sponsorship from JD text', why: 'Catches actual policy language — more accurate than a list.', tradeoff: 'Ashby roles default to noSponsor: false.' },
+  { decision: 'Sponsorship from JD text', why: 'Catches actual policy language, more accurate than a list.', tradeoff: 'Ashby roles default to noSponsor: false.' },
   { decision: 'No server in extension', why: 'Nothing to maintain, nothing to start before using.', tradeoff: 'LaTeX compilation depends on Claude being open.' },
   { decision: 'Human sends the email', why: 'One set of eyes on every email before it goes out.', tradeoff: 'Adds 2–5 minutes per application.' },
 ]
@@ -368,7 +368,7 @@ export default function SwiftHireDetail({ onBack }) {
           fontSize: 'clamp(1rem, 2vw, 1.15rem)', color: 'rgba(255,255,255,0.42)',
           lineHeight: 1.65, maxWidth: 580, margin: '0 0 40px',
         }}>
-          An automated job search pipeline — from first alert to a cold email draft landing in Outlook, in under 10 minutes. Three decisions stay with you. Everything else runs.
+          An automated job search pipeline. From first alert to a cold email draft landing in Outlook, in under 10 minutes. Three decisions stay with you. Everything else runs.
         </p>
 
         {/* Metrics */}
@@ -435,9 +435,9 @@ export default function SwiftHireDetail({ onBack }) {
             {[
               { step: 'Check job boards',      time: '20–30 min/day',  note: 'Repeated across LinkedIn, company sites, ATS portals' },
               { step: 'Filter irrelevant roles', time: '10–15 min',     note: 'No way to filter recency, YOE, and sponsorship at once' },
-              { step: 'Read JD and decide',     time: '5–10 min',       note: 'Still required — this stays manual' },
+              { step: 'Read JD and decide',     time: '5–10 min',       note: 'Still required. This stays manual' },
               { step: 'Tailor resume',           time: '30–60 min',      note: 'Usually skipped or done poorly under time pressure' },
-              { step: 'Find recruiter contact',  time: '10–20 min',      note: 'LinkedIn, Apollo, guesswork — often unsuccessful' },
+              { step: 'Find recruiter contact',  time: '10–20 min',      note: 'LinkedIn, Apollo, guesswork. Often unsuccessful' },
               { step: 'Write cold email',        time: '15–30 min',      note: 'Usually generic. Rarely done alongside an application' },
               { step: 'Send',                    time: '2 min',          note: 'Still requires a person' },
             ].map((row, i, arr) => (

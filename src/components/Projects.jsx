@@ -12,7 +12,7 @@ const PROJECTS = [
     name: 'Nourish Agent',
     tagline: 'Multi-agent AI Nutritionist',
     bullets: [
-      'Orchestrated **multiple specialized agents** — meal planner, grocery optimizer, health analyzer — coordinating in real time',
+      'Orchestrated **multiple specialized agents** (meal planner, grocery optimizer, health analyzer) coordinating in real time',
       'Synced **live wearable data** (activity, sleep, heart rate) to dynamically adapt nutrition recommendations',
       '**Personalization loop** updates diet plans without manual re-entry as user lifestyle data changes',
     ],
@@ -40,9 +40,9 @@ const PROJECTS = [
     name: 'SwiftHire',
     tagline: 'Automated Job Search Pipeline',
     bullets: [
-      'From job alert to a **cold email sitting in Outlook drafts** — automated in under 10 minutes, with three decisions left for the human',
+      'Resume is rewritten per JD by Claude, cold email is drafted, **Outlook is pre-filled** with the right contact. You read, attach, send',
       'Python poller checks Greenhouse and Ashby APIs every 15 min; Chrome extension **auto-downloads the tailored resume** from Claude and looks up a recruiter on Apollo',
-      'Resume is rewritten per JD by Claude, cold email is drafted, **Outlook is pre-filled** with the right contact — you read, attach, send',
+      'From job alert to a **cold email sitting in Outlook drafts**, automated in under 10 minutes, with three decisions left for the human',
     ],
     gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
     iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
@@ -50,7 +50,7 @@ const PROJECTS = [
     accentColor: '#facc15',
     tags: ['AI', 'Automation', 'Python', 'Chrome Extension', 'Claude API'],
     metrics: [
-      { v: '23', l: 'Companies monitored' },
+      { v: '100+', l: 'Companies monitored' },
       { v: '15 min', l: 'Polling interval' },
       { v: '< 10 min', l: 'Alert to cold email' },
     ],
@@ -89,7 +89,7 @@ const PROJECTS = [
     bullets: [
       'Sized the **autonomous delivery opportunity** for Instacart, segmenting by geography, order density, and regulatory readiness',
       'Synthesized user research to identify **trust and reliability** as the top adoption blockers, shaping feature prioritization',
-      'Defined a **phased rollout roadmap** — pilot zones to full network — with **north star metrics** and go/no-go criteria at each stage',
+      'Defined a **phased rollout roadmap** from pilot zones to full network, with **north star metrics** and go/no-go criteria at each stage',
     ],
     gradient: 'linear-gradient(135deg, #1a0a00 0%, #7c2d00 50%, #c2410c 100%)',
     iconBg: 'linear-gradient(135deg, #ea580c, #fb923c)',
@@ -111,7 +111,7 @@ const PROJECTS = [
     name: 'Boston Liveability Dashboard',
     tagline: 'Power BI · Socioeconomic Analysis · 41 Zip Codes',
     bullets: [
-      'Collected socioeconomic data across 41 Boston zip codes via **US Census API** — income, education, unemployment, home values, and density',
+      'Collected socioeconomic data across 41 Boston zip codes via **US Census API**: income, education, unemployment, home values, and density',
       'Built a **min-max normalization pipeline** in Excel with a weighted composite score (income 30%, unemployment 25%, education 20%)',
       'Shipped an interactive **Power BI dashboard** with choropleth maps, ranked bar charts, and a variable selector across all 5 dimensions',
     ],
