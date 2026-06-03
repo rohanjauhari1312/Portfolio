@@ -134,23 +134,25 @@ function Section({ label, children, delay = 0 }) {
   )
 }
 
-function PipelineNode({ step, index, visible }) {
+function PipelineNode({ step, index, total, visible, onDelete }) {
+  const [hovered, setHovered] = useState(false)
   const isAuto = step.type === 'auto'
-  const isLast = index === PIPELINE.length - 1
+  const isLast = index === total - 1
 
   return (
     <div
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateX(0)' : 'translateX(-20px)',
-        transition: `opacity 0.5s ease ${index * 80}ms, transform 0.5s cubic-bezier(.22,1,.36,1) ${index * 80}ms`,
+        transition: `opacity 0.5s ease ${index * 60}ms, transform 0.5s cubic-bezier(.22,1,.36,1) ${index * 60}ms`,
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <div style={{ display: 'flex', gap: 0, alignItems: 'stretch' }}>
 
         {/* Icon column */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 56, flexShrink: 0 }}>
-          {/* Node circle */}
           <div style={{
             width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
             background: isAuto ? 'rgba(250,204,21,0.08)' : 'rgba(255,255,255,0.04)',
@@ -159,13 +161,8 @@ function PipelineNode({ step, index, visible }) {
             boxShadow: isAuto ? `0 0 16px rgba(250,204,21,0.2)` : 'none',
             position: 'relative', zIndex: 2,
           }}>
-            {isAuto
-              ? <BotIcon size={19} color={YELLOW} />
-              : <HumanIcon size={19} color="rgba(255,255,255,0.65)" />
-            }
+            {isAuto ? <BotIcon size={19} color={YELLOW} /> : <HumanIcon size={19} color="rgba(255,255,255,0.65)" />}
           </div>
-
-          {/* Connector line with animated dot */}
           {!isLast && (
             <div style={{
               width: 1, flex: 1, minHeight: 32,
@@ -188,16 +185,14 @@ function PipelineNode({ step, index, visible }) {
         {/* Content card */}
         <div style={{ flex: 1, paddingLeft: 16, paddingBottom: isLast ? 0 : 28 }}>
           <div style={{
-            padding: '14px 18px',
+            padding: '14px 18px', position: 'relative',
             background: isAuto ? 'rgba(250,204,21,0.04)' : 'rgba(255,255,255,0.03)',
             border: `1px ${isAuto ? 'solid' : 'dashed'} ${isAuto ? 'rgba(250,204,21,0.18)' : 'rgba(255,255,255,0.14)'}`,
-            borderRadius: 12,
-            marginTop: -2,
+            borderRadius: 12, marginTop: -2,
           }}>
             <div style={{
               fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
-              color: isAuto ? 'rgba(250,204,21,0.5)' : 'rgba(255,255,255,0.3)',
-              marginBottom: 5,
+              color: isAuto ? 'rgba(250,204,21,0.5)' : 'rgba(255,255,255,0.3)', marginBottom: 5,
             }}>
               {isAuto ? 'Agent' : 'You'}
             </div>
@@ -207,6 +202,25 @@ function PipelineNode({ step, index, visible }) {
             <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.38)', lineHeight: 1.65 }}>
               {step.detail}
             </div>
+            {/* Delete button */}
+            <button
+              onClick={() => onDelete(index)}
+              style={{
+                position: 'absolute', top: 10, right: 10,
+                width: 24, height: 24, borderRadius: 6,
+                background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)',
+                color: 'rgba(239,68,68,0.7)', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                opacity: hovered ? 1 : 0,
+                transition: 'opacity 0.15s, background 0.15s',
+                padding: 0,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.22)'; e.currentTarget.style.color = '#ef4444' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.12)'; e.currentTarget.style.color = 'rgba(239,68,68,0.7)' }}
+              title="Delete node"
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -249,14 +263,25 @@ function BuiltCard({ item, index }) {
   )
 }
 
+const EMPTY_FORM = { type: 'auto', title: '', detail: '' }
+
 export default function SwiftHireDetail({ onBack }) {
   const [heroVisible, setHeroVisible] = useState(false)
   const [pipelineRef, pipelineVisible] = useReveal(0.05)
+  const [pipeline, setPipeline] = useState(PIPELINE)
+  const [addForm, setAddForm] = useState(null)
 
   useEffect(() => {
     const t = setTimeout(() => setHeroVisible(true), 60)
     return () => clearTimeout(t)
   }, [])
+
+  const deleteNode = (i) => setPipeline(p => p.filter((_, idx) => idx !== i))
+  const submitAdd = () => {
+    if (!addForm.title.trim()) return
+    setPipeline(p => [...p, { type: addForm.type, title: addForm.title.trim(), detail: addForm.detail.trim() }])
+    setAddForm(null)
+  }
 
   return (
     <div style={{
@@ -420,10 +445,93 @@ export default function SwiftHireDetail({ onBack }) {
           </div>
 
           <div ref={pipelineRef}>
-            {PIPELINE.map((step, i) => (
-              <PipelineNode key={i} step={step} index={i} visible={pipelineVisible} />
+            {pipeline.map((step, i) => (
+              <PipelineNode key={i} step={step} index={i} total={pipeline.length} visible={pipelineVisible} onDelete={deleteNode} />
             ))}
           </div>
+
+          {/* Add node */}
+          {addForm ? (
+            <div style={{
+              marginTop: 12, padding: '18px 20px',
+              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 12,
+            }}>
+              {/* Type toggle */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+                {['auto', 'manual'].map(t => (
+                  <button key={t} onClick={() => setAddForm(f => ({ ...f, type: t }))} style={{
+                    display: 'flex', alignItems: 'center', gap: 7,
+                    padding: '7px 14px', borderRadius: 8, cursor: 'pointer',
+                    fontSize: 12, fontWeight: 600,
+                    background: addForm.type === t ? (t === 'auto' ? 'rgba(250,204,21,0.1)' : 'rgba(255,255,255,0.08)') : 'transparent',
+                    border: `1px solid ${addForm.type === t ? (t === 'auto' ? 'rgba(250,204,21,0.4)' : 'rgba(255,255,255,0.2)') : 'rgba(255,255,255,0.07)'}`,
+                    color: addForm.type === t ? (t === 'auto' ? YELLOW : '#f5f5f5') : 'rgba(255,255,255,0.35)',
+                    transition: 'all 0.15s',
+                  }}>
+                    {t === 'auto' ? <BotIcon size={14} color={addForm.type === 'auto' ? YELLOW : 'rgba(255,255,255,0.3)'} /> : <HumanIcon size={14} color={addForm.type === 'manual' ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)'} />}
+                    {t === 'auto' ? 'Agent' : 'You'}
+                  </button>
+                ))}
+              </div>
+              <input
+                autoFocus
+                placeholder="Step title"
+                value={addForm.title}
+                onChange={e => setAddForm(f => ({ ...f, title: e.target.value }))}
+                onKeyDown={e => e.key === 'Enter' && submitAdd()}
+                style={{
+                  width: '100%', boxSizing: 'border-box',
+                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8, padding: '9px 12px', marginBottom: 8,
+                  fontSize: 13.5, color: '#f5f5f5', outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+              />
+              <textarea
+                placeholder="Description (optional)"
+                value={addForm.detail}
+                onChange={e => setAddForm(f => ({ ...f, detail: e.target.value }))}
+                rows={2}
+                style={{
+                  width: '100%', boxSizing: 'border-box', resize: 'vertical',
+                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 8, padding: '9px 12px', marginBottom: 12,
+                  fontSize: 13, color: 'rgba(255,255,255,0.65)', outline: 'none',
+                  fontFamily: 'inherit', lineHeight: 1.5,
+                }}
+              />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={submitAdd} style={{
+                  padding: '8px 18px', borderRadius: 8, cursor: 'pointer',
+                  background: YELLOW, border: 'none', color: '#0a0a0a',
+                  fontSize: 12.5, fontWeight: 700,
+                }}>Add</button>
+                <button onClick={() => setAddForm(null)} style={{
+                  padding: '8px 18px', borderRadius: 8, cursor: 'pointer',
+                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.5)', fontSize: 12.5, fontWeight: 600,
+                }}>Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setAddForm({ ...EMPTY_FORM })}
+              style={{
+                marginTop: 12, width: '100%', padding: '11px',
+                background: 'rgba(255,255,255,0.03)', border: '1px dashed rgba(255,255,255,0.12)',
+                borderRadius: 10, cursor: 'pointer',
+                color: 'rgba(255,255,255,0.35)', fontSize: 12.5, fontWeight: 600,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+                transition: 'border-color 0.2s, color 0.2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `rgba(250,204,21,0.3)`; e.currentTarget.style.color = YELLOW }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.35)' }}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Add node
+            </button>
+          )}
         </Section>
 
         {/* Problem */}
