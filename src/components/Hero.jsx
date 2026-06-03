@@ -483,7 +483,7 @@ export default function Hero({ onNavigate }) {
 
         </div>
 
-        <ScrollIndicator />
+        {!isMobile && <ScrollIndicator />}
       </section>
 
     </>
