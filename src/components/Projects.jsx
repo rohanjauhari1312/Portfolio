@@ -8,7 +8,7 @@ const PROJECTS = [
     id: 'nourish',
     image: '/nourish.jpeg',
     link: 'https://nourish-agent.netlify.app/',
-    hasDetail: true,
+    hasDetail: 'nourish',
     name: 'Nourish Agent',
     tagline: 'Multi-agent AI Nutritionist',
     bullets: [
