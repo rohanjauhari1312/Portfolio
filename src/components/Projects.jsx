@@ -135,7 +135,8 @@ const PROJECTS = [
     image: '/5482333126245804d5657c.png',
     imageFit: 'contain',
     imagePad: '12px',
-    imageBg: '#1a5f5f',
+    imageBg: '#2a7a7a',
+    imageFilter: 'contrast(1.25) brightness(1.2)',
     link: 'https://bit.ly/42vYmLP',
     linkLabel: 'View Project',
     name: 'Automated CI/CD Pipeline',
@@ -237,6 +238,7 @@ function ProjectImage({ project }) {
             padding: project.imagePad || 0,
             boxSizing: 'border-box',
             background: project.imageBg || 'transparent',
+            filter: project.imageFilter || 'none',
           }}
         />
       ) : (
