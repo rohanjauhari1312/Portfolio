@@ -134,9 +134,10 @@ const PROJECTS = [
     id: 'cicd',
     image: '/5482333126245804d5657c.png',
     imageFit: 'contain',
-    imagePad: '10px',
+    imagePad: '0',
     imageBg: '#e8f4f4',
     imageFilter: 'none',
+    imageHeight: 220,
     link: 'https://bit.ly/42vYmLP',
     linkLabel: 'View Project',
     name: 'Automated CI/CD Pipeline',
@@ -221,7 +222,7 @@ function ProjectImage({ project }) {
 
   return (
     <div style={{
-      width: '100%', height: 200,
+      width: '100%', height: project.imageHeight || 200,
       background: project.gradient,
       borderRadius: '12px 12px 0 0',
       position: 'relative', overflow: 'hidden',
