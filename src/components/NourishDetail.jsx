@@ -6,13 +6,21 @@ const GREEN_BG     = 'rgba(74,222,128,0.09)'
 const GREEN_BORDER = 'rgba(74,222,128,0.22)'
 
 const FEATURES = [
+  { title: 'Stress prediction',         what: 'Detects stress from HRV and sleep quality via ML, adjusts meal timing, macros, and hydration automatically', why: 'High-stress days need different fuel. Most apps ignore this entirely.' },
   { title: 'Full nutrient tracking',    what: '25+ nutrients daily, not just calories',              why: 'Deficiencies are invisible until they\'re not' },
   { title: 'Food preference engine',    what: 'Learns what you like through conversation',           why: 'Suggestions you\'ll actually follow' },
-  { title: 'Wearable integration',      what: 'Reads sleep, heart rate, steps from Fitbit',         why: 'Adjusts targets based on how you actually lived today' },
+  { title: 'Wearable integration',      what: 'Reads sleep, HRV, heart rate, steps from Fitbit',    why: 'Adjusts targets based on how you actually lived today' },
   { title: 'Agentic proactivity',       what: 'Reaches out before you fall short',                  why: 'Catches deficits before they become symptoms' },
-  { title: 'Plain language logging',    what: '"Had dal and rice", it figures out the rest',       why: 'Zero friction means actually using it' },
-  { title: 'Workout adaptation',        what: 'Recalculates targets when you train or skip',        why: 'Rest day and gym day targets are different' },
-  { title: 'Passive signal detection',  what: 'Picks up cues from casual conversation',             why: 'No need to think about what to log' },
+  { title: 'Plain language logging',    what: '"Had dal and rice", it figures out the rest',         why: 'Zero friction means actually using it' },
+  { title: 'Workout adaptation',        what: 'Recalculates targets when you train or skip',         why: 'Rest day and gym day targets are different' },
+  { title: 'Passive signal detection',  what: 'Picks up cues from casual conversation',              why: 'No need to think about what to log' },
+]
+
+const USP = [
+  { label: 'MyFitnessPal',     them: 'Logs calories. Never tells you what to eat next.',        us: 'Tells you exactly what to eat, from foods you like, right now.' },
+  { label: '$200 nutritionist',them: 'One session, a static PDF, no follow-through.',           us: 'On-call 24/7. Adjusts every time your data changes.' },
+  { label: 'Generic AI chat',  them: 'No memory. No wearable data. No proactive outreach.',     us: 'Knows your history, reads your body, checks in on you.' },
+  { label: 'Other health apps',them: 'Ignore stress. Ignore sleep quality. Track steps.',       us: 'Predicts stress from HRV. Changes your plan before you feel it.' },
 ]
 
 const LIFECYCLE = [
@@ -167,7 +175,7 @@ export default function NourishDetail({ onBack }) {
         </blockquote>
 
         <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, maxWidth: 680, margin: '0 0 40px' }}>
-          A personal AI nutritionist that actually knows you. Not a generic calorie counter, a system that tracks everything your body needs, learns what you like, reads your wearable data, and tells you exactly what to eat right now, in plain conversation.
+          A personal AI nutritionist that actually knows you. It tracks 25+ nutrients, reads your wearable data, predicts stress from HRV and sleep patterns, and tells you exactly what to eat right now — in plain conversation, proactively, before you even ask.
         </p>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
@@ -211,6 +219,36 @@ export default function NourishDetail({ onBack }) {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: 0, maxWidth: 680 }}>
             The specific gap: a system that knows your body, your goals, your food preferences, and what you've done today, and tells you what to eat right now, from foods you actually like.
           </p>
+        </Section>
+
+        {/* USP */}
+        <Section label="Why it's different">
+          <TypedHeading text="Nothing else does this." speed={28} cursorColor={GREEN} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 32px', color: '#f5f5f5' }} />
+          <div style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div style={{
+              display: 'grid', gridTemplateColumns: '160px 1fr 1fr',
+              background: 'rgba(255,255,255,0.03)',
+              borderBottom: '1px solid rgba(255,255,255,0.07)',
+              padding: '10px 20px',
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}></div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Them</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: GREEN, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Nourish</div>
+            </div>
+            {USP.map((row, i) => (
+              <div key={row.label} style={{
+                display: 'grid', gridTemplateColumns: '160px 1fr 1fr',
+                padding: '16px 20px', gap: 16,
+                borderBottom: i < USP.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
+                alignItems: 'start',
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.35)' }}>{row.label}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.38)', lineHeight: 1.55 }}>{row.them}</div>
+                <div style={{ fontSize: 13, color: GREEN, lineHeight: 1.55, fontWeight: 500 }}>{row.us}</div>
+              </div>
+            ))}
+          </div>
         </Section>
 
         {/* What It Does */}
