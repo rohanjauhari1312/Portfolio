@@ -135,7 +135,7 @@ const PROJECTS = [
     image: '/5482333126245804d5657c.png',
     imageFit: 'contain',
     imagePad: '12px',
-    imageBg: '#0d2e2e',
+    imageBg: '#1a5f5f',
     link: 'https://bit.ly/42vYmLP',
     linkLabel: 'View Project',
     name: 'Automated CI/CD Pipeline',
