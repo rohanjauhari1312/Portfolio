@@ -14,8 +14,10 @@ import ChatBot from './components/ChatBot'
 import DotGrid from './components/DotGrid'
 import NourishDetail from './components/NourishDetail'
 import SwiftHireDetail from './components/SwiftHireDetail'
+import FramerDemo from './components/FramerDemo'
 
-const DETAIL_PATHS = ['nourish', 'swifthire']
+const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo']
+const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'contact']
 
 export default function App() {
   const isMobile = useIsMobile()
@@ -23,6 +25,21 @@ export default function App() {
     const p = window.location.pathname.replace('/', '')
     return DETAIL_PATHS.includes(p) ? p : 'home'
   })
+
+  useEffect(() => {
+    const p = window.location.pathname.replace('/', '')
+    if (SECTION_PATHS.includes(p)) {
+      const tryScroll = (attempts = 0) => {
+        const el = document.getElementById(p)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+        } else if (attempts < 10) {
+          setTimeout(() => tryScroll(attempts + 1), 150)
+        }
+      }
+      setTimeout(() => tryScroll(), 300)
+    }
+  }, [])
 
   useEffect(() => {
     const onPop = (e) => {
@@ -86,7 +103,7 @@ export default function App() {
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
       <div style={{
-        display: (view === 'nourish' || view === 'swifthire') ? 'none' : 'block',
+        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo') ? 'none' : 'block',
         minHeight: '100vh',
         background: `
           radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
@@ -110,6 +127,7 @@ export default function App() {
 
       {view === 'nourish' && <NourishDetail onBack={navigateBack} />}
       {view === 'swifthire' && <SwiftHireDetail onBack={navigateBack} />}
+      {view === 'framer-demo' && <FramerDemo onBack={navigateBack} />}
     </>
   )
 }

@@ -6,6 +6,13 @@
     { "source": "/ragproject", "destination": "https://supportiq-oywb.onrender.com/" },
     { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" },
     { "source": "/swifthire", "destination": "/index.html" },
-    { "source": "/nourish", "destination": "/index.html" }
+    { "source": "/nourish", "destination": "/index.html" },
+    { "source": "/framer-demo", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/skills", "destination": "/index.html" },
+    { "source": "/education", "destination": "/index.html" },
+    { "source": "/experience", "destination": "/index.html" },
+    { "source": "/projects", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
   ]
 }
