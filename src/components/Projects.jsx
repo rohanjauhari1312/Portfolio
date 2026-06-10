@@ -133,6 +133,9 @@ const PROJECTS = [
   {
     id: 'cicd',
     image: '/5482333126245804d5657c.png',
+    imageFit: 'contain',
+    imagePad: '12px',
+    imageBg: '#0d2e2e',
     link: 'https://bit.ly/42vYmLP',
     linkLabel: 'View Project',
     name: 'Automated CI/CD Pipeline',
@@ -157,8 +160,8 @@ const PROJECTS = [
   {
     id: 'musicmate',
     image: '/music mate.jpeg',
-    link: 'http://bit.ly/4ur4fH9',
-    linkLabel: 'View Prototype',
+    link: 'https://www.figma.com/design/ZwDWRu65H6DPSlv1RFEj2A/Final-Project?node-id=0-1&t=DihlCJnJOOP7SwAQ-1',
+    linkLabel: 'View in Figma',
     name: 'Music Mate',
     tagline: 'AI-Driven Music Learning Platform · Product Design',
     bullets: [
@@ -228,7 +231,13 @@ function ProjectImage({ project }) {
           src={project.image}
           alt={project.name}
           onError={() => setImgFailed(true)}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{
+            width: '100%', height: '100%', display: 'block',
+            objectFit: project.imageFit || 'cover',
+            padding: project.imagePad || 0,
+            boxSizing: 'border-box',
+            background: project.imageBg || 'transparent',
+          }}
         />
       ) : (
         <>
