@@ -304,22 +304,16 @@ export default function Hero({ onNavigate }) {
                 </p>
               </FadeIn>
 
-              {/* 5. Traits */}
+              {/* 5. Keycaps video */}
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 4 }}>
-                  {TRAITS.map((t) => (
-                    <div key={t.label} style={{
-                      display: 'flex', alignItems: 'center', gap: 12,
-                      padding: '9px 14px',
-                      background: 'rgba(255,255,255,0.03)',
-                      borderLeft: `3px solid ${t.color}`,
-                      borderRadius: '0 6px 6px 0',
-                    }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color, flexShrink: 0 }}>{t.label}</span>
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', borderLeft: '1px solid rgba(255,255,255,0.08)', paddingLeft: 12 }}>{t.sub}</span>
-                    </div>
-                  ))}
-                </div>
+                <video
+                  src="/keycaps-bounce.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{ width: '100%', borderRadius: 16, display: 'block', marginTop: 4 }}
+                />
               </FadeIn>
 
             </div>
@@ -460,20 +454,20 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 40 }}>
-                  {TRAITS.map(t => (
-                    <div key={t.label} style={{
-                      display: 'flex', alignItems: 'center', gap: 14,
-                      padding: '10px 16px',
-                      background: 'rgba(255,255,255,0.03)',
-                      borderLeft: `3px solid ${t.color}`,
-                      borderRadius: '0 6px 6px 0',
-                    }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: t.color, flexShrink: 0 }}>{t.label}</span>
-                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.28)', borderLeft: '1px solid rgba(255,255,255,0.08)', paddingLeft: 14 }}>{t.sub}</span>
-                    </div>
-                  ))}
-                </div>
+                <video
+                  src="/keycaps-bounce.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    marginTop: 36,
+                    width: '100%',
+                    maxWidth: 420,
+                    borderRadius: 20,
+                    display: 'block',
+                  }}
+                />
               </FadeIn>
 
             </div>
