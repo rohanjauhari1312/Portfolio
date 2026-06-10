@@ -14,6 +14,7 @@ const PROJECTS = [
     bullets: [
       'Orchestrated **multiple specialized agents** (meal planner, grocery optimizer, health analyzer) coordinating in real time',
       'Synced **live wearable data** (activity, sleep, heart rate) to dynamically adapt nutrition recommendations',
+      'Predicts **stress levels** from HRV and sleep patterns via a lightweight ML model, then adjusts meal timing, macros, and hydration targets accordingly',
       '**Personalization loop** updates diet plans without manual re-entry as user lifestyle data changes',
     ],
     gradient: 'linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%)',
