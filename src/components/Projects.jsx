@@ -136,7 +136,7 @@ const PROJECTS = [
     imageFit: 'contain',
     imagePad: '0',
     imageBg: '#e8f4f4',
-    imageFilter: 'none',
+    imageFilter: 'contrast(1.8) saturate(1.1)',
     imageHeight: 220,
     link: 'https://bit.ly/42vYmLP',
     linkLabel: 'View Project',
