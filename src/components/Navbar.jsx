@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
 
 const LINKS = [
-  { label: 'About',    href: '#about' },
-  { label: 'Skills',   href: '#skills' },
-  { label: 'Work',     href: '#work' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact',  href: '#contact' },
+  { label: 'About',    href: '#about',    path: '/about' },
+  { label: 'Skills',   href: '#skills',   path: '/skills' },
+  { label: 'Work',     href: '#work',     path: '/experience' },
+  { label: 'Projects', href: '#projects', path: '/projects' },
+  { label: 'Contact',  href: '#contact',  path: '/contact' },
 ]
 
 export default function Navbar() {
@@ -35,7 +35,8 @@ export default function Navbar() {
     if (!isMobile) setMenuOpen(false)
   }, [isMobile])
 
-  const handleNav = (href) => {
+  const handleNav = (href, path) => {
+    history.replaceState(null, '', path)
     const el = document.querySelector(href)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
     setMenuOpen(false)
@@ -95,7 +96,7 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={e => { e.preventDefault(); handleNav(link.href) }}
+                  onClick={e => { e.preventDefault(); handleNav(link.href, link.path) }}
                   style={{
                     color: isActive ? '#facc15' : 'rgba(255,255,255,0.5)',
                     fontSize: 13, fontWeight: isActive ? 600 : 500,
@@ -140,7 +141,7 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                onClick={e => { e.preventDefault(); handleNav(link.href) }}
+                onClick={e => { e.preventDefault(); handleNav(link.href, link.path) }}
                 style={{
                   padding: '16px 24px',
                   color: isActive ? '#facc15' : 'rgba(255,255,255,0.65)',
