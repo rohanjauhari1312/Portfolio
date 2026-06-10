@@ -4,6 +4,47 @@ import NeuralCard from './NeuralCard'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
 
+function KeycapsBounce({ size = 280 }) {
+  const ref = useRef(null)
+  const [glow, setGlow] = useState({ x: 0, y: 0, visible: false })
+
+  const onMove = (e) => {
+    const r = ref.current.getBoundingClientRect()
+    setGlow({ x: e.clientX - r.left, y: e.clientY - r.top, visible: true })
+  }
+  const onLeave = () => setGlow(g => ({ ...g, visible: false }))
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{
+        position: 'relative',
+        width: size, height: size,
+        animation: 'keycapBounce 3.5s ease-in-out infinite',
+        flexShrink: 0,
+      }}
+    >
+      <img
+        src="/keycaps-hero.png"
+        alt="AI UX Data keycaps"
+        style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+      />
+      <div style={{
+        position: 'absolute', inset: 0,
+        pointerEvents: 'none',
+        borderRadius: 16,
+        background: glow.visible
+          ? `radial-gradient(circle 130px at ${glow.x}px ${glow.y}px, rgba(251,146,60,0.45), transparent 70%)`
+          : 'transparent',
+        mixBlendMode: 'screen',
+        transition: 'background 0.1s ease',
+      }} />
+    </div>
+  )
+}
+
 const NAME = 'Rohan Jauhari'
 
 const ABOUT = 'I build products that make complex things feel simple, automating workflows for enterprise teams, turning raw data into decisions, and shipping AI into the hands of everyday users.'
@@ -206,6 +247,10 @@ export default function Hero({ onNavigate }) {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-4px); }
         }
+        @keyframes keycapBounce {
+          0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+          50% { transform: translateY(-16px) rotate(1.5deg); }
+        }
       `}</style>
 
       <section
@@ -290,10 +335,10 @@ export default function Hero({ onNavigate }) {
                 </div>
               </FadeIn>
 
-              {/* 3. NN card (no replay button on mobile) */}
+              {/* 3. Keycaps */}
               <FadeIn delay={600}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} />
+                  <KeycapsBounce size={200} />
                 </div>
               </FadeIn>
 
@@ -433,7 +478,7 @@ export default function Hero({ onNavigate }) {
                   </div>
                 </div>
 
-                <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} onReplay={handleNeuralReplay} />
+                <KeycapsBounce size={260} />
               </div>
             </FadeIn>
             </div>
