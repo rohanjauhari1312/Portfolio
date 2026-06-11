@@ -284,7 +284,7 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         background: 'rgba(250,204,21,0.03)',
         display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0,
       }}>
-        <img src="/emoji.png" alt="" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)' }} />
+        <img src="/emoji.png" alt="" style={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)' }} />
         <div>
           <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot by Rohan</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
