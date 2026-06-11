@@ -28,6 +28,30 @@ export default function App() {
   })
   const didNavigateInApp = useRef(false)
 
+  // Preserve scroll position across a full reload. The browser's default
+  // restore fires before async content (images/fonts/reveals) settles, so it
+  // lands short and the page then grows past it. We re-apply it after layout.
+  useEffect(() => {
+    if (!('scrollRestoration' in history)) return
+    const KEY = 'home_scroll_y'
+    history.scrollRestoration = 'manual'
+
+    let timer
+    if (view === 'home') {
+      const saved = parseInt(sessionStorage.getItem(KEY) || '0', 10)
+      if (saved > 0) {
+        const restore = () => window.scrollTo(0, saved)
+        requestAnimationFrame(() => requestAnimationFrame(restore))
+        window.addEventListener('load', restore, { once: true })
+        timer = setTimeout(restore, 400)
+      }
+    }
+
+    const save = () => { if (window.location.pathname === '/') sessionStorage.setItem(KEY, String(window.scrollY)) }
+    window.addEventListener('pagehide', save)
+    return () => { window.removeEventListener('pagehide', save); clearTimeout(timer) }
+  }, [])
+
   useEffect(() => {
     const p = window.location.pathname.replace('/', '')
     if (SECTION_PATHS.includes(p)) {
