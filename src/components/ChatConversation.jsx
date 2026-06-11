@@ -79,8 +79,20 @@ const SpeechRecognition = typeof window !== 'undefined'
   ? (window.SpeechRecognition || window.webkitSpeechRecognition)
   : null
 
+const STORE_KEY = 'rohbot_messages'
+
+function loadMessages() {
+  try {
+    const raw = sessionStorage.getItem(STORE_KEY)
+    if (!raw) return []
+    return JSON.parse(raw).map(m => ({ ...m, streaming: false }))
+  } catch {
+    return []
+  }
+}
+
 export default function ChatConversation({ onClose, fullscreen = false, autoFocus = true }) {
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState(loadMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [voiceOn, setVoiceOn] = useState(true)
@@ -102,6 +114,16 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  // Persist conversation for the session so it survives close/reopen + navigation.
+  useEffect(() => {
+    if (messages.some(m => m.streaming)) return
+    try {
+      sessionStorage.setItem(STORE_KEY, JSON.stringify(
+        messages.map(({ role, content }) => ({ role, content }))
+      ))
+    } catch {}
   }, [messages])
 
   // Stop any audio/recognition when unmounting.
@@ -423,6 +445,7 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={onKey}
+              onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 350)}
               placeholder="Ask something..."
               rows={1}
               style={{
