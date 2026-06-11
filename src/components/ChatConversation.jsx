@@ -82,10 +82,6 @@ function Message({ msg }) {
 // Self-contained chat: header + messages + input + streaming logic.
 // `fullscreen` bumps the input font-size to 16px to stop iOS auto-zoom and
 // adds safe-area padding for the standalone /rohbot screen.
-const SpeechRecognition = typeof window !== 'undefined'
-  ? (window.SpeechRecognition || window.webkitSpeechRecognition)
-  : null
-
 const STORE_KEY = 'rohbot_messages'
 
 function loadMessages() {
@@ -103,14 +99,11 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [voiceOn, setVoiceOn] = useState(false) // false = Rohan writes (read), true = Rohan speaks (listen)
-  const [listening, setListening] = useState(false)
   const [speaking, setSpeaking] = useState(false)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const audioRef = useRef(null)
-  const recogRef = useRef(null)
   const voiceOnRef = useRef(false)
-  const sendRef = useRef(null)
 
   useEffect(() => { voiceOnRef.current = voiceOn }, [voiceOn])
 
@@ -132,10 +125,9 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
     } catch {}
   }, [messages])
 
-  // Stop any audio/recognition when unmounting.
+  // Stop any audio when unmounting.
   useEffect(() => () => {
     audioRef.current?.pause()
-    recogRef.current?.abort?.()
   }, [])
 
   const stopSpeaking = useCallback(() => {
@@ -169,38 +161,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
       setSpeaking(false)
     }
   }, [stopSpeaking])
-
-  const toggleMic = useCallback(() => {
-    if (!SpeechRecognition) return
-    if (listening) {
-      recogRef.current?.stop()
-      return
-    }
-    stopSpeaking()
-    const recog = new SpeechRecognition()
-    recog.lang = 'en-US'
-    recog.interimResults = true
-    recog.continuous = false
-    let finalText = ''
-    recog.onresult = (e) => {
-      let interim = ''
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const t = e.results[i][0].transcript
-        if (e.results[i].isFinal) finalText += t
-        else interim += t
-      }
-      setInput((finalText + interim).trim())
-    }
-    recog.onend = () => {
-      setListening(false)
-      const text = finalText.trim()
-      if (text) { setInput(''); sendRef.current?.(text) }
-    }
-    recog.onerror = () => setListening(false)
-    recogRef.current = recog
-    setListening(true)
-    recog.start()
-  }, [listening, stopSpeaking])
 
   const send = useCallback(async (text) => {
     const content = (text || input).trim()
@@ -269,8 +229,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
     setLoading(false)
     if (voiceOnRef.current && finalText.trim()) speak(finalText)
   }, [input, messages, loading, speak])
-
-  useEffect(() => { sendRef.current = send }, [send])
 
   const onKey = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
@@ -414,7 +372,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         </div>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
-          <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,0.5)} 50%{box-shadow:0 0 0 7px rgba(250,204,21,0)} }`}</style>
           <textarea
             ref={inputRef}
             value={input}
@@ -432,25 +389,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
               lineHeight: 1.5, maxHeight: 100, overflowY: 'auto',
             }}
           />
-          {SpeechRecognition && (
-            <button
-              onClick={toggleMic}
-              aria-label={listening ? 'Stop listening' : 'Speak your question'}
-              style={{
-                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                background: listening ? '#facc15' : 'rgba(255,255,255,0.06)',
-                border: listening ? 'none' : '1px solid rgba(255,255,255,0.1)',
-                cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'background 0.2s',
-                animation: listening ? 'micPulse 1.2s ease-in-out infinite' : 'none',
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : 'rgba(255,255,255,0.6)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
-              </svg>
-            </button>
-          )}
           <button
             onClick={() => (speaking ? stopSpeaking() : send())}
             disabled={!speaking && (!input.trim() || loading)}
