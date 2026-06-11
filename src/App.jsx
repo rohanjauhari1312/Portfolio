@@ -26,6 +26,7 @@ export default function App() {
     const p = window.location.pathname.replace('/', '')
     return DETAIL_PATHS.includes(p) ? p : 'home'
   })
+  const didNavigateInApp = useRef(false)
 
   useEffect(() => {
     const p = window.location.pathname.replace('/', '')
@@ -64,12 +65,21 @@ export default function App() {
     // Save current scroll into the existing history entry before pushing new one
     history.replaceState({ scrollY: window.scrollY }, '', '/')
     history.pushState(null, '', `/${page}`)
+    didNavigateInApp.current = true
     setView(page)
     window.scrollTo(0, 0)
   }
 
   const navigateBack = () => {
-    history.back()
+    // If we got here via an in-app navigation, go back to restore scroll.
+    // On a direct/shared load there's no in-app history, so go home cleanly.
+    if (didNavigateInApp.current) {
+      history.back()
+    } else {
+      history.replaceState(null, '', '/')
+      setView('home')
+      window.scrollTo(0, 0)
+    }
   }
 
   return (
@@ -104,7 +114,7 @@ export default function App() {
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
       <div style={{
-        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo') ? 'none' : 'block',
+        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo' || view === 'rohbot') ? 'none' : 'block',
         minHeight: '100vh',
         background: `
           radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
