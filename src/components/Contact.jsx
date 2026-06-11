@@ -298,14 +298,14 @@ export default function Contact() {
       <div style={{
         borderTop: '1px solid rgba(255,255,255,0.1)',
         background: 'rgba(255,255,255,0.03)',
-        padding: isMobile ? '20px 24px' : '28px 64px',
+        padding: isMobile ? '20px 24px calc(36px + env(safe-area-inset-bottom))' : '28px 64px',
         display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
         flexWrap: 'wrap', gap: 20,
       }}>
         <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.02em', fontWeight: 500 }}>
           © 2026 Rohan Jauhari. All rights reserved.
         </span>
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           Built with
           <img src="/claude code.png" alt="Claude Code" style={{ height: 56, objectFit: 'contain', display: 'block' }} />
           <img src="/11labs.png" alt="ElevenLabs" style={{ height: 40, objectFit: 'contain', display: 'block' }} />
