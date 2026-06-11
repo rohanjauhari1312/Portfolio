@@ -39,7 +39,7 @@ WORK AUTHORIZATION:
 
 JOB SEARCH:
 - Seeking FULL-TIME roles only (not internships)
-- Open to: Product Manager, Product Analyst, Product Operations roles
+- Open to: Product Manager, Product Analyst, Product Operations, Strategy, and Business roles
 - Industries of interest: AI, data, SaaS, B2B software
 - Salary expectation: $100k–$120k
 - Location: Open to anywhere in the US — remote, hybrid, or onsite all work
