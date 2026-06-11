@@ -142,13 +142,16 @@ function EmailCopy() {
 
 export default function Contact() {
   const [visible, setVisible] = useState(false)
+  const [instant, setInstant] = useState(false)
   const ref = useRef(null)
   const isMobile = useIsMobile()
 
   useEffect(() => {
-    // Reveal if the section is already at/above the viewport on load (e.g. a
-    // refresh while scrolled to the bottom), otherwise reveal on scroll-in.
+    // If the section is already at/above the viewport on load (e.g. a refresh
+    // while scrolled to the bottom), show it immediately with no animation so
+    // it doesn't jump. Otherwise animate it in on scroll.
     if (ref.current && ref.current.getBoundingClientRect().top < window.innerHeight) {
+      setInstant(true)
       setVisible(true)
       return
     }
@@ -163,7 +166,7 @@ export default function Contact() {
   const fade = (delay = 0) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? 'translateY(0)' : 'translateY(28px)',
-    transition: `opacity 0.7s ease ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+    transition: instant ? 'none' : `opacity 0.7s ease ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
   })
 
   return (
