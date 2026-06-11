@@ -12,40 +12,96 @@
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [240, 300]
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "version": 2 },
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.body.type }}",
+              "rightValue": "resume",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "if-type",
+      "name": "Is resume?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://rohanjauhari.com/resume.pdf",
+        "options": { "response": { "response": { "responseFormat": "file", "outputPropertyName": "data" } } }
+      },
+      "id": "http-resume",
+      "name": "Download resume",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $('Webhook').item.json.body.email }}",
+        "subject": "Rohan Jauhari Resume",
+        "emailType": "text",
+        "message": "Hi, great talking with you. My resume is attached.\n\nBest,\nRohan Jauhari",
+        "options": { "attachmentsUi": { "attachmentsBinary": [ { "property": "data" } ] } }
+      },
+      "id": "gmail-resume",
+      "name": "Gmail (resume)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [920, 200]
     },
     {
       "parameters": {
         "resource": "message",
         "operation": "send",
         "sendTo": "={{ $json.body.email }}",
-        "subject": "={{ $json.body.type === 'resume' ? 'Rohan Jauhari Resume' : 'Your chat with Rohan (RohBot)' }}",
+        "subject": "Your chat with Rohan (RohBot)",
         "emailType": "text",
-        "message": "={{ $json.body.type === 'resume' ? 'Hi, great talking with you. Here is my resume: https://rohanjauhari.com/resume.pdf\\n\\nBest,\\nRohan Jauhari' : 'Hi, here is the transcript of our conversation:\\n\\n' + ($json.body.transcript || '') + '\\n\\nBest,\\nRohan Jauhari' }}",
+        "message": "=Hi, here is the transcript of our conversation:\n\n{{ $json.body.transcript || '' }}\n\nBest,\nRohan Jauhari",
         "options": {}
       },
-      "id": "gmail-send",
-      "name": "Gmail",
+      "id": "gmail-transcript",
+      "name": "Gmail (transcript)",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
-      "position": [560, 300]
+      "position": [680, 420]
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ { \"status\": \"sent\", \"email\": $json.body.email } }}",
+        "respondWith": "text",
+        "responseBody": "sent",
         "options": {}
       },
       "id": "respond-send-email",
       "name": "Respond to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [880, 300]
+      "position": [1180, 300]
     }
   ],
   "connections": {
-    "Webhook": { "main": [[{ "node": "Gmail", "type": "main", "index": 0 }]] },
-    "Gmail": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
+    "Webhook": { "main": [[{ "node": "Is resume?", "type": "main", "index": 0 }]] },
+    "Is resume?": {
+      "main": [
+        [{ "node": "Download resume", "type": "main", "index": 0 }],
+        [{ "node": "Gmail (transcript)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Download resume": { "main": [[{ "node": "Gmail (resume)", "type": "main", "index": 0 }]] },
+    "Gmail (resume)": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] },
+    "Gmail (transcript)": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
   },
   "settings": { "executionOrder": "v1" }
 }
