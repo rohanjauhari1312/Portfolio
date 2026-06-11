@@ -8,6 +8,13 @@ const NAME = 'Rohan Jauhari'
 
 const ABOUT = 'I build products that make complex things feel simple, automating workflows for enterprise teams, turning raw data into decisions, and shipping AI into the hands of everyday users.'
 
+const TRAITS = [
+  { label: '4+ Years in Product', color: '#facc15' },
+  { label: 'Agentic AI',          color: '#facc15' },
+  { label: 'Data-Driven',         color: '#fb923c' },
+  { label: 'User Obsessed',       color: '#fb923c' },
+]
+
 function AnimatedName({ name, onTyped, fast, center }) {
   const [count, setCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
@@ -297,6 +304,23 @@ export default function Hero({ onNavigate }) {
                 </p>
               </FadeIn>
 
+              {/* 5. Traits */}
+              <FadeIn delay={900}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 4 }}>
+                  {TRAITS.map((t) => (
+                    <div key={t.label} style={{
+                      display: 'flex', alignItems: 'center',
+                      padding: '9px 14px',
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${t.color}`,
+                      borderRadius: '0 6px 6px 0',
+                    }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color }}>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </FadeIn>
+
             </div>
           ) : (
           <div
@@ -432,6 +456,22 @@ export default function Hero({ onNavigate }) {
                 <p style={{ color: 'rgba(255,255,255,0.52)', fontSize: isMobile ? 15 : 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 0 }}>
                   {ABOUT}
                 </p>
+              </FadeIn>
+
+              <FadeIn delay={900}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 40 }}>
+                  {TRAITS.map(t => (
+                    <div key={t.label} style={{
+                      display: 'flex', alignItems: 'center',
+                      padding: '10px 16px',
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${t.color}`,
+                      borderRadius: '0 6px 6px 0',
+                    }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: t.color }}>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
               </FadeIn>
 
             </div>
