@@ -1,0 +1,51 @@
+{
+  "name": "RohBot — send_email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rohbot-send-email",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-send-email",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "={{ $json.body.type === 'resume' ? 'Rohan Jauhari Resume' : 'Your chat with Rohan (RohBot)' }}",
+        "emailType": "text",
+        "message": "={{ $json.body.type === 'resume' ? 'Hi, great talking with you. Here is my resume: https://rohanjauhari.com/resume.pdf\\n\\nBest,\\nRohan Jauhari' : 'Hi, here is the transcript of our conversation:\\n\\n' + ($json.body.transcript || '') + '\\n\\nBest,\\nRohan Jauhari' }}",
+        "options": {}
+      },
+      "id": "gmail-send",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [560, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"status\": \"sent\", \"email\": $json.body.email } }}",
+        "options": {}
+      },
+      "id": "respond-send-email",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [880, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Gmail", "type": "main", "index": 0 }]] },
+    "Gmail": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}
