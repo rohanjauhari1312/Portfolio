@@ -59,6 +59,40 @@ function isAskingForSecret(text) {
   return t.includes('secret') || t.includes('easter egg')
 }
 
+// In-memory sliding-window rate limit, keyed by IP. Best-effort per warm
+// serverless instance — blunts single-source spam without external infra.
+const WINDOW_MS = 60_000
+const MAX_PER_WINDOW = 12
+const BURST_WINDOW_MS = 3_600_000
+const MAX_PER_HOUR = 80
+const hits = new Map()
+
+function getIp(req) {
+  const fwd = req.headers['x-forwarded-for']
+  if (typeof fwd === 'string' && fwd.length) return fwd.split(',')[0].trim()
+  return req.socket?.remoteAddress || 'unknown'
+}
+
+function rateLimited(ip) {
+  const now = Date.now()
+  const arr = (hits.get(ip) || []).filter(t => now - t < BURST_WINDOW_MS)
+  arr.push(now)
+  hits.set(ip, arr)
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) {
+      if (!v.some(t => now - t < BURST_WINDOW_MS)) hits.delete(k)
+    }
+  }
+  const inWindow = arr.filter(t => now - t < WINDOW_MS).length
+  return inWindow > MAX_PER_WINDOW || arr.length > MAX_PER_HOUR
+}
+
+function sseError(res, text) {
+  res.write(`data: ${JSON.stringify({ error: text })}\n\n`)
+  res.write('data: [DONE]\n\n')
+  res.end()
+}
+
 async function streamString(res, text) {
   const words = text.split(' ')
   for (const word of words) {
@@ -75,10 +109,21 @@ export default async function handler(req, res) {
   const { messages } = req.body
   if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: 'Invalid messages' })
 
+  // Input caps — cheap abuse defense independent of instance count.
+  if (messages.length > 30) return res.status(400).json({ error: 'Too many messages' })
+  if (messages.some(m => typeof m.content !== 'string' || m.content.length > 2000))
+    return res.status(400).json({ error: 'Message too long' })
+  if (messages.reduce((s, m) => s + m.content.length, 0) > 12000)
+    return res.status(400).json({ error: 'Conversation too long' })
+
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
   res.setHeader('Access-Control-Allow-Origin', '*')
+
+  if (rateLimited(getIp(req))) {
+    return sseError(res, 'You are sending messages too quickly. Please wait a moment and try again.')
+  }
 
   const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')
   if (lastUserMsg && isAskingForSecret(lastUserMsg.content)) {
