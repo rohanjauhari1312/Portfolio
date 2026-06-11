@@ -306,11 +306,11 @@ export default function Hero({ onNavigate }) {
 
               {/* 5. Traits */}
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 4 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
                   {TRAITS.map((t) => (
                     <div key={t.label} style={{
-                      display: 'flex', alignItems: 'center',
-                      padding: '9px 14px',
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '8px 14px',
                       background: 'rgba(255,255,255,0.03)',
                       borderLeft: `3px solid ${t.color}`,
                       borderRadius: '0 6px 6px 0',
@@ -459,11 +459,11 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginTop: 40 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 40 }}>
                   {TRAITS.map(t => (
                     <div key={t.label} style={{
-                      display: 'flex', alignItems: 'center',
-                      padding: '10px 16px',
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '9px 16px',
                       background: 'rgba(255,255,255,0.03)',
                       borderLeft: `3px solid ${t.color}`,
                       borderRadius: '0 6px 6px 0',
