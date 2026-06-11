@@ -34,6 +34,7 @@
     },
     {
       "parameters": {
+        "mode": "runOnceForAllItems",
         "jsCode": "const zone = 'America/New_York';\nconst slotMin = 30;\nconst dayStart = 10;\nconst dayEnd = 17;\nconst maxSuggestions = 4;\n\nconst busy = items\n  .map(i => i.json)\n  .filter(e => e && e.start && (e.start.dateTime || e.start.date))\n  .map(e => ({\n    start: DateTime.fromISO(e.start.dateTime || e.start.date, { zone }),\n    end: DateTime.fromISO((e.end && (e.end.dateTime || e.end.date)) || e.start.dateTime || e.start.date, { zone }),\n  }));\n\nconst now = DateTime.now().setZone(zone);\nconst day0 = now.startOf('day');\nconst slots = [];\n\nfor (let d = 0; d < 14 && slots.length < maxSuggestions; d++) {\n  const cur = day0.plus({ days: d });\n  if (cur.weekday > 5) continue;\n  let found = null;\n  for (let h = dayStart; h < dayEnd && !found; h++) {\n    for (let m = 0; m < 60 && !found; m += slotMin) {\n      const s = cur.set({ hour: h, minute: m, second: 0, millisecond: 0 });\n      const e = s.plus({ minutes: slotMin });\n      if (s <= now) continue;\n      const overlap = busy.some(b => s < b.end && e > b.start);\n      if (!overlap) found = { iso: s.toISO(), label: s.toFormat(\"cccc LLLL d 'at' h:mm a\") };\n    }\n  }\n  if (found) slots.push(found);\n}\n\nreturn [{ json: { slots } }];"
       },
       "id": "code-slots",
