@@ -30,7 +30,8 @@
       "name": "Google Calendar",
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
-      "position": [540, 300]
+      "position": [540, 300],
+      "alwaysOutputData": true
     },
     {
       "parameters": {
