@@ -261,8 +261,8 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           50%      { text-shadow: 0 0 14px rgba(250,204,21,0.9), 0 0 28px rgba(250,204,21,0.45); }
         }
         @keyframes modeGlow {
-          0%, 100% { box-shadow: 0 0 10px rgba(96,165,250,0.5), 0 0 20px rgba(96,165,250,0.2); }
-          50%      { box-shadow: 0 0 16px rgba(96,165,250,0.85), 0 0 34px rgba(96,165,250,0.4); }
+          0%, 100% { box-shadow: 0 0 10px rgba(167,139,250,0.5), 0 0 20px rgba(167,139,250,0.2); }
+          50%      { box-shadow: 0 0 16px rgba(167,139,250,0.85), 0 0 34px rgba(167,139,250,0.4); }
         }
       `}</style>
       {/* Header */}
@@ -378,8 +378,14 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
             border: '1px solid rgba(255,255,255,0.07)',
           }}>
             {[
-              { key: 'write', label: "I'll write" },
-              { key: 'speak', label: "I'll speak" },
+              {
+                key: 'write', label: 'Rohan writes',
+                icon: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>,
+              },
+              {
+                key: 'speak', label: 'Rohan speaks',
+                icon: <><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></>,
+              },
             ].map(opt => {
               const active = mode === opt.key
               return (
@@ -392,13 +398,17 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
                   style={{
                     flex: 1, padding: '7px 0', borderRadius: 8, cursor: 'pointer',
                     border: 'none',
-                    background: active ? '#60a5fa' : 'transparent',
+                    background: active ? '#a78bfa' : 'transparent',
                     color: active ? '#0a0a0a' : 'rgba(255,255,255,0.5)',
                     fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                     transition: 'background 0.2s, color 0.2s',
                     animation: active ? 'modeGlow 2.4s ease-in-out infinite' : 'none',
                   }}
                 >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {opt.icon}
+                  </svg>
                   {opt.label}
                 </button>
               )
@@ -449,25 +459,25 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '6px 0 2px' }}>
-            <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,0.5)} 50%{box-shadow:0 0 0 10px rgba(96,165,250,0)} }`}</style>
+            <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,0.5)} 50%{box-shadow:0 0 0 10px rgba(167,139,250,0)} }`}</style>
             <button
               onClick={toggleMic}
               aria-label={listening ? 'Stop listening' : 'Tap and speak'}
               style={{
                 width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
-                background: listening ? '#60a5fa' : 'rgba(96,165,250,0.12)',
-                border: `1px solid ${listening ? '#60a5fa' : 'rgba(96,165,250,0.4)'}`,
+                background: listening ? '#a78bfa' : 'rgba(167,139,250,0.12)',
+                border: `1px solid ${listening ? '#a78bfa' : 'rgba(167,139,250,0.4)'}`,
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'background 0.2s',
                 animation: listening ? 'micPulse 1.2s ease-in-out infinite' : 'none',
               }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : '#60a5fa'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : '#a78bfa'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
               </svg>
             </button>
-            <span style={{ fontSize: 12, color: listening ? '#60a5fa' : 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+            <span style={{ fontSize: 12, color: listening ? '#a78bfa' : 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
               {listening ? 'Listening, tap to stop' : 'Tap and speak'}
             </span>
           </div>
