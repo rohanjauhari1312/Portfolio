@@ -95,15 +95,14 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
   const [messages, setMessages] = useState(loadMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [voiceOn, setVoiceOn] = useState(true)
+  const [voiceOn, setVoiceOn] = useState(false) // false = Rohan writes (read), true = Rohan speaks (listen)
   const [listening, setListening] = useState(false)
   const [speaking, setSpeaking] = useState(false)
-  const [mode, setMode] = useState('write') // 'write' | 'speak'
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const audioRef = useRef(null)
   const recogRef = useRef(null)
-  const voiceOnRef = useRef(true)
+  const voiceOnRef = useRef(false)
   const sendRef = useRef(null)
 
   useEffect(() => { voiceOnRef.current = voiceOn }, [voiceOn])
@@ -163,11 +162,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
       setSpeaking(false)
     }
   }, [stopSpeaking])
-
-  const toggleVoice = () => {
-    if (voiceOn) stopSpeaking()
-    setVoiceOn(v => !v)
-  }
 
   const toggleMic = useCallback(() => {
     if (!SpeechRecognition) return
@@ -283,8 +277,8 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           50%      { text-shadow: 0 0 14px rgba(250,204,21,0.9), 0 0 28px rgba(250,204,21,0.45); }
         }
         @keyframes modeGlow {
-          0%, 100% { box-shadow: 0 0 10px rgba(167,139,250,0.5), 0 0 20px rgba(167,139,250,0.2); }
-          50%      { box-shadow: 0 0 16px rgba(167,139,250,0.85), 0 0 34px rgba(167,139,250,0.4); }
+          0%, 100% { box-shadow: 0 0 10px rgba(250,204,21,0.5), 0 0 20px rgba(250,204,21,0.2); }
+          50%      { box-shadow: 0 0 16px rgba(250,204,21,0.85), 0 0 34px rgba(250,204,21,0.4); }
         }
       `}</style>
       {/* Header */}
@@ -308,29 +302,10 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           </div>
         </div>
         <button
-          onClick={toggleVoice}
-          aria-label={voiceOn ? 'Mute voice' : 'Unmute voice'}
-          title={voiceOn ? 'Voice on' : 'Voice off'}
-          style={{
-            marginLeft: 'auto', background: 'none', border: 'none',
-            cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center',
-            color: voiceOn ? '#facc15' : 'rgba(255,255,255,0.3)',
-          }}
-        >
-          {voiceOn ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-            </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-            </svg>
-          )}
-        </button>
-        <button
           onClick={onClose}
           aria-label="Close chat"
           style={{
+            marginLeft: 'auto',
             background: fullscreen ? 'rgba(255,255,255,0.05)' : 'none',
             border: fullscreen ? '1px solid rgba(255,255,255,0.1)' : 'none',
             borderRadius: fullscreen ? 8 : 0,
@@ -391,120 +366,112 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         borderTop: '1px solid rgba(255,255,255,0.06)',
         flexShrink: 0,
       }}>
-        {/* Write / Speak toggle */}
-        {SpeechRecognition && (
-          <div style={{
-            display: 'flex', gap: 5, marginBottom: 10,
-            padding: 4, borderRadius: 11,
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.07)',
-          }}>
-            {[
-              {
-                key: 'write', label: 'Rohan writes',
-                icon: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>,
-              },
-              {
-                key: 'speak', label: 'Rohan speaks',
-                icon: <><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></>,
-              },
-            ].map(opt => {
-              const active = mode === opt.key
-              return (
-                <button
-                  key={opt.key}
-                  onClick={() => {
-                    if (opt.key === 'write' && listening) recogRef.current?.stop()
-                    setMode(opt.key)
-                  }}
-                  style={{
-                    flex: 1, padding: '7px 0', borderRadius: 8, cursor: 'pointer',
-                    border: 'none',
-                    background: active ? '#a78bfa' : 'transparent',
-                    color: active ? '#0a0a0a' : 'rgba(255,255,255,0.5)',
-                    fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                    transition: 'background 0.2s, color 0.2s',
-                    animation: active ? 'modeGlow 2.4s ease-in-out infinite' : 'none',
-                  }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {opt.icon}
-                  </svg>
-                  {opt.label}
-                </button>
-              )
-            })}
-          </div>
-        )}
+        {/* Read / Listen toggle — controls whether Rohan's reply is spoken */}
+        <div style={{
+          display: 'flex', gap: 5, marginBottom: 10,
+          padding: 4, borderRadius: 11,
+          background: 'rgba(255,255,255,0.04)',
+          border: '1px solid rgba(255,255,255,0.07)',
+        }}>
+          {[
+            {
+              on: false, label: 'Rohan writes',
+              icon: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>,
+            },
+            {
+              on: true, label: 'Rohan speaks',
+              icon: <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></>,
+            },
+          ].map(opt => {
+            const active = voiceOn === opt.on
+            return (
+              <button
+                key={opt.label}
+                onClick={() => {
+                  if (!opt.on) stopSpeaking()
+                  setVoiceOn(opt.on)
+                }}
+                style={{
+                  flex: 1, padding: '7px 0', borderRadius: 8, cursor: 'pointer',
+                  border: 'none',
+                  background: active ? '#facc15' : 'transparent',
+                  color: active ? '#0a0a0a' : 'rgba(255,255,255,0.5)',
+                  fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  transition: 'background 0.2s, color 0.2s',
+                  animation: active ? 'modeGlow 2.4s ease-in-out infinite' : 'none',
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {opt.icon}
+                </svg>
+                {opt.label}
+              </button>
+            )
+          })}
+        </div>
 
-        {mode === 'write' ? (
-          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={onKey}
-              onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 350)}
-              placeholder="Ask something..."
-              rows={1}
-              style={{
-                flex: 1, background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 10, padding: '9px 12px',
-                color: '#f5f5f5', fontSize: fullscreen ? 16 : 13, resize: 'none',
-                outline: 'none', fontFamily: 'Inter, sans-serif',
-                lineHeight: 1.5, maxHeight: 100, overflowY: 'auto',
-              }}
-            />
-            <button
-              onClick={() => (speaking ? stopSpeaking() : send())}
-              disabled={!speaking && (!input.trim() || loading)}
-              aria-label={speaking ? 'Stop voice' : 'Send'}
-              style={{
-                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                background: speaking ? 'rgba(255,255,255,0.12)' : (input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)'),
-                border: 'none', cursor: (speaking || (input.trim() && !loading)) ? 'pointer' : 'default',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'background 0.2s, box-shadow 0.2s',
-              }}
-            >
-              {speaking ? (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)" stroke="none">
-                  <rect x="6" y="6" width="12" height="12" rx="2"/>
-                </svg>
-              ) : (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={input.trim() && !loading ? '#0a0a0a' : 'rgba(255,255,255,0.25)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              )}
-            </button>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '6px 0 2px' }}>
-            <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,0.5)} 50%{box-shadow:0 0 0 10px rgba(167,139,250,0)} }`}</style>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,0.5)} 50%{box-shadow:0 0 0 7px rgba(250,204,21,0)} }`}</style>
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={onKey}
+            onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 350)}
+            placeholder="Ask something..."
+            rows={1}
+            style={{
+              flex: 1, background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 10, padding: '9px 12px',
+              color: '#f5f5f5', fontSize: fullscreen ? 16 : 13, resize: 'none',
+              outline: 'none', fontFamily: 'Inter, sans-serif',
+              lineHeight: 1.5, maxHeight: 100, overflowY: 'auto',
+            }}
+          />
+          {SpeechRecognition && (
             <button
               onClick={toggleMic}
-              aria-label={listening ? 'Stop listening' : 'Tap and speak'}
+              aria-label={listening ? 'Stop listening' : 'Speak your question'}
               style={{
-                width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
-                background: listening ? '#a78bfa' : 'rgba(167,139,250,0.12)',
-                border: `1px solid ${listening ? '#a78bfa' : 'rgba(167,139,250,0.4)'}`,
+                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                background: listening ? '#facc15' : 'rgba(255,255,255,0.06)',
+                border: listening ? 'none' : '1px solid rgba(255,255,255,0.1)',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transition: 'background 0.2s',
                 animation: listening ? 'micPulse 1.2s ease-in-out infinite' : 'none',
               }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : '#a78bfa'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : 'rgba(255,255,255,0.6)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
               </svg>
             </button>
-            <span style={{ fontSize: 12, color: listening ? '#a78bfa' : 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
-              {listening ? 'Listening, tap to stop' : 'Tap and speak'}
-            </span>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() => (speaking ? stopSpeaking() : send())}
+            disabled={!speaking && (!input.trim() || loading)}
+            aria-label={speaking ? 'Stop voice' : 'Send'}
+            style={{
+              width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+              background: speaking ? 'rgba(255,255,255,0.12)' : (input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)'),
+              border: 'none', cursor: (speaking || (input.trim() && !loading)) ? 'pointer' : 'default',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.2s, box-shadow 0.2s',
+            }}
+          >
+            {speaking ? (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)" stroke="none">
+                <rect x="6" y="6" width="12" height="12" rx="2"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={input.trim() && !loading ? '#0a0a0a' : 'rgba(255,255,255,0.25)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
     </>
   )
