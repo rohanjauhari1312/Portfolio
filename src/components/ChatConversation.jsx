@@ -276,10 +276,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           0%, 100% { text-shadow: 0 0 8px rgba(250,204,21,0.55), 0 0 16px rgba(250,204,21,0.25); }
           50%      { text-shadow: 0 0 14px rgba(250,204,21,0.9), 0 0 28px rgba(250,204,21,0.45); }
         }
-        @keyframes modeGlow {
-          0%, 100% { box-shadow: 0 0 10px rgba(250,204,21,0.5), 0 0 20px rgba(250,204,21,0.2); }
-          50%      { box-shadow: 0 0 16px rgba(250,204,21,0.85), 0 0 34px rgba(250,204,21,0.4); }
-        }
       `}</style>
       {/* Header */}
       <div style={{
@@ -399,7 +395,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
                   fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                   transition: 'background 0.2s, color 0.2s',
-                  animation: active ? 'modeGlow 2.4s ease-in-out infinite' : 'none',
                 }}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
