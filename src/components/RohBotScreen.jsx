@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ChatConversation from './ChatConversation'
 
-export default function RohBotScreen({ onBack }) {
+export default function RohBotScreen({ onBack, onNavigate }) {
   const [vp, setVp] = useState({ height: null, offsetTop: 0 })
 
   // Track the visual viewport. On iOS the keyboard shrinks the visual viewport
@@ -56,7 +56,7 @@ export default function RohBotScreen({ onBack }) {
       overflow: 'hidden',
       overscrollBehavior: 'none',
     }}>
-      <ChatConversation onClose={onBack} fullscreen />
+      <ChatConversation onClose={onBack} fullscreen onNavigate={onNavigate} />
     </div>
   )
 }

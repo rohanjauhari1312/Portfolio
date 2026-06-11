@@ -139,7 +139,7 @@ export default function App() {
       {view === 'nourish' && <NourishDetail onBack={navigateBack} />}
       {view === 'swifthire' && <SwiftHireDetail onBack={navigateBack} />}
       {view === 'framer-demo' && <FramerDemo onBack={navigateBack} />}
-      {view === 'rohbot' && <RohBotScreen onBack={navigateBack} />}
+      {view === 'rohbot' && <RohBotScreen onBack={navigateBack} onNavigate={navigateTo} />}
     </>
   )
 }

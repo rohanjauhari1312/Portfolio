@@ -89,6 +89,66 @@ function Message({ msg }) {
   )
 }
 
+const cardBtn = {
+  padding: '7px 12px', borderRadius: 8, cursor: 'pointer',
+  background: 'rgba(250,204,21,0.1)', border: '1px solid rgba(250,204,21,0.3)',
+  color: '#facc15', fontSize: 12, fontWeight: 600,
+}
+
+function ResumeCard() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 12 }}>
+      <div style={{
+        maxWidth: '82%', padding: '14px 16px', borderRadius: '14px 14px 14px 4px',
+        background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(250,204,21,0.18)',
+      }}>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginBottom: 10 }}>Here's my resume.</div>
+        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" style={{ ...cardBtn, textDecoration: 'none', display: 'inline-block' }}>
+          Download resume (PDF)
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function buildTranscript(messages) {
+  return messages
+    .filter(m => m.content)
+    .map(m => `${m.role === 'user' ? 'You' : 'Rohan'}: ${m.content}`)
+    .join('\n\n')
+}
+
+function TranscriptCard({ messages }) {
+  const [copied, setCopied] = useState(false)
+  const text = buildTranscript(messages)
+  const copy = async () => { try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500) } catch {} }
+  const download = () => {
+    const blob = new Blob([text], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url; a.download = 'rohbot-transcript.txt'; a.click()
+    URL.revokeObjectURL(url)
+  }
+  const email = () => {
+    window.location.href = `mailto:?subject=${encodeURIComponent('My chat with Rohan (RohBot)')}&body=${encodeURIComponent(text.slice(0, 1800))}`
+  }
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 12 }}>
+      <div style={{
+        maxWidth: '88%', padding: '14px 16px', borderRadius: '14px 14px 14px 4px',
+        background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(250,204,21,0.18)',
+      }}>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginBottom: 10 }}>Transcript of our conversation.</div>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button onClick={copy} style={cardBtn}>{copied ? 'Copied' : 'Copy'}</button>
+          <button onClick={download} style={cardBtn}>Download</button>
+          <button onClick={email} style={cardBtn}>Email</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Self-contained chat: header + messages + input + streaming logic.
 // `fullscreen` bumps the input font-size to 16px to stop iOS auto-zoom and
 // adds safe-area padding for the standalone /rohbot screen.
@@ -104,12 +164,16 @@ function loadMessages() {
   }
 }
 
-export default function ChatConversation({ onClose, fullscreen = false, autoFocus = true }) {
+export default function ChatConversation({ onClose, fullscreen = false, autoFocus = true, onNavigate }) {
   const [messages, setMessages] = useState(loadMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [voiceOn, setVoiceOn] = useState(false) // false = Rohan writes (read), true = Rohan speaks (listen)
   const [speaking, setSpeaking] = useState(false)
+  const [callState, setCallState] = useState('idle') // idle | connecting | active
+  const [agentBusy, setAgentBusy] = useState(false)  // agent is running a tool/operation
+  const [agentSpeaking, setAgentSpeaking] = useState(false)
+  const convRef = useRef(null)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const audioRef = useRef(null)
@@ -253,8 +317,83 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
     if (voiceOnRef.current && finalText.trim()) speak(finalText)
   }, [input, messages, loading, speak])
 
+  // ── Live voice call (ElevenLabs Conversational AI) ──────────────────────────
+  const addCard = (card) => setMessages(prev => [...prev, { id: `c${Date.now()}${Math.random()}`, ...card }])
+
+  const clientTools = {
+    navigate: ({ route }) => {
+      const r = String(route || '').replace(/^\//, '')
+      if (onNavigate && r) onNavigate(r)
+      return `Opened ${r}`
+    },
+    show_resume_in_chat: () => { addCard({ role: 'assistant', kind: 'resume' }); return 'Resume card shown in chat' },
+    show_transcript: () => { addCard({ role: 'assistant', kind: 'transcript' }); return 'Transcript shown in chat' },
+    set_busy: ({ busy }) => { setAgentBusy(!!busy); return 'ok' },
+  }
+
+  const startCall = useCallback(async () => {
+    setCallState('connecting')
+    try {
+      const res = await fetch('/api/eleven-token')
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}))
+        setCallState('idle')
+        addCard({ role: 'assistant', content: j.error === 'Voice agent not configured'
+          ? 'Live voice calling is not set up yet.'
+          : 'Could not start the call. Please try again.' })
+        return
+      }
+      const { signedUrl } = await res.json()
+      await navigator.mediaDevices.getUserMedia({ audio: true })
+      // Lazy-load the SDK so it never weighs down the main bundle.
+      const { Conversation } = await import('@elevenlabs/client')
+      convRef.current = await Conversation.startSession({
+        signedUrl,
+        clientTools,
+        onConnect: () => setCallState('active'),
+        onDisconnect: () => { setCallState('idle'); setAgentBusy(false); setAgentSpeaking(false); convRef.current = null },
+        onError: () => { setCallState('idle'); setAgentBusy(false); setAgentSpeaking(false) },
+        onModeChange: ({ mode }) => setAgentSpeaking(mode === 'speaking'),
+        onMessage: ({ message, source }) => {
+          if (!message) return
+          setMessages(prev => [...prev, {
+            id: `v${Date.now()}${Math.random()}`,
+            role: source === 'user' ? 'user' : 'assistant',
+            content: message,
+          }])
+        },
+      })
+    } catch {
+      setCallState('idle')
+      addCard({ role: 'assistant', content: 'I need microphone access to start a call.' })
+    }
+  }, [onNavigate])
+
+  const endCall = useCallback(async () => {
+    try { await convRef.current?.endSession() } catch {}
+    convRef.current = null
+    setCallState('idle')
+    setAgentBusy(false)
+    setAgentSpeaking(false)
+  }, [])
+
+  // During a live call, typed text (e.g. an email address) is sent into the
+  // voice conversation instead of the text endpoint.
+  const submitInput = () => {
+    if (speaking) { stopSpeaking(); return }
+    const text = input.trim()
+    if (!text) return
+    if (callState === 'active') {
+      convRef.current?.sendUserMessage?.(text)
+      setMessages(prev => [...prev, { id: `u${Date.now()}${Math.random()}`, role: 'user', content: text }])
+      setInput('')
+    } else {
+      send()
+    }
+  }
+
   const onKey = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitInput() }
   }
 
   return (
@@ -263,6 +402,10 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         @keyframes talkGlow {
           0%, 100% { text-shadow: 0 0 8px rgba(250,204,21,0.55), 0 0 16px rgba(250,204,21,0.25); }
           50%      { text-shadow: 0 0 14px rgba(250,204,21,0.9), 0 0 28px rgba(250,204,21,0.45); }
+        }
+        @keyframes callPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: 0.5; transform: scale(0.8); }
         }
       `}</style>
       {/* Header */}
@@ -336,11 +479,13 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
           </div>
         )}
 
-        {messages.map((m, i) => (
-          m.streaming && !m.content
+        {messages.map((m, i) => {
+          if (m.kind === 'resume') return <ResumeCard key={m.id ?? i} />
+          if (m.kind === 'transcript') return <TranscriptCard key={m.id ?? i} messages={messages} />
+          return m.streaming && !m.content
             ? <TypingIndicator key={m.id ?? i} />
             : <Message key={m.id ?? i} msg={m} />
-        ))}
+        })}
         <div ref={bottomRef} />
       </div>
 
@@ -350,6 +495,37 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         borderTop: '1px solid rgba(255,255,255,0.06)',
         flexShrink: 0,
       }}>
+        {/* Live call status banner */}
+        {callState !== 'idle' && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10,
+            padding: '9px 12px', borderRadius: 10,
+            background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)',
+          }}>
+            <span style={{
+              width: 9, height: 9, borderRadius: '50%', flexShrink: 0,
+              background: '#4ade80', boxShadow: '0 0 8px #4ade80',
+              animation: 'callPulse 1.2s ease-in-out infinite',
+            }} />
+            <span style={{ fontSize: 12.5, color: '#4ade80', fontWeight: 600, flex: 1 }}>
+              {callState === 'connecting' ? 'Connecting…'
+                : agentBusy ? 'Working on it…'
+                : agentSpeaking ? 'Rohan is speaking…'
+                : 'Listening…'}
+            </span>
+            <button
+              onClick={endCall}
+              style={{
+                padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
+                background: '#ef4444', border: 'none', color: '#fff',
+                fontSize: 12, fontWeight: 700,
+              }}
+            >
+              End call
+            </button>
+          </div>
+        )}
+
         {/* Read / Listen toggle — controls whether Rohan's reply is spoken */}
         <div style={{
           display: 'flex', gap: 5, marginBottom: 10,
@@ -395,13 +571,29 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         </div>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          {callState === 'idle' && (
+            <button
+              onClick={startCall}
+              aria-label="Start voice call"
+              title="Call Rohan"
+              style={{
+                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                background: 'rgba(74,222,128,0.12)', border: '1px solid rgba(74,222,128,0.35)',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </button>
+          )}
           <textarea
             ref={inputRef}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={onKey}
             onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 350)}
-            placeholder="Ask something..."
+            placeholder={callState === 'active' ? 'Type your email or a note…' : 'Ask something...'}
             rows={1}
             style={{
               flex: 1, background: 'rgba(255,255,255,0.05)',
@@ -413,7 +605,7 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
             }}
           />
           <button
-            onClick={() => (speaking ? stopSpeaking() : send())}
+            onClick={submitInput}
             disabled={!speaking && (!input.trim() || loading)}
             aria-label={speaking ? 'Stop voice' : 'Send'}
             style={{

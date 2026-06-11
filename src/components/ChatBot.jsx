@@ -69,7 +69,7 @@ export default function ChatBot({ onNavigate }) {
           display: 'flex',
           flexDirection: 'column',
         }}>
-          {open && <ChatConversation onClose={() => setOpen(false)} />}
+          {open && <ChatConversation onClose={() => setOpen(false)} onNavigate={onNavigate} />}
         </div>
       )}
 
