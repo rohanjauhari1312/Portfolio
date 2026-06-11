@@ -305,10 +305,10 @@ export default function Contact() {
         <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.02em', fontWeight: 500 }}>
           © 2026 Rohan Jauhari. All rights reserved.
         </span>
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 6 }}>
-          Built with{' '}
-          <img src="/claude code.png" alt="Claude Code" style={{ height: 44, objectFit: 'contain' }} />
-          <img src="/11labs.png" alt="ElevenLabs" style={{ height: 44, objectFit: 'contain' }} />
+        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
+          Built with
+          <img src="/claude code.png" alt="Claude Code" style={{ height: 40, objectFit: 'contain', display: 'block' }} />
+          <img src="/11labs.png" alt="ElevenLabs" style={{ height: 26, objectFit: 'contain', display: 'block' }} />
         </span>
       </div>
     </section>
