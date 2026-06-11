@@ -15,8 +15,9 @@ import DotGrid from './components/DotGrid'
 import NourishDetail from './components/NourishDetail'
 import SwiftHireDetail from './components/SwiftHireDetail'
 import FramerDemo from './components/FramerDemo'
+import RohBotScreen from './components/RohBotScreen'
 
-const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo']
+const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot']
 const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'contact']
 
 export default function App() {
@@ -122,12 +123,13 @@ export default function App() {
         <Projects onNavigate={navigateTo} />
         <Contact />
         <ScrollTop />
-        <ChatBot />
+        <ChatBot onNavigate={navigateTo} />
       </div>
 
       {view === 'nourish' && <NourishDetail onBack={navigateBack} />}
       {view === 'swifthire' && <SwiftHireDetail onBack={navigateBack} />}
       {view === 'framer-demo' && <FramerDemo onBack={navigateBack} />}
+      {view === 'rohbot' && <RohBotScreen onBack={navigateBack} />}
     </>
   )
 }
