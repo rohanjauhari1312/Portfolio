@@ -30,12 +30,13 @@ PROJECTS:
 
 WORK AUTHORIZATION:
 - Visa: F-1 student visa, currently in the US
-- Available to start: August 20, 2025 (earliest)
+- Available to start: September 1, 2026 (graduated, ready to join full-time now)
 - Work authorization: STEM OPT — full work authorization for 3 years post-graduation (no sponsorship required during this period)
 - After STEM OPT: H-1B sponsorship will be required
-- Graduation: August 2026, Northeastern University
+- Graduation: MS completed August 2026, Northeastern University
 
 JOB SEARCH:
+- Seeking FULL-TIME roles only (not internships)
 - Open to: Product Manager, Product Analyst, Product Operations roles
 - Industries of interest: AI, data, SaaS, B2B software
 - Salary expectation: $100k–$120k
