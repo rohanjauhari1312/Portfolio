@@ -310,12 +310,12 @@ export default function Hero({ onNavigate }) {
                   {TRAITS.map((t) => (
                     <div key={t.label} style={{
                       display: 'inline-flex', alignItems: 'center',
-                      padding: '8px 14px',
+                      padding: '7px 11px',
                       background: 'rgba(255,255,255,0.03)',
                       borderLeft: `3px solid ${t.color}`,
                       borderRadius: '0 6px 6px 0',
                     }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color }}>{t.label}</span>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
                     </div>
                   ))}
                 </div>
@@ -459,16 +459,16 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 40 }}>
+                <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 8, marginTop: 40 }}>
                   {TRAITS.map(t => (
                     <div key={t.label} style={{
                       display: 'inline-flex', alignItems: 'center',
-                      padding: '9px 16px',
+                      padding: '9px 13px',
                       background: 'rgba(255,255,255,0.03)',
                       borderLeft: `3px solid ${t.color}`,
                       borderRadius: '0 6px 6px 0',
                     }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: t.color }}>{t.label}</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
                     </div>
                   ))}
                 </div>
