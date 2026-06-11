@@ -83,8 +83,26 @@ export default function ChatBot() {
   const [tileHidden, setTileHidden] = useState(false)
   const [tileFlash, setTileFlash] = useState(false)
   const isMobile = useIsMobile()
+  const [vvHeight, setVvHeight] = useState(null)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
+
+  // Mobile: track the visual viewport so the sheet resizes when the keyboard opens.
+  useEffect(() => {
+    if (!isMobile || !open || !window.visualViewport) return
+    const vv = window.visualViewport
+    const update = () => setVvHeight(vv.height)
+    update()
+    vv.addEventListener('resize', update)
+    return () => vv.removeEventListener('resize', update)
+  }, [isMobile, open])
+
+  // Lock body scroll while the mobile sheet is open.
+  useEffect(() => {
+    if (!isMobile) return
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isMobile, open])
 
   useEffect(() => {
     // Desktop: show tile on load. Mobile: hide until first scroll.
@@ -190,33 +208,50 @@ export default function ChatBot() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
   }
 
-  const drawerW = isMobile ? 'calc(100vw - 32px)' : 380
-  const drawerH = isMobile ? 420 : 520
+  const drawerH = 520
+
+  const mobileSheet = {
+    position: 'fixed',
+    top: 0, left: 0, right: 0,
+    width: '100vw',
+    height: vvHeight ? `${vvHeight}px` : '100dvh',
+    borderRadius: 0,
+    background: '#0c0c0c',
+    border: 'none',
+    boxShadow: 'none',
+    transform: open ? 'translateY(0)' : 'translateY(100%)',
+    transition: 'transform 0.35s cubic-bezier(.22,1,.36,1)',
+    pointerEvents: open ? 'auto' : 'none',
+  }
+
+  const desktopDrawer = {
+    bottom: 88,
+    right: 24,
+    width: 380,
+    height: open ? drawerH : 0,
+    borderRadius: 16,
+    background: 'rgba(12,12,12,0.97)',
+    border: open ? '1px solid rgba(250,204,21,0.14)' : 'none',
+    backdropFilter: 'blur(24px)',
+    WebkitBackdropFilter: 'blur(24px)',
+    boxShadow: open ? '0 0 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(250,204,21,0.06)' : 'none',
+    transition: 'height 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease',
+  }
 
   return (
     <>
       {/* Chat drawer */}
       <div style={{
         position: 'fixed',
-        bottom: isMobile ? 88 : 88,
-        right: isMobile ? 16 : 24,
-        width: drawerW,
-        height: open ? drawerH : 0,
-        borderRadius: 16,
         overflow: 'hidden',
-        background: 'rgba(12,12,12,0.97)',
-        border: open ? '1px solid rgba(250,204,21,0.14)' : 'none',
-        backdropFilter: isMobile ? 'none' : 'blur(24px)',
-        WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
-        boxShadow: open ? '0 0 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(250,204,21,0.06)' : 'none',
-        transition: 'height 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease',
         zIndex: 200,
         display: 'flex',
         flexDirection: 'column',
+        ...(isMobile ? mobileSheet : desktopDrawer),
       }}>
         {/* Header */}
         <div style={{
-          padding: '14px 18px',
+          padding: isMobile ? 'calc(14px + env(safe-area-inset-top)) 18px 14px' : '14px 18px',
           borderBottom: '1px solid rgba(250,204,21,0.08)',
           background: 'rgba(250,204,21,0.03)',
           display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0,
@@ -280,7 +315,7 @@ export default function ChatBot() {
 
         {/* Input */}
         <div style={{
-          padding: '10px 12px 14px',
+          padding: isMobile ? '10px 12px calc(14px + env(safe-area-inset-bottom))' : '10px 12px 14px',
           borderTop: '1px solid rgba(255,255,255,0.06)',
           flexShrink: 0,
           display: 'flex', gap: 8, alignItems: 'flex-end',
