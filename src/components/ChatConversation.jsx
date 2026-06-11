@@ -38,6 +38,13 @@ function TypingIndicator() {
 
 function Message({ msg }) {
   const isUser = msg.role === 'user'
+  // Turn any email in the text into a mailto: link.
+  const linkifyEmail = (text, prefix) =>
+    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g).map((part, i) =>
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)
+        ? <a key={`${prefix}-${i}`} href={`mailto:${part}`} style={{ color: '#facc15', textDecoration: 'underline' }}>{part}</a>
+        : <span key={`${prefix}-${i}`}>{part}</span>
+    )
   return (
     <div style={{
       display: 'flex',
@@ -57,8 +64,8 @@ function Message({ msg }) {
       }}>
         {!isUser ? msg.content.split(/(\*\*.*?\*\*)/g).map((p, i) =>
           p.startsWith('**') && p.endsWith('**')
-            ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{p.slice(2, -2)}</strong>
-            : p
+            ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{linkifyEmail(p.slice(2, -2), `b${i}`)}</strong>
+            : <span key={i}>{linkifyEmail(p, `t${i}`)}</span>
         ) : msg.content}
         {msg.streaming && msg.content && (
           <span style={{
