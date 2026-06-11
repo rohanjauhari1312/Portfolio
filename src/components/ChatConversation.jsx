@@ -38,13 +38,23 @@ function TypingIndicator() {
 
 function Message({ msg }) {
   const isUser = msg.role === 'user'
-  // Turn any email in the text into a mailto: link.
-  const linkifyEmail = (text, prefix) =>
-    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g).map((part, i) =>
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)
-        ? <a key={`${prefix}-${i}`} href={`mailto:${part}`} style={{ color: '#facc15', textDecoration: 'underline' }}>{part}</a>
-        : <span key={`${prefix}-${i}`}>{part}</span>
-    )
+  // Turn emails into mailto: links and URLs into clickable links.
+  const linkStyle = { color: '#facc15', textDecoration: 'underline' }
+  const linkify = (text, prefix) =>
+    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s]+|www\.[^\s]+)/g).map((part, i) => {
+      const key = `${prefix}-${i}`
+      if (!part) return null
+      if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
+        return <a key={key} href={`mailto:${part}`} style={linkStyle}>{part}</a>
+      }
+      if (/^(https?:\/\/|www\.)/.test(part)) {
+        const trail = (part.match(/[.,!?;:)\]]+$/) || [''])[0]
+        const url = trail ? part.slice(0, -trail.length) : part
+        const href = url.startsWith('www.') ? `https://${url}` : url
+        return <span key={key}><a href={href} target="_blank" rel="noopener noreferrer" style={linkStyle}>{url}</a>{trail}</span>
+      }
+      return <span key={key}>{part}</span>
+    })
   return (
     <div style={{
       display: 'flex',
@@ -64,8 +74,8 @@ function Message({ msg }) {
       }}>
         {!isUser ? msg.content.split(/(\*\*.*?\*\*)/g).map((p, i) =>
           p.startsWith('**') && p.endsWith('**')
-            ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{linkifyEmail(p.slice(2, -2), `b${i}`)}</strong>
-            : <span key={i}>{linkifyEmail(p, `t${i}`)}</span>
+            ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{linkify(p.slice(2, -2), `b${i}`)}</strong>
+            : <span key={i}>{linkify(p, `t${i}`)}</span>
         ) : msg.content}
         {msg.streaming && msg.content && (
           <span style={{
