@@ -38,10 +38,11 @@ function TypingIndicator() {
 
 function Message({ msg }) {
   const isUser = msg.role === 'user'
+  const content = typeof msg.content === 'string' ? msg.content : ''
   // Turn emails into mailto: links and URLs into clickable links.
   const linkStyle = { color: '#facc15', textDecoration: 'underline' }
   const linkify = (text, prefix) =>
-    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s]+|[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(?:com|org|net|io|edu|app|dev|ai|co|me|gov|xyz)(?:\/[^\s]*)?)/g).map((part, i) => {
+    String(text).split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s]+|[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(?:com|org|net|io|edu|app|dev|ai|co|me|gov|xyz)(?:\/[^\s]*)?)/g).map((part, i) => {
       const key = `${prefix}-${i}`
       if (!part) return null
       if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
@@ -72,12 +73,12 @@ function Message({ msg }) {
         color: isUser ? '#facc15' : 'rgba(255,255,255,0.8)',
         whiteSpace: 'pre-wrap',
       }}>
-        {!isUser ? msg.content.split(/(\*\*.*?\*\*)/g).map((p, i) =>
+        {!isUser ? content.split(/(\*\*.*?\*\*)/g).map((p, i) =>
           p.startsWith('**') && p.endsWith('**')
             ? <strong key={i} style={{ color: '#f5f5f5', fontWeight: 600 }}>{linkify(p.slice(2, -2), `b${i}`)}</strong>
             : <span key={i}>{linkify(p, `t${i}`)}</span>
-        ) : msg.content}
-        {msg.streaming && msg.content && (
+        ) : content}
+        {msg.streaming && content && (
           <span style={{
             display: 'inline-block', width: 2, height: 13,
             background: '#facc15', marginLeft: 3, verticalAlign: 'middle',
@@ -158,7 +159,9 @@ function loadMessages() {
   try {
     const raw = sessionStorage.getItem(STORE_KEY)
     if (!raw) return []
-    return JSON.parse(raw).map(m => ({ ...m, streaming: false }))
+    return JSON.parse(raw)
+      .filter(m => m && typeof m.content === 'string' && m.content)
+      .map(m => ({ ...m, streaming: false }))
   } catch {
     return []
   }
@@ -194,7 +197,9 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
     if (messages.some(m => m.streaming)) return
     try {
       sessionStorage.setItem(STORE_KEY, JSON.stringify(
-        messages.map(({ role, content }) => ({ role, content }))
+        messages
+          .filter(m => typeof m.content === 'string' && m.content && !m.kind)
+          .map(({ role, content }) => ({ role, content }))
       ))
     } catch {}
   }, [messages])
