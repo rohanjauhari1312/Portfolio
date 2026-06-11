@@ -196,6 +196,17 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         }),
       })
 
+      // Non-streaming error responses come back as plain JSON, not SSE.
+      if (!res.ok || !res.body) {
+        let msg = 'Something went wrong. Try again.'
+        try { const j = await res.json(); if (j?.error) msg = j.error } catch {}
+        setMessages(prev => prev.map(m =>
+          m.id === assistantId ? { ...m, content: msg, streaming: false } : m
+        ))
+        setLoading(false)
+        return
+      }
+
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
@@ -234,7 +245,9 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
     }
 
     setMessages(prev => prev.map(m =>
-      m.id === assistantId ? { ...m, streaming: false } : m
+      m.id === assistantId
+        ? { ...m, content: m.content || 'Sorry, I had trouble responding. Try asking again.', streaming: false }
+        : m
     ))
     setLoading(false)
     if (voiceOnRef.current && finalText.trim()) speak(finalText)

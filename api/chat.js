@@ -123,12 +123,13 @@ export default async function handler(req, res) {
   const { messages } = req.body
   if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: 'Invalid messages' })
 
-  // Input caps — cheap abuse defense independent of instance count.
-  if (messages.length > 30) return res.status(400).json({ error: 'Too many messages' })
-  if (messages.some(m => typeof m.content !== 'string' || m.content.length > 2000))
+  // Only the recent turns are sent to the model and validated, so a long
+  // persisted history never trips the size caps.
+  const recent = messages.slice(-10).filter(m => typeof m.content === 'string')
+
+  if (recent.length === 0) return res.status(400).json({ error: 'Invalid messages' })
+  if (recent.some(m => m.content.length > 2000))
     return res.status(400).json({ error: 'Message too long' })
-  if (messages.reduce((s, m) => s + m.content.length, 0) > 12000)
-    return res.status(400).json({ error: 'Conversation too long' })
 
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache')
@@ -139,7 +140,7 @@ export default async function handler(req, res) {
     return sseError(res, 'You are sending messages too quickly. Please wait a moment and try again.')
   }
 
-  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')
+  const lastUserMsg = [...recent].reverse().find(m => m.role === 'user')
   if (lastUserMsg && isAskingForSecret(lastUserMsg.content)) {
     return streamString(res, SECRET_REPLY)
   }
@@ -149,7 +150,7 @@ export default async function handler(req, res) {
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 512,
       system: SYSTEM(),
-      messages: messages.slice(-10),
+      messages: recent,
     })
 
     for await (const chunk of stream) {
