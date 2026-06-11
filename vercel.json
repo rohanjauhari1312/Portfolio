@@ -14,6 +14,7 @@
     { "source": "/education", "destination": "/index.html" },
     { "source": "/experience", "destination": "/index.html" },
     { "source": "/projects", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" }
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/resume", "destination": "/resume.pdf" }
   ]
 }

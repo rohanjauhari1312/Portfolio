@@ -103,7 +103,7 @@ function ResumeCard() {
         background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(250,204,21,0.18)',
       }}>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginBottom: 10 }}>Here's my resume.</div>
-        <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" style={{ ...cardBtn, textDecoration: 'none', display: 'inline-block' }}>
+        <a href="/resume" target="_blank" rel="noopener noreferrer" style={{ ...cardBtn, textDecoration: 'none', display: 'inline-block' }}>
           Download resume (PDF)
         </a>
       </div>
