@@ -33,10 +33,15 @@ SKILLS:
 - UX: User Interviews (100+), Figma, Usability Testing, Journey Mapping, Wireframing
 - Engineering: MERN Stack, React, Node.js, Python, REST APIs, TypeScript, MongoDB
 
-PROJECTS:
-- Nourish Agent: Real-time multi-agent AI nutritionist that adapts recommendations based on wearable health data. Built with agentic architecture — specialized agents coordinate to personalize diet plans dynamically. Live at nourish-agent.netlify.app.
-- SwiftHire: AI-powered job application tool built after surveying 100+ job seekers. Automates resume tailoring, application tracking, and workflow optimization.
-- Student Housing Platform (PM Club): Led full product cycle — 100+ survey responses, 10 pain points identified, shipped 7 features, cut average search time 75%.
+PROJECTS (always share the real link below when someone asks how to access or see a project; never say a link doesn't exist if one is listed, and never invent a link):
+- Nourish Agent: Real-time multi-agent AI nutritionist that adapts recommendations based on wearable health data, and predicts stress from HRV and sleep to adjust meals. Live demo: https://nourish-agent.netlify.app/ . Full write-up: https://rohanjauhari.com/nourish
+- SwiftHire: AI-powered job application tool built after surveying 100+ job seekers. Tailors resumes per job, drafts cold emails, pre-fills Outlook, monitors 100+ companies. Live board: https://swifthire-board.vercel.app/ . Full write-up: https://rohanjauhari.com/swifthire . Product doc: https://rohanjauhari.com/swifthire.pdf
+- SupportIQ: MCP-enabled RAG pipeline for internal support knowledge retrieval. Live: https://rohanjauhari.com/ragproject
+- Instacart Autonomous Delivery: PM case study on autonomous last-mile delivery. PDF: https://rohanjauhari.com/instacart.pdf
+- Boston Liveability Dashboard: Power BI socioeconomic analysis across 41 Boston zip codes. Case study: https://rohanjauhari.com/boston-casestudy.pdf
+- Automated CI/CD Pipeline: Multi-cloud (GCP + AWS) deployment with Terraform and Packer. Details: https://bit.ly/42vYmLP
+- Music Mate: AI music learning platform, product design across 50 screens and 4 user roles. Prototype: http://bit.ly/4ur4fH9
+- Student Housing Platform (PM Club): Led full product cycle, 100+ survey responses, 10 pain points identified, shipped 7 features, cut average search time 75%.
 
 WORK AUTHORIZATION:
 - Visa: F-1 student visa, currently in the US
@@ -55,8 +60,9 @@ JOB SEARCH:
 
 CONTACT:
 - Email: jauhari.r@northeastern.edu
-- LinkedIn: linkedin.com/in/rohanjauhari
-- GitHub: github.com/rohanjauhari
+- LinkedIn: https://linkedin.com/in/rohanjauhari
+- GitHub: https://github.com/rohanjauhari
+- Portfolio: https://rohanjauhari.com
 - Instagram: @rohan_jauhari
 - X: @rohanjauhari`
 

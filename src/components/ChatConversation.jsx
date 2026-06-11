@@ -41,16 +41,16 @@ function Message({ msg }) {
   // Turn emails into mailto: links and URLs into clickable links.
   const linkStyle = { color: '#facc15', textDecoration: 'underline' }
   const linkify = (text, prefix) =>
-    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s]+|www\.[^\s]+)/g).map((part, i) => {
+    text.split(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|https?:\/\/[^\s]+|[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(?:com|org|net|io|edu|app|dev|ai|co|me|gov|xyz)(?:\/[^\s]*)?)/g).map((part, i) => {
       const key = `${prefix}-${i}`
       if (!part) return null
       if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
         return <a key={key} href={`mailto:${part}`} style={linkStyle}>{part}</a>
       }
-      if (/^(https?:\/\/|www\.)/.test(part)) {
+      if (/^https?:\/\//.test(part) || /^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.(?:com|org|net|io|edu|app|dev|ai|co|me|gov|xyz)/.test(part)) {
         const trail = (part.match(/[.,!?;:)\]]+$/) || [''])[0]
         const url = trail ? part.slice(0, -trail.length) : part
-        const href = url.startsWith('www.') ? `https://${url}` : url
+        const href = /^https?:\/\//.test(url) ? url : `https://${url}`
         return <span key={key}><a href={href} target="_blank" rel="noopener noreferrer" style={linkStyle}>{url}</a>{trail}</span>
       }
       return <span key={key}>{part}</span>
