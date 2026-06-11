@@ -146,8 +146,14 @@ export default function Contact() {
   const isMobile = useIsMobile()
 
   useEffect(() => {
+    // Reveal if the section is already at/above the viewport on load (e.g. a
+    // refresh while scrolled to the bottom), otherwise reveal on scroll-in.
+    if (ref.current && ref.current.getBoundingClientRect().top < window.innerHeight) {
+      setVisible(true)
+      return
+    }
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } },
+      ([e]) => { if (e.isIntersecting || e.boundingClientRect.top < 0) { setVisible(true); obs.disconnect() } },
       { threshold: 0.15 }
     )
     if (ref.current) obs.observe(ref.current)
