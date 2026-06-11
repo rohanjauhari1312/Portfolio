@@ -86,6 +86,7 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
   const [voiceOn, setVoiceOn] = useState(true)
   const [listening, setListening] = useState(false)
   const [speaking, setSpeaking] = useState(false)
+  const [mode, setMode] = useState('write') // 'write' | 'speak'
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
   const audioRef = useRef(null)
@@ -254,6 +255,16 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
 
   return (
     <>
+      <style>{`
+        @keyframes talkGlow {
+          0%, 100% { text-shadow: 0 0 8px rgba(250,204,21,0.55), 0 0 16px rgba(250,204,21,0.25); }
+          50%      { text-shadow: 0 0 14px rgba(250,204,21,0.9), 0 0 28px rgba(250,204,21,0.45); }
+        }
+        @keyframes modeGlow {
+          0%, 100% { box-shadow: 0 0 10px rgba(96,165,250,0.5), 0 0 20px rgba(96,165,250,0.2); }
+          50%      { box-shadow: 0 0 16px rgba(96,165,250,0.85), 0 0 34px rgba(96,165,250,0.4); }
+        }
+      `}</style>
       {/* Header */}
       <div style={{
         padding: fullscreen ? 'calc(14px + env(safe-area-inset-top)) 18px 14px' : '14px 18px',
@@ -264,9 +275,14 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         <img src="/emoji.png" alt="" style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)' }} />
         <div>
           <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 2 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 5px #4ade80', display: 'inline-block' }} />
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em' }}>Powered by Claude</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{
+              fontSize: 12, fontWeight: 700, color: '#facc15',
+              letterSpacing: '0.01em',
+              textShadow: '0 0 10px rgba(250,204,21,0.7), 0 0 20px rgba(250,204,21,0.35)',
+              animation: 'talkGlow 2.4s ease-in-out infinite',
+            }}>Talk to me, in my voice</span>
           </div>
         </div>
         <button
@@ -352,66 +368,110 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         padding: fullscreen ? '10px 12px calc(14px + env(safe-area-inset-bottom))' : '10px 12px 14px',
         borderTop: '1px solid rgba(255,255,255,0.06)',
         flexShrink: 0,
-        display: 'flex', gap: 8, alignItems: 'flex-end',
       }}>
-        <textarea
-          ref={inputRef}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={onKey}
-          placeholder="Ask something..."
-          rows={1}
-          style={{
-            flex: 1, background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 10, padding: '9px 12px',
-            color: '#f5f5f5', fontSize: fullscreen ? 16 : 13, resize: 'none',
-            outline: 'none', fontFamily: 'Inter, sans-serif',
-            lineHeight: 1.5, maxHeight: 100, overflowY: 'auto',
-          }}
-        />
+        {/* Write / Speak toggle */}
         {SpeechRecognition && (
-          <button
-            onClick={toggleMic}
-            aria-label={listening ? 'Stop listening' : 'Speak'}
-            style={{
-              width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-              background: listening ? '#facc15' : 'rgba(255,255,255,0.06)',
-              border: listening ? 'none' : '1px solid rgba(255,255,255,0.1)',
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'background 0.2s',
-              animation: listening ? 'micPulse 1.2s ease-in-out infinite' : 'none',
-            }}
-          >
-            <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,0.5)} 50%{box-shadow:0 0 0 6px rgba(250,204,21,0)} }`}</style>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : 'rgba(255,255,255,0.6)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-          </button>
+          <div style={{
+            display: 'flex', gap: 5, marginBottom: 10,
+            padding: 4, borderRadius: 11,
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.07)',
+          }}>
+            {[
+              { key: 'write', label: "I'll write" },
+              { key: 'speak', label: "I'll speak" },
+            ].map(opt => {
+              const active = mode === opt.key
+              return (
+                <button
+                  key={opt.key}
+                  onClick={() => {
+                    if (opt.key === 'write' && listening) recogRef.current?.stop()
+                    setMode(opt.key)
+                  }}
+                  style={{
+                    flex: 1, padding: '7px 0', borderRadius: 8, cursor: 'pointer',
+                    border: 'none',
+                    background: active ? '#60a5fa' : 'transparent',
+                    color: active ? '#0a0a0a' : 'rgba(255,255,255,0.5)',
+                    fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
+                    transition: 'background 0.2s, color 0.2s',
+                    animation: active ? 'modeGlow 2.4s ease-in-out infinite' : 'none',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              )
+            })}
+          </div>
         )}
-        <button
-          onClick={() => (speaking ? stopSpeaking() : send())}
-          disabled={!speaking && (!input.trim() || loading)}
-          aria-label={speaking ? 'Stop voice' : 'Send'}
-          style={{
-            width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-            background: speaking ? 'rgba(255,255,255,0.12)' : (input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)'),
-            border: 'none', cursor: (speaking || (input.trim() && !loading)) ? 'pointer' : 'default',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'background 0.2s, box-shadow 0.2s',
-          }}
-        >
-          {speaking ? (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)" stroke="none">
-              <rect x="6" y="6" width="12" height="12" rx="2"/>
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={input.trim() && !loading ? '#0a0a0a' : 'rgba(255,255,255,0.25)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          )}
-        </button>
+
+        {mode === 'write' ? (
+          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={onKey}
+              placeholder="Ask something..."
+              rows={1}
+              style={{
+                flex: 1, background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 10, padding: '9px 12px',
+                color: '#f5f5f5', fontSize: fullscreen ? 16 : 13, resize: 'none',
+                outline: 'none', fontFamily: 'Inter, sans-serif',
+                lineHeight: 1.5, maxHeight: 100, overflowY: 'auto',
+              }}
+            />
+            <button
+              onClick={() => (speaking ? stopSpeaking() : send())}
+              disabled={!speaking && (!input.trim() || loading)}
+              aria-label={speaking ? 'Stop voice' : 'Send'}
+              style={{
+                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                background: speaking ? 'rgba(255,255,255,0.12)' : (input.trim() && !loading ? '#facc15' : 'rgba(255,255,255,0.06)'),
+                border: 'none', cursor: (speaking || (input.trim() && !loading)) ? 'pointer' : 'default',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s, box-shadow 0.2s',
+              }}
+            >
+              {speaking ? (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)" stroke="none">
+                  <rect x="6" y="6" width="12" height="12" rx="2"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={input.trim() && !loading ? '#0a0a0a' : 'rgba(255,255,255,0.25)'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '6px 0 2px' }}>
+            <style>{`@keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,0.5)} 50%{box-shadow:0 0 0 10px rgba(96,165,250,0)} }`}</style>
+            <button
+              onClick={toggleMic}
+              aria-label={listening ? 'Stop listening' : 'Tap and speak'}
+              style={{
+                width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+                background: listening ? '#60a5fa' : 'rgba(96,165,250,0.12)',
+                border: `1px solid ${listening ? '#60a5fa' : 'rgba(96,165,250,0.4)'}`,
+                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s',
+                animation: listening ? 'micPulse 1.2s ease-in-out infinite' : 'none',
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={listening ? '#0a0a0a' : '#60a5fa'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </button>
+            <span style={{ fontSize: 12, color: listening ? '#60a5fa' : 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+              {listening ? 'Listening, tap to stop' : 'Tap and speak'}
+            </span>
+          </div>
+        )}
       </div>
     </>
   )
