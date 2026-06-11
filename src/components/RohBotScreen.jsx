@@ -30,6 +30,7 @@ export default function RohBotScreen({ onBack }) {
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
+      overscrollBehavior: 'none',
     }}>
       <ChatConversation onClose={onBack} fullscreen />
     </div>

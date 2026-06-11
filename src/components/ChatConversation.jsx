@@ -307,7 +307,11 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
       </div>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '16px 16px 8px' }}>
+      <div style={{
+        flex: 1, minHeight: 0, overflowY: 'auto',
+        overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch',
+        padding: '16px 16px 8px',
+      }}>
         {messages.length === 0 && (
           <div style={{ textAlign: 'center', marginTop: 20 }}>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', marginBottom: 20 }}>
