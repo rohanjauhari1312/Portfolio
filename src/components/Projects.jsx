@@ -18,6 +18,7 @@ const PROJECTS = [
       'A **live voice agent** on this site that answers in my cloned voice, knows my work, and takes real actions while you talk',
       'Checks my **calendar and books a call**, emails you my **resume or the transcript**, and opens project pages on your screen mid-conversation',
       'Built on **ElevenLabs voice + Claude + RAG** over my case studies, with **n8n** wiring up Google Calendar and Gmail behind the scenes',
+      'Hardened for production: **signed-URL keys, secret-gated webhooks, rate limits, and agent guardrails** against prompt injection',
     ],
     gradient: 'linear-gradient(135deg, #0a0f1a 0%, #0f2240 50%, #1a3a6b 100%)',
     iconBg: 'linear-gradient(135deg, #1d4ed8, #60a5fa)',

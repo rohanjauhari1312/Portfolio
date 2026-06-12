@@ -32,6 +32,15 @@ const STACK = [
   { k: 'Frontend',        v: 'React, the live call runs right inside the chat window' },
 ]
 
+const SECURITY = [
+  { k: 'Keys never exposed', v: 'Every API key (ElevenLabs, Claude) lives in server env vars. A serverless endpoint hands the browser a short-lived signed URL, so no key ever reaches the client or the bundle.' },
+  { k: 'Secret-gated webhooks', v: 'The booking and email automations sit behind a shared-secret header. Only the agent knows it; any request without it is rejected with 403, so the endpoints cannot be spam-triggered.' },
+  { k: 'Rate limiting', v: 'The chat and voice token endpoints are rate-limited per IP, with input size caps, to blunt abuse and runaway cost.' },
+  { k: 'Agent guardrails', v: 'ElevenLabs guardrails block prompt injection, manipulation, and off-topic or unsafe output. The system prompt, model, and tool list cannot be overridden by a connecting client.' },
+  { k: 'Booking limits', v: 'The agent books one call per conversation and only offers genuinely free slots, so the calendar cannot be flooded.' },
+  { k: 'Private by design', v: 'No personal data sits in client code. Visitor email is only used for the action they asked for (resume or transcript), nothing is sold or compiled.' },
+]
+
 function useReveal(threshold = 0.1) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -187,6 +196,21 @@ export default function RohBotDetail({ onBack }) {
               <div key={s.k} style={{ display: 'flex', borderBottom: i < STACK.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none', background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
                 <div style={{ width: 150, flexShrink: 0, padding: '13px 20px', fontSize: 12, fontWeight: 700, color: Y, borderRight: '1px solid rgba(255,255,255,0.05)' }}>{s.k}</div>
                 <div style={{ padding: '13px 20px', fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.5 }}>{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section label="Security & privacy">
+          <TypedHeading text="Built to be safe in public." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 12px', color: '#f5f5f5' }} />
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', margin: '0 0 28px', lineHeight: 1.7, maxWidth: 640 }}>
+            It is a live agent on a public site that can touch a real calendar and inbox, so it is locked down accordingly.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {SECURITY.map(s => (
+              <div key={s.k} style={{ padding: '16px 18px', borderRadius: 12, background: Y_BG, border: `1px solid ${Y_BORD}` }}>
+                <div style={{ fontSize: 13.5, fontWeight: 700, color: Y, marginBottom: 6 }}>{s.k}</div>
+                <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65 }}>{s.v}</div>
               </div>
             ))}
           </div>
