@@ -317,8 +317,8 @@ export default function Contact() {
         <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           Built with
           <img src="/claude code.png?v=3" alt="Claude Code" style={{ height: 36, objectFit: 'contain', display: 'block' }} />
-          <img src="/11labs.png?v=3" alt="ElevenLabs" style={{ height: 30, objectFit: 'contain', display: 'block' }} />
-          <img src="/n8n.png?v=5" alt="n8n" style={{ height: 24, objectFit: 'contain', display: 'block' }} />
+          <img src="/11labs.png?v=3" alt="ElevenLabs" style={{ height: 24, objectFit: 'contain', display: 'block' }} />
+          <img src="/n8n.png?v=5" alt="n8n" style={{ height: 19, objectFit: 'contain', display: 'block' }} />
         </span>
       </div>
     </section>
