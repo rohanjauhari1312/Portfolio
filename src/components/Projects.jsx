@@ -7,7 +7,8 @@ const PROJECTS = [
   {
     id: 'rohbot',
     image: '/emoji.png',
-    imageFit: 'cover',
+    imageFit: 'contain',
+    imageBg: '#b6babd',
     link: '/rohbot',
     linkLabel: 'Talk to it',
     hasDetail: 'voice-agent',
@@ -18,10 +19,10 @@ const PROJECTS = [
       'Checks my **calendar and books a call**, emails you my **resume or the transcript**, and opens project pages on your screen mid-conversation',
       'Built on **ElevenLabs voice + Claude + RAG** over my case studies, with **n8n** wiring up Google Calendar and Gmail behind the scenes',
     ],
-    gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
-    iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
+    gradient: 'linear-gradient(135deg, #0a0f1a 0%, #0f2240 50%, #1a3a6b 100%)',
+    iconBg: 'linear-gradient(135deg, #1d4ed8, #60a5fa)',
     icon: 'R',
-    accentColor: '#facc15',
+    accentColor: '#60a5fa',
     tags: ['Voice AI', 'ElevenLabs', 'Claude', 'RAG', 'n8n', 'Tool calling'],
     metrics: [
       { v: 'Voice', l: 'In my cloned voice' },
