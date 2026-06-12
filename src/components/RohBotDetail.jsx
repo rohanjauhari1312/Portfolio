@@ -131,7 +131,7 @@ export default function RohBotDetail({ onBack }) {
         </div>
 
         <h1 style={{ fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1, color: Y, margin: '0 0 28px' }}>
-          ROHBOT
+          RohBot
         </h1>
 
         <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 680, margin: '0 0 40px' }}>
