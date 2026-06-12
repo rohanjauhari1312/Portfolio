@@ -1,0 +1,208 @@
+import { useEffect, useRef, useState } from 'react'
+import TypedHeading from './TypedHeading'
+
+const Y       = '#facc15'
+const Y_BG    = 'rgba(250,204,21,0.09)'
+const Y_BORD  = 'rgba(250,204,21,0.22)'
+
+const PIPELINE = [
+  { step: 'You talk',        detail: 'You hit the call button in the chat and speak. ElevenLabs streams your audio and transcribes it in real time, with proper turn-taking and interruptions.' },
+  { step: 'Claude decides',  detail: 'Claude is the brain. It understands the question, pulls facts from a knowledge base of my case studies (RAG), and decides whether it can just answer or needs to take an action.' },
+  { step: 'A tool runs',     detail: 'If an action is needed, it calls a tool mid-conversation: check my calendar, book a slot, email you my resume or the transcript, or open a project page on your screen.' },
+  { step: 'I answer back',   detail: 'The reply is spoken back in my own cloned voice, and the result is confirmed out loud. The whole loop happens live, in the same chat window.' },
+]
+
+const CAPABILITIES = [
+  { title: 'Answers in my voice',  what: 'Every reply is spoken in my cloned voice', why: 'It is me talking, not a generic TTS' },
+  { title: 'Books a call',         what: 'Checks my real calendar, suggests open slots, books the one you pick', why: 'No back-and-forth email to schedule' },
+  { title: 'Emails you',           what: 'Sends my resume or a transcript to your inbox', why: 'You leave the call with what you need' },
+  { title: 'Knows my work',        what: 'Retrieves details from my case studies on demand', why: 'Specific answers, not vague ones' },
+  { title: 'Shows you around',     what: 'Opens project pages on your screen as it talks', why: 'You see the thing while we discuss it' },
+  { title: 'Type or talk',         what: 'You can type your email mid-call and it reads it', why: 'Voice for talk, text for precise input' },
+]
+
+const STACK = [
+  { k: 'Voice + STT',     v: 'ElevenLabs Conversational AI, real-time speech in and out' },
+  { k: 'My voice',        v: 'ElevenLabs instant voice clone' },
+  { k: 'Brain',           v: 'Claude, runs the conversation and decides on tools' },
+  { k: 'Knowledge (RAG)', v: 'ElevenLabs Knowledge Base over my case-study docs' },
+  { k: 'Booking + email', v: 'n8n workflows to Google Calendar and Gmail' },
+  { k: 'In-app actions',  v: 'Client tools that open pages, drop a resume card, build the transcript' },
+  { k: 'Token security',  v: 'Vercel serverless function issues a signed URL, the API key never reaches the browser' },
+  { k: 'Frontend',        v: 'React, the live call runs right inside the chat window' },
+]
+
+function useReveal(threshold = 0.1) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [threshold])
+  return [ref, visible]
+}
+
+function Section({ label, children }) {
+  const [ref, visible] = useReveal()
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(28px)',
+        transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+        marginBottom: 80,
+      }}
+    >
+      {label && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: Y, boxShadow: `0 0 8px ${Y}`, display: 'inline-block' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: Y }}>{label}</span>
+        </div>
+      )}
+      {children}
+    </div>
+  )
+}
+
+export default function RohBotDetail({ onBack }) {
+  useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  const goChat = () => {
+    history.pushState(null, '', '/rohbot')
+    window.dispatchEvent(new PopStateEvent('popstate'))
+  }
+
+  return (
+    <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#f5f5f5' }}>
+      {/* Top bar */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 40px', background: 'rgba(10,10,10,0.88)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(18px)',
+      }}>
+        <button
+          onClick={onBack}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            background: 'none', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 8, padding: '7px 16px', cursor: 'pointer',
+            color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 500,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; e.currentTarget.style.color = '#f5f5f5' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
+        >
+          <span style={{ fontSize: 16, lineHeight: 1 }}>&#8592;</span>
+          Portfolio
+        </button>
+        <button
+          onClick={goChat}
+          style={{
+            padding: '8px 20px', borderRadius: 8, fontSize: 13, fontWeight: 700,
+            background: Y, color: '#0a0a0a', border: 'none', cursor: 'pointer',
+            boxShadow: `0 0 16px ${Y}40`,
+          }}
+        >
+          Talk to RohBot
+        </button>
+      </div>
+
+      {/* Hero */}
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '120px 64px 80px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+          <img src="/emoji.png" alt="" style={{ width: 56, height: 56, borderRadius: '50%', border: `1px solid ${Y_BORD}` }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: Y }}>
+            AI Voice Agent
+          </span>
+        </div>
+
+        <h1 style={{ fontSize: 'clamp(3.5rem, 9vw, 6.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1, color: Y, margin: '0 0 28px' }}>
+          ROHBOT
+        </h1>
+
+        <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', lineHeight: 1.75, maxWidth: 680, margin: '0 0 40px' }}>
+          A live voice agent that talks back in my own cloned voice. Ask it about my work and it answers from my case studies. Ask it to set up a call and it checks my calendar, suggests times, and books one. Ask for my resume and it emails you. It all happens in the chat, while you talk.
+        </p>
+
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+          <button onClick={goChat} style={{ padding: '13px 28px', borderRadius: 8, fontSize: 14, fontWeight: 700, background: Y, color: '#0a0a0a', border: 'none', cursor: 'pointer', boxShadow: `0 0 24px ${Y}50` }}>
+            Talk to it live
+          </button>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {['ElevenLabs', 'Claude', 'RAG', 'n8n'].map(t => (
+              <span key={t} style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', padding: '5px 10px', borderRadius: 6 }}>{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${Y}20, transparent)` }} />
+
+      {/* Content */}
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '80px 64px 120px' }}>
+
+        {/* How it works */}
+        <Section label="How it works">
+          <TypedHeading text="The loop, end to end." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 32px', color: '#f5f5f5' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {PIPELINE.map((p, i) => (
+              <div key={p.step} style={{ display: 'flex', gap: 28, paddingBottom: i < PIPELINE.length - 1 ? 32 : 0 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: Y_BG, border: `1px solid ${Y_BORD}`, color: Y, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, flexShrink: 0 }}>{i + 1}</div>
+                  {i < PIPELINE.length - 1 && <div style={{ width: 1, flex: 1, background: `linear-gradient(to bottom, ${Y}40, transparent)`, marginTop: 6 }} />}
+                </div>
+                <div style={{ paddingBottom: 8 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: Y, marginBottom: 6 }}>{p.step}</div>
+                  <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, margin: 0 }}>{p.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Capabilities */}
+        <Section label="What it can do">
+          <TypedHeading text="It talks. It also acts." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 32px', color: '#f5f5f5' }} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 }}>
+            {CAPABILITIES.map(c => (
+              <div key={c.title} style={{ padding: '18px 20px', borderRadius: 12, background: Y_BG, border: `1px solid ${Y_BORD}` }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: Y, marginBottom: 6 }}>{c.title}</div>
+                <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>{c.what}</div>
+                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>{c.why}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Stack */}
+        <Section label="Architecture">
+          <TypedHeading text="What it's built on." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 28px', color: '#f5f5f5' }} />
+          <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+            {STACK.map((s, i) => (
+              <div key={s.k} style={{ display: 'flex', borderBottom: i < STACK.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none', background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
+                <div style={{ width: 150, flexShrink: 0, padding: '13px 20px', fontSize: 12, fontWeight: 700, color: Y, borderRight: '1px solid rgba(255,255,255,0.05)' }}>{s.k}</div>
+                <div style={{ padding: '13px 20px', fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.5 }}>{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* CTA */}
+        <div style={{ textAlign: 'center', paddingTop: 10 }}>
+          <button onClick={goChat} style={{ display: 'inline-block', padding: '16px 40px', borderRadius: 10, fontSize: 15, fontWeight: 700, background: Y, color: '#0a0a0a', border: 'none', cursor: 'pointer', boxShadow: `0 0 32px ${Y}40` }}>
+            Talk to RohBot
+          </button>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', marginTop: 14 }}>
+            ElevenLabs voice · Claude · RAG · n8n
+          </p>
+        </div>
+
+      </div>
+    </div>
+  )
+}

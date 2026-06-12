@@ -5,6 +5,31 @@ import { trackSection, trackExternalLink, trackClick } from '../hooks/useAnalyti
 
 const PROJECTS = [
   {
+    id: 'rohbot',
+    image: null,
+    link: '/rohbot',
+    linkLabel: 'Talk to it',
+    hasDetail: 'voice-agent',
+    name: 'RohBot',
+    tagline: 'AI Voice Agent in My Own Voice',
+    bullets: [
+      'A **live voice agent** on this site that answers in my cloned voice, knows my work, and takes real actions while you talk',
+      'Checks my **calendar and books a call**, emails you my **resume or the transcript**, and opens project pages on your screen mid-conversation',
+      'Built on **ElevenLabs voice + Claude + RAG** over my case studies, with **n8n** wiring up Google Calendar and Gmail behind the scenes',
+    ],
+    gradient: 'linear-gradient(135deg, #1c1400 0%, #713f12 50%, #a16207 100%)',
+    iconBg: 'linear-gradient(135deg, #ca8a04, #facc15)',
+    icon: 'R',
+    accentColor: '#facc15',
+    tags: ['Voice AI', 'ElevenLabs', 'Claude', 'RAG', 'n8n', 'Tool calling'],
+    metrics: [
+      { v: 'Voice', l: 'In my cloned voice' },
+      { v: 'Live', l: 'Books calls, emails you' },
+      { v: 'RAG', l: 'Over my case studies' },
+    ],
+    status: 'Personal Project',
+  },
+  {
     id: 'nourish',
     image: '/nourish.jpeg',
     link: 'https://nourish-agent.netlify.app/',

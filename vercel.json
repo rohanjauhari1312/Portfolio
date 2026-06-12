@@ -9,6 +9,7 @@
     { "source": "/nourish", "destination": "/index.html" },
     { "source": "/framer-demo", "destination": "/index.html" },
     { "source": "/rohbot", "destination": "/index.html" },
+    { "source": "/voice-agent", "destination": "/index.html" },
     { "source": "/about", "destination": "/index.html" },
     { "source": "/skills", "destination": "/index.html" },
     { "source": "/education", "destination": "/index.html" },
