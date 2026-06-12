@@ -6,7 +6,8 @@ import { trackSection, trackExternalLink, trackClick } from '../hooks/useAnalyti
 const PROJECTS = [
   {
     id: 'rohbot',
-    image: null,
+    image: '/emoji.png',
+    imageFit: 'cover',
     link: '/rohbot',
     linkLabel: 'Talk to it',
     hasDetail: 'voice-agent',
