@@ -155,6 +155,28 @@ export default function RohBotDetail({ onBack }) {
       {/* Content */}
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '80px 64px 120px' }}>
 
+        {/* The problem */}
+        <Section label="The problem">
+          <TypedHeading text="A portfolio is a one-way street." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 20px', color: '#f5f5f5' }} />
+          <p style={{ fontSize: 15.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 680 }}>
+            A recruiter lands on my site, skims a few bullets, maybe opens a PDF, and leaves. I never learn who they were, what role they had, or whether it was even a fit. The page cannot answer their specific question, cannot qualify the opportunity, and cannot move anything forward.
+          </p>
+          <p style={{ fontSize: 15.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: 0, maxWidth: 680 }}>
+            Every warm lead has to email me, wait for a reply, and schedule a call over a few back-and-forth messages. Most do not bother. The interest evaporates in the gap between "interested" and "in touch."
+          </p>
+        </Section>
+
+        {/* The fix */}
+        <Section label="The fix">
+          <TypedHeading text="So I made it talk back." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 20px', color: '#f5f5f5' }} />
+          <p style={{ fontSize: 15.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: '0 0 16px', maxWidth: 680 }}>
+            RohBot is a live voice agent inside the chat. You tap call and you are talking, out loud, to a version of me in my own cloned voice. It knows my work and answers in character, and it actually does things while you speak instead of just describing them.
+          </p>
+          <p style={{ fontSize: 15.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: 0, maxWidth: 680 }}>
+            In one conversation a recruiter goes from "interested" to "has a call booked and my resume in their inbox," without leaving the page or waiting on me. It is the difference between a brochure and a conversation.
+          </p>
+        </Section>
+
         {/* How it works */}
         <Section label="How it works">
           <TypedHeading text="The loop, end to end." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 32px', color: '#f5f5f5' }} />
