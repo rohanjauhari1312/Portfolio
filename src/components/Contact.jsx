@@ -2,6 +2,23 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import TypedHeading from './TypedHeading'
 import useIsMobile from '../hooks/useIsMobile'
 
+const BB_SHOTS = ['/brainbridge-speaking.jpg', '/brainbridge-team.jpg', '/brainbridge-thumb.jpg']
+
+function RotatingShots() {
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setI(p => (p + 1) % BB_SHOTS.length), 3000)
+    return () => clearInterval(t)
+  }, [])
+  return (
+    <span title="BrainBridge, Neurotech Hackathon" style={{ position: 'relative', width: 64, height: 40, borderRadius: 8, overflow: 'hidden', display: 'inline-block', border: '1px solid rgba(255,255,255,0.12)', flexShrink: 0, verticalAlign: 'middle' }}>
+      {BB_SHOTS.map((s, idx) => (
+        <img key={s} src={s} alt="BrainBridge" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: idx === i ? 1 : 0, transition: 'opacity 0.8s ease' }} />
+      ))}
+    </span>
+  )
+}
+
 function ResumeActions({ isMobile }) {
   const [copied, setCopied] = useState(false)
 
@@ -320,6 +337,7 @@ export default function Contact() {
           <img src="/11labs.png?v=3" alt="ElevenLabs" style={{ height: 24, objectFit: 'contain', display: 'block' }} />
           <img src="/n8n.png?v=5" alt="n8n" style={{ height: 19, objectFit: 'contain', display: 'block' }} />
           <span>and native human ingenuity</span>
+          <RotatingShots />
         </span>
       </div>
     </section>
