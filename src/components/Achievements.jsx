@@ -7,6 +7,7 @@ const WINS = [
     id: 'codametrix',
     event: 'CodaMetrix Hackathon',
     place: 'Winner',
+    location: 'Boston, MA',
     name: 'Clinical note classification',
     image: '/codametrix-team.jpg',
     imageFit: 'cover',
@@ -15,9 +16,9 @@ const WINS = [
     link: '/codametrix-deck.pdf',
     linkLabel: 'View deck',
     bullets: [
-      'Built an NLP system that reads a clinical note and routes it to the right medical specialty, with a healthcare-first metric set (per-class recall, calibration, risk-coverage)',
-      'Compared three model families on one honest benchmark: TF-IDF + Logistic Regression (shipped), a fine-tuned PubMedBERT, and Claude few-shot',
-      'Hit 0.70 accuracy and 0.93 top-2, then held up on 1,000 unseen clinical vignettes with balanced per-class output',
+      'Built an **NLP system** that reads a clinical note and routes it to the **right medical specialty**, scored with a healthcare-first metric set (per-class recall, calibration, risk-coverage)',
+      'Compared **three model families** on one honest benchmark: **TF-IDF + Logistic Regression** (shipped), a fine-tuned **PubMedBERT**, and **Claude few-shot**',
+      'Hit **0.70 accuracy** and **0.93 top-2**, then held up on **1,000 unseen** clinical vignettes with balanced per-class output',
     ],
     metrics: [
       { v: '0.70', l: 'Accuracy' },
@@ -25,12 +26,13 @@ const WINS = [
       { v: '1,000', l: 'Unseen vignettes' },
     ],
     tags: ['NLP', 'PubMedBERT', 'Claude', 'scikit-learn', 'Healthcare'],
-    accent: '#60a5fa',
+    accent: '#facc15',
   },
   {
     id: 'brainbridge',
     event: 'Neurotech Hackathon',
     place: 'Winner',
+    location: 'Boston, MA',
     name: 'BrainBridge — re-connecting brain and body',
     image: '/brainbridge-speaking.jpg',
     imageFit: 'cover',
@@ -39,9 +41,9 @@ const WINS = [
     link: '/brainbridge-deck.pdf',
     linkLabel: 'View deck',
     bullets: [
-      'A closed-loop brain-computer interface for spinal cord injury that reads movement intent and stimulates muscles directly, bridging the gap the injury created',
-      'High-density ECoG arrays over the motor cortex feed adaptive deep-learning models that map neural signals to coordinated, multi-site muscle stimulation',
-      'A VR environment handles task-specific training and calibration, cutting the long setup and frequent recalibration that limit current BCIs',
+      'A **closed-loop brain-computer interface** for spinal cord injury that reads **movement intent** and **stimulates muscles directly**, bridging the gap the injury created',
+      'High-density **ECoG arrays** over the motor cortex feed **adaptive deep-learning** models that map neural signals to coordinated, multi-site **muscle stimulation**',
+      'A **VR environment** handles task-specific training and calibration, cutting the long setup and frequent recalibration that limit current BCIs',
     ],
     metrics: [
       { v: '15M+', l: 'People with SCI' },
@@ -56,6 +58,7 @@ const WINS = [
     event: 'Guest session, Northeastern',
     place: 'Speaker',
     badge: 'mic',
+    location: 'Boston, MA',
     name: 'Product management session',
     image: '/pm-speech.jpg',
     imageFit: 'cover',
@@ -64,11 +67,13 @@ const WINS = [
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7394388534838632448/',
     linkLabel: 'See post',
     bullets: [
-      'Led a product management session for the Aspiring Product Managers Club at Northeastern, breaking down how PMs turn data into product decisions',
-      'Walked through real case studies, including an airline example on customer behavior and migration patterns, to make data-driven product thinking concrete',
+      'Led a **product management session** for the **Aspiring Product Managers Club** at Northeastern, breaking down how PMs turn **data into product decisions**',
+      'Framed the PM role as the **sweet spot** between **business, technology, and the user**, and how to find where the three overlap',
+      'Walked through **real case studies**, including an **airline example** on customer behavior and migration patterns, to make data-driven thinking concrete',
+      'Fielded live questions on **breaking into product**, prioritization, and reading **signal from noise**',
     ],
     metrics: [],
-    tags: ['Speaking', 'Product', 'Mentorship'],
+    tags: ['Speaking', 'Product', 'Mentorship', 'McKinsey'],
     accent: '#4ade80',
   },
 ]
@@ -76,6 +81,14 @@ const WINS = [
 const BADGE_ICON = {
   trophy: <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/>,
   mic: <><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></>,
+}
+
+function hl(text, color) {
+  return text.split(/(\*\*.*?\*\*)/g).map((p, i) =>
+    p.startsWith('**') && p.endsWith('**')
+      ? <span key={i} style={{ color, fontWeight: 600 }}>{p.slice(2, -2)}</span>
+      : p
+  )
 }
 
 function WinImage({ win }) {
@@ -155,13 +168,19 @@ function WinCard({ win, index }) {
             }}>{win.linkLabel || 'View'}</a>
           )}
         </div>
-        <span style={{ fontSize: 13, color: win.accent, fontWeight: 600, display: 'block', marginBottom: 14 }}>{win.name}</span>
+        <span style={{ fontSize: 13, color: win.accent, fontWeight: 600, display: 'block', marginBottom: 8 }}>{win.name}</span>
+        {win.location && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 14 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.4)' }}>{win.location}</span>
+          </div>
+        )}
 
         <ul style={{ margin: '0 0 18px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {win.bullets.map((b, i) => (
             <li key={i} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
               <span style={{ width: 4, height: 4, borderRadius: '50%', flexShrink: 0, marginTop: 7, background: win.accent, opacity: 0.7 }} />
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>{b}</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>{hl(b, win.accent)}</span>
             </li>
           ))}
         </ul>
