@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, style: s = {}, as: Tag = 'h2', speed = 55, cursorColor = '#f5f5f5' }) {
+export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, style: s = {}, as: Tag = 'h2', speed = 55, cursorColor = '#facc15' }) {
   const ref = useRef(null)
   const [count, setCount] = useState(0)
   const [started, setStarted] = useState(false)
@@ -34,7 +34,8 @@ export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, 
       background: cursorColor,
       marginLeft: 3,
       verticalAlign: 'middle',
-      animation: 'typedBlink 0.35s step-end infinite',
+      boxShadow: `0 0 8px ${cursorColor}`,
+      animation: 'typedBlink 1.06s step-end infinite',
     }} />
   )
 
@@ -44,12 +45,12 @@ export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, 
   return (
     <Tag ref={ref} style={s}>
       {text.slice(0, mainTyped)}
-      {!done && !cursorInSuffix && cursor}
+      {!cursorInSuffix && cursor}
       <span style={{ opacity: 0 }} aria-hidden="true">{text.slice(mainTyped)}</span>
       {suffixText && (
         <span style={suffixStyle}>
           {suffixText.slice(0, suffixTyped)}
-          {!done && cursorInSuffix && cursor}
+          {cursorInSuffix && cursor}
           <span style={{ opacity: 0 }} aria-hidden="true">{suffixText.slice(suffixTyped)}</span>
         </span>
       )}
