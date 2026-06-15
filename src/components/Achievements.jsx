@@ -8,8 +8,11 @@ const WINS = [
     event: 'CodaMetrix Hackathon 2026',
     place: 'Winner',
     name: 'Clinical note classification',
-    image: '/codametrix-team.jpg',
-    link: null,
+    image: '/codametrix-thumb.jpg',
+    imageFit: 'contain',
+    imageBg: '#0e2a2a',
+    link: '/codametrix-deck.pdf',
+    linkLabel: 'View deck',
     bullets: [
       'Built an NLP system that reads a clinical note and routes it to the right medical specialty, with a healthcare-first metric set (per-class recall, calibration, risk-coverage)',
       'Compared three model families on one honest benchmark: TF-IDF + Logistic Regression (shipped), a fine-tuned PubMedBERT, and Claude few-shot',
@@ -47,7 +50,7 @@ function WinImage({ win }) {
         src={win.image}
         alt={win.name}
         onError={() => setFailed(true)}
-        style={{ width: '100%', height: 200, objectFit: 'cover', display: 'block', borderRadius: '14px 14px 0 0' }}
+        style={{ width: '100%', height: 200, objectFit: win.imageFit || 'cover', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
       />
     )
   }
@@ -113,7 +116,7 @@ function WinCard({ win, index }) {
             <a href={win.link} target="_blank" rel="noopener noreferrer" style={{
               padding: '4px 11px', borderRadius: 7, fontSize: 11, fontWeight: 700,
               background: win.accent, color: '#0a0a0a', textDecoration: 'none',
-            }}>View deck</a>
+            }}>{win.linkLabel || 'View'}</a>
           )}
         </div>
         <span style={{ fontSize: 12, color: win.accent, fontWeight: 500, display: 'block', marginBottom: 14 }}>{win.event}</span>
