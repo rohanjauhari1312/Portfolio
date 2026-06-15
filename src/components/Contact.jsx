@@ -319,6 +319,7 @@ export default function Contact() {
           <img src="/claude code.png?v=3" alt="Claude Code" style={{ height: 36, objectFit: 'contain', display: 'block' }} />
           <img src="/11labs.png?v=3" alt="ElevenLabs" style={{ height: 24, objectFit: 'contain', display: 'block' }} />
           <img src="/n8n.png?v=5" alt="n8n" style={{ height: 19, objectFit: 'contain', display: 'block' }} />
+          <span>and native human ingenuity</span>
         </span>
       </div>
     </section>
