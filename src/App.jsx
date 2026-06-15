@@ -8,6 +8,7 @@ import Education from './components/Education'
 import Roadmap from './components/Roadmap'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
+import Achievements from './components/Achievements'
 import Contact from './components/Contact'
 import ScrollTop from './components/ScrollTop'
 import ChatBot from './components/ChatBot'
@@ -132,6 +133,7 @@ export default function App() {
         <Roadmap />
         <Experience />
         <Projects onNavigate={navigateTo} />
+        <Achievements />
         <Contact />
         <ScrollTop />
         <ChatBot onNavigate={navigateTo} />
