@@ -58,6 +58,7 @@ const WINS = [
     badge: 'mic',
     name: 'Product management session',
     image: null,
+    imageHeight: 280,
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7394388534838632448/',
     linkLabel: 'See post',
     bullets: [
