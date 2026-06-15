@@ -320,7 +320,7 @@ export default function Contact() {
           <img src="/claude code.png?v=3" alt="Claude Code" style={{ height: 36, objectFit: 'contain', display: 'block' }} />
           <img src="/11labs.png?v=3" alt="ElevenLabs" style={{ height: 24, objectFit: 'contain', display: 'block' }} />
           <img src="/n8n.png?v=5" alt="n8n" style={{ height: 19, objectFit: 'contain', display: 'block' }} />
-          <span style={{ fontSize: 15, fontWeight: 700, fontStyle: 'italic', color: '#facc15', textShadow: '0 0 12px rgba(250,204,21,0.5)' }}>and native human ingenuity</span>
+          <span style={{ fontSize: 14, fontWeight: 500, fontStyle: 'italic', color: '#facc15' }}>and native human ingenuity</span>
         </span>
       </div>
     </section>
