@@ -90,7 +90,7 @@ const BADGE_ICON = {
 function hl(text, color) {
   return text.split(/(\*\*.*?\*\*)/g).map((p, i) =>
     p.startsWith('**') && p.endsWith('**')
-      ? <span key={i} style={{ color, fontWeight: 600 }}>{p.slice(2, -2)}</span>
+      ? <span key={i} style={{ color }}>{p.slice(2, -2)}</span>
       : p
   )
 }

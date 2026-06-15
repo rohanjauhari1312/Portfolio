@@ -7,15 +7,8 @@ const MILESTONES = [
   { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
   { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
   { id: 'nu-research', company: 'NU Research',  logo: '/northeastern.png', color: '#f97316' },
-  { id: 'hackathons',  company: 'Hackathons',   logo: null,                color: '#4ade80', icon: 'trophy' },
-  { id: 'rohbot',      company: 'RohBot',       logo: '/emoji.png',        color: '#facc15' },
-  { id: 'next',        company: 'Next',         logo: null,                color: '#a78bfa', future: true },
+  { id: 'next',        company: 'Next',         logo: null,                color: '#facc15', future: true },
 ]
-
-const ICON_PATHS = {
-  arrow: <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>,
-  trophy: <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/>,
-}
 
 const N = MILESTONES.length
 
@@ -151,7 +144,7 @@ export default function Roadmap() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke={dynamicColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                   style={{ animation: 'futurePulse 2s ease-in-out infinite' }}>
-                  {ICON_PATHS[activeMilestone.icon || 'arrow']}
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                 </svg>
               )}
               <span style={{ fontSize: 10, fontWeight: 600, color: dynamicColor, transition: 'color 0.4s ease' }}>
@@ -169,7 +162,7 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #4ade80, #facc15, #a78bfa)',
+                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #facc15)',
                 width: `${progress * 100}%`,
                 transition: 'width 0.12s ease-out',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
@@ -242,7 +235,7 @@ export default function Roadmap() {
                           stroke={isActive ? m.color : 'rgba(255,255,255,0.25)'}
                           strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                           style={{ animation: isActive ? 'futurePulse 2s ease-in-out infinite' : 'none' }}>
-                          {ICON_PATHS[m.icon || 'arrow']}
+                          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                         </svg>
                       </div>
                     )}
