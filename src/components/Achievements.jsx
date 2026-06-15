@@ -34,12 +34,16 @@ const WINS = [
     place: 'Winner',
     location: 'Boston, MA',
     name: 'BrainBridge — re-connecting brain and body',
-    images: ['/brainbridge-speaking.jpg', '/brainbridge-team.jpg', '/brainbridge-thumb.jpg'],
+    images: ['/brainbridge-speaking.jpg', '/brainbridge-3.jpg', '/brainbridge-team.jpg'],
     imageFit: 'cover',
-    imagePos: 'center',
+    imagePos: 'center 35%',
     imageHeight: 280,
     link: '/brainbridge-deck.pdf',
     linkLabel: 'View deck',
+    extraLinks: [
+      { label: 'Demo', href: 'https://drive.google.com/file/d/125aogQbrzcJRQdkJZo9QDyCLUP974psM/view' },
+      { label: 'Pitch', href: 'https://drive.google.com/file/d/1NsdWKHOdgwfFqOSlOyd-HIwGiYD7umLy/view' },
+    ],
     bullets: [
       'A **closed-loop brain-computer interface** for spinal cord injury that reads **movement intent** and **stimulates muscles directly**, bridging the gap the injury created',
       'High-density **ECoG arrays** over the motor cortex feed **adaptive deep-learning** models that map neural signals to coordinated, multi-site **muscle stimulation**',
@@ -190,6 +194,17 @@ function WinCard({ win, index }) {
               background: win.accent, color: '#0a0a0a', textDecoration: 'none',
             }}>{win.linkLabel || 'View'}</a>
           )}
+          {win.extraLinks && win.extraLinks.map(el => (
+            <a key={el.href} href={el.href} target="_blank" rel="noopener noreferrer" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              padding: '4px 11px', borderRadius: 7, fontSize: 11, fontWeight: 600,
+              background: 'rgba(255,255,255,0.06)', border: `1px solid ${win.accent}55`,
+              color: win.accent, textDecoration: 'none',
+            }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg>
+              {el.label}
+            </a>
+          ))}
         </div>
         <span style={{ fontSize: 13, color: win.accent, fontWeight: 600, display: 'block', marginBottom: 8 }}>{win.name}</span>
         {win.location && (
