@@ -39,9 +39,28 @@ export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, 
     }} />
   )
 
-  // Render the full text always, with the not-yet-typed portion transparent,
-  // so the heading reserves its final size from the start and never reflows
-  // (which would shift the page) as it types.
+  // When finished, glue the cursor to the last word (in a nowrap span) so it
+  // never orphans onto its own line when the heading fills the line exactly.
+  if (done) {
+    const tail = suffixText || text
+    const sp = tail.lastIndexOf(' ')
+    const head = sp >= 0 ? tail.slice(0, sp + 1) : ''
+    const last = sp >= 0 ? tail.slice(sp + 1) : tail
+    const gluedLast = (
+      <span style={{ whiteSpace: 'nowrap' }}>{last}{cursor}</span>
+    )
+    return (
+      <Tag ref={ref} style={s}>
+        {suffixText ? text : head}
+        {suffixText
+          ? <span style={suffixStyle}>{head}{gluedLast}</span>
+          : gluedLast}
+      </Tag>
+    )
+  }
+
+  // While typing: render the full text with the not-yet-typed portion
+  // transparent so the heading reserves its final size and never reflows.
   return (
     <Tag ref={ref} style={s}>
       {text.slice(0, mainTyped)}
