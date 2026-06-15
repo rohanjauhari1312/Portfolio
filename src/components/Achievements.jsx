@@ -51,7 +51,29 @@ const WINS = [
     tags: ['Neurotech', 'BCI', 'ECoG', 'Deep learning', 'VR', 'Healthcare'],
     accent: '#a78bfa',
   },
+  {
+    id: 'pm-talk',
+    event: 'Guest session, Northeastern',
+    place: 'Speaker',
+    badge: 'mic',
+    name: 'Product management session',
+    image: null,
+    link: 'https://www.linkedin.com/feed/update/urn:li:activity:7394388534838632448/',
+    linkLabel: 'See post',
+    bullets: [
+      'Led a product management session for the Aspiring Product Managers Club at Northeastern, breaking down how PMs turn data into product decisions',
+      'Walked through real case studies, including an airline example on customer behavior and migration patterns, to make data-driven product thinking concrete',
+    ],
+    metrics: [],
+    tags: ['Speaking', 'Product', 'Mentorship'],
+    accent: '#4ade80',
+  },
 ]
+
+const BADGE_ICON = {
+  trophy: <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/>,
+  mic: <><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></>,
+}
 
 function WinImage({ win }) {
   const [failed, setFailed] = useState(false)
@@ -72,8 +94,8 @@ function WinImage({ win }) {
       position: 'relative', overflow: 'hidden',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke={win.accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h2a2 2 0 0 1 0 4h-1M7 5H5a2 2 0 0 0 0 4h1"/>
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke={win.accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        {BADGE_ICON[win.badge] || BADGE_ICON.trophy}
       </svg>
     </div>
   )
@@ -115,7 +137,7 @@ function WinCard({ win, index }) {
           background: 'rgba(10,10,10,0.85)', border: `1px solid ${win.accent}60`,
           color: win.accent, fontSize: 11.5, fontWeight: 700, letterSpacing: '0.03em',
         }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">{BADGE_ICON[win.badge] || BADGE_ICON.trophy}</svg>
           {win.place}
         </span>
       </div>
@@ -194,9 +216,9 @@ export default function Achievements() {
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px #facc15', display: 'inline-block' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#facc15' }}>Achievements</span>
           </div>
-          <TypedHeading text="Two hackathons, two wins." style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }} />
+          <TypedHeading text="Outside the resume." style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }} />
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.38)', marginTop: 12, maxWidth: 480 }}>
-            Weekend builds that shipped working products and took first place.
+            Two hackathon wins, and teaching what I know.
           </p>
         </div>
 
