@@ -9,40 +9,11 @@ const NAME = 'Rohan Jauhari'
 const ABOUT = 'I build products that make complex things feel simple, automating workflows for enterprise teams, turning raw data into decisions, and shipping AI into the hands of everyday users.'
 
 const TRAITS = [
-  { label: '4+ Years in Product', color: '#facc15', proofs: ['McKinsey', 'Avo Automation', 'Shipped + patented', '100% client expansion'] },
-  { label: 'Agentic AI',          color: '#facc15', proofs: ['Nourish multi-agent', 'RohBot voice agent', 'SwiftHire automation', 'LLM pipelines'] },
-  { label: 'Data-Driven',         color: '#fb923c', proofs: ['SQL + Snowflake', 'Power BI', 'Heap Analytics', '40% fewer query errors'] },
-  { label: 'User Obsessed',       color: '#fb923c', proofs: ['100+ interviews', '10 pain points mapped', '75% faster search', 'Patented feature'] },
+  { label: '4+ Years in Product', color: '#facc15' },
+  { label: 'Agentic AI',          color: '#facc15' },
+  { label: 'Data-Driven',         color: '#fb923c' },
+  { label: 'User Obsessed',       color: '#fb923c' },
 ]
-
-function TraitChip({ trait, startDelay = 0, size = 'desk' }) {
-  const [i, setI] = useState(0)
-  useEffect(() => {
-    let id
-    const kick = setTimeout(() => {
-      id = setInterval(() => setI(p => (p + 1) % trait.proofs.length), 2800)
-    }, startDelay)
-    return () => { clearTimeout(kick); clearInterval(id) }
-  }, [startDelay, trait.proofs.length])
-
-  const small = size === 'mob'
-  return (
-    <div style={{
-      display: 'inline-flex', flexDirection: 'column', justifyContent: 'center',
-      padding: small ? '7px 12px' : '8px 14px',
-      background: 'rgba(255,255,255,0.03)',
-      borderLeft: `3px solid ${trait.color}`,
-      borderRadius: '0 6px 6px 0', minWidth: small ? 0 : 132,
-    }}>
-      <span style={{ fontSize: small ? 12 : 13, fontWeight: 700, color: trait.color, whiteSpace: 'nowrap', lineHeight: 1.3 }}>{trait.label}</span>
-      <span key={i} style={{
-        fontSize: small ? 10 : 11, color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap',
-        marginTop: 2, lineHeight: 1.3, display: 'block',
-        animation: 'proofIn 0.45s cubic-bezier(.22,1,.36,1)',
-      }}>{trait.proofs[i]}</span>
-    </div>
-  )
-}
 
 function AnimatedName({ name, onTyped, fast, center }) {
   const [count, setCount] = useState(0)
@@ -235,10 +206,6 @@ export default function Hero({ onNavigate }) {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-4px); }
         }
-        @keyframes proofIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
       `}</style>
 
       <section
@@ -340,8 +307,16 @@ export default function Hero({ onNavigate }) {
               {/* 5. Traits */}
               <FadeIn delay={900}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-                  {TRAITS.map((t, i) => (
-                    <TraitChip key={t.label} trait={t} startDelay={i * 650} size="mob" />
+                  {TRAITS.map((t) => (
+                    <div key={t.label} style={{
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '7px 11px',
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${t.color}`,
+                      borderRadius: '0 6px 6px 0',
+                    }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
+                    </div>
                   ))}
                 </div>
               </FadeIn>
@@ -484,9 +459,17 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 10, marginTop: 40 }}>
-                  {TRAITS.map((t, i) => (
-                    <TraitChip key={t.label} trait={t} startDelay={i * 650} />
+                <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 8, marginTop: 40 }}>
+                  {TRAITS.map(t => (
+                    <div key={t.label} style={{
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '9px 13px',
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${t.color}`,
+                      borderRadius: '0 6px 6px 0',
+                    }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
+                    </div>
                   ))}
                 </div>
               </FadeIn>
