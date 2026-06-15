@@ -19,10 +19,11 @@ const JOBS = [
     logo: '/mckinsey.png',
     accentColor: '#1a73e8',
     bgColor: 'rgba(26,115,232,0.13)',
-    role: 'Product Analyst Co-op (AI/ML Products)',
+    role: 'Product Analyst Intern (AI/ML Products)',
     period: 'Aug 2025 – Dec 2025',
+    duration: '5 months',
     location: 'Boston, MA',
-    type: 'Co-op',
+    type: 'Internship',
     highlights: [
       'Built an end-to-end data product covering **50+ feature-level KPIs** from raw sources to leadership dashboards, directly informing **quarterly roadmap prioritization**',
       'Identified adoption gaps by analyzing engagement across **100+ product metrics** using Heap Analytics, shaping the next planning cycle',
@@ -43,8 +44,9 @@ const JOBS = [
     logo: '/avo.jpeg',
     accentColor: '#a855f7',
     bgColor: 'rgba(168,85,247,0.13)',
-    role: 'Product Engineer → Senior Product Engineer',
-    period: 'Aug 2021 – Jul 2024',
+    role: 'Product Intern → Sr Product Engineer',
+    period: 'Jan 2021 – Jun 2024',
+    duration: '3.5 years',
     location: 'Bengaluru, India',
     type: 'Full-time',
     highlights: [
@@ -68,6 +70,7 @@ const JOBS = [
     bgColor: 'rgba(239,68,68,0.13)',
     role: 'Research Assistant [Agentic Systems, Health Monitoring]',
     period: 'Jan 2026 – Present',
+    duration: '6 months and counting',
     location: 'Boston, MA',
     type: 'Research',
     highlights: [
@@ -129,7 +132,19 @@ function JobCard({ job, index, isMobile }) {
           <img src={job.logo} alt={job.company} style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
         </div>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
+        {job.duration && (
+          <span style={{
+            order: 3, flexShrink: 0, alignSelf: 'flex-start',
+            fontSize: 11, fontWeight: 600, letterSpacing: '0.02em',
+            color: job.accentColor, background: job.bgColor,
+            border: `1px solid ${job.accentColor}30`,
+            padding: '4px 10px', borderRadius: 999, whiteSpace: 'nowrap',
+          }}>
+            {job.duration}
+          </span>
+        )}
+
+        <div style={{ flex: 1, minWidth: 0, order: 2 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             {job.href ? (
               <a
