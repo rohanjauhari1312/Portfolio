@@ -5,12 +5,13 @@ import useIsMobile from '../hooks/useIsMobile'
 const WINS = [
   {
     id: 'codametrix',
-    event: 'CodaMetrix Hackathon 2026',
+    event: 'CodaMetrix Hackathon',
     place: 'Winner',
     name: 'Clinical note classification',
     image: '/codametrix-team.jpg',
     imageFit: 'cover',
-    imagePos: 'center 28%',
+    imagePos: 'center 34%',
+    imageHeight: 280,
     link: '/codametrix-deck.pdf',
     linkLabel: 'View deck',
     bullets: [
@@ -28,16 +29,16 @@ const WINS = [
   },
   {
     id: 'brainbridge',
-    event: 'BrainBridge Hackathon',
+    event: 'Neurotech Hackathon',
     place: 'Winner',
     name: 'BrainBridge',
     image: null,
     link: 'https://docs.google.com/presentation/d/1Qh0TQ-D1qf2rrT86fyC2IDaWy35FvN5WEA9bvk1USIQ/edit',
     bullets: [
-      'Hackathon-winning build. Short description coming from the deck.',
+      'A neurotech build that took first place. Full writeup coming from the deck.',
     ],
     metrics: [],
-    tags: ['Hackathon', 'Winner'],
+    tags: ['Neurotech', 'Hackathon', 'Winner'],
     accent: '#a78bfa',
   },
 ]
@@ -50,13 +51,13 @@ function WinImage({ win }) {
         src={win.image}
         alt={win.name}
         onError={() => setFailed(true)}
-        style={{ width: '100%', height: 200, objectFit: win.imageFit || 'cover', objectPosition: win.imagePos || 'center', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
+        style={{ width: '100%', height: win.imageHeight || 200, objectFit: win.imageFit || 'cover', objectPosition: win.imagePos || 'center', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
       />
     )
   }
   return (
     <div style={{
-      width: '100%', height: 200, borderRadius: '14px 14px 0 0',
+      width: '100%', height: win.imageHeight || 200, borderRadius: '14px 14px 0 0',
       background: `linear-gradient(135deg, ${win.accent}22, ${win.accent}08)`,
       position: 'relative', overflow: 'hidden',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -111,7 +112,7 @@ function WinCard({ win, index }) {
 
       <div style={{ padding: '22px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: '#f5f5f5', margin: 0, letterSpacing: '-0.01em' }}>{win.name}</h3>
+          <h3 style={{ fontSize: 21, fontWeight: 800, color: '#f5f5f5', margin: 0, letterSpacing: '-0.02em' }}>{win.event}</h3>
           {win.link && (
             <a href={win.link} target="_blank" rel="noopener noreferrer" style={{
               padding: '4px 11px', borderRadius: 7, fontSize: 11, fontWeight: 700,
@@ -119,7 +120,7 @@ function WinCard({ win, index }) {
             }}>{win.linkLabel || 'View'}</a>
           )}
         </div>
-        <span style={{ fontSize: 12, color: win.accent, fontWeight: 500, display: 'block', marginBottom: 14 }}>{win.event}</span>
+        <span style={{ fontSize: 13, color: win.accent, fontWeight: 600, display: 'block', marginBottom: 14 }}>{win.name}</span>
 
         <ul style={{ margin: '0 0 18px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
           {win.bullets.map((b, i) => (
