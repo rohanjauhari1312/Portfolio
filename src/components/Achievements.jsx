@@ -8,9 +8,9 @@ const WINS = [
     event: 'CodaMetrix Hackathon 2026',
     place: 'Winner',
     name: 'Clinical note classification',
-    image: '/codametrix-thumb.jpg',
-    imageFit: 'contain',
-    imageBg: '#0e2a2a',
+    image: '/codametrix.jpeg',
+    imageFit: 'cover',
+    imagePos: 'center 28%',
     link: '/codametrix-deck.pdf',
     linkLabel: 'View deck',
     bullets: [
@@ -50,7 +50,7 @@ function WinImage({ win }) {
         src={win.image}
         alt={win.name}
         onError={() => setFailed(true)}
-        style={{ width: '100%', height: 200, objectFit: win.imageFit || 'cover', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
+        style={{ width: '100%', height: 200, objectFit: win.imageFit || 'cover', objectPosition: win.imagePos || 'center', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
       />
     )
   }
