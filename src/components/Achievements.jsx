@@ -8,7 +8,7 @@ const WINS = [
     event: 'CodaMetrix Hackathon 2026',
     place: 'Winner',
     name: 'Clinical note classification',
-    image: '/codametrix.jpeg',
+    image: '/codametrix-team.jpg',
     imageFit: 'cover',
     imagePos: 'center 28%',
     link: '/codametrix-deck.pdf',
