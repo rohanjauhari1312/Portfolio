@@ -20,7 +20,7 @@ import RohBotScreen from './components/RohBotScreen'
 import RohBotDetail from './components/RohBotDetail'
 
 const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot', 'voice-agent']
-const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'contact']
+const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'achievements', 'contact']
 
 export default function App() {
   const isMobile = useIsMobile()
