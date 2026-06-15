@@ -34,7 +34,7 @@ const WINS = [
     place: 'Winner',
     location: 'Boston, MA',
     name: 'BrainBridge — re-connecting brain and body',
-    image: '/brainbridge-speaking.jpg',
+    images: ['/brainbridge-speaking.jpg', '/brainbridge-team.jpg', '/brainbridge-thumb.jpg'],
     imageFit: 'cover',
     imagePos: 'center',
     imageHeight: 280,
@@ -93,13 +93,36 @@ function hl(text, color) {
 
 function WinImage({ win }) {
   const [failed, setFailed] = useState(false)
+  const [shot, setShot] = useState(0)
+  const imgStyle = { width: '100%', height: win.imageHeight || 200, objectFit: win.imageFit || 'cover', objectPosition: win.imagePos || 'center', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }
+
+  useEffect(() => {
+    if (!win.images || win.images.length < 2) return
+    const t = setInterval(() => setShot(p => (p + 1) % win.images.length), 2600)
+    return () => clearInterval(t)
+  }, [])
+
+  if (win.images && win.images.length) {
+    return (
+      <div style={{ position: 'relative', width: '100%', height: win.imageHeight || 200, borderRadius: '14px 14px 0 0', overflow: 'hidden' }}>
+        {win.images.map((src, idx) => (
+          <img key={src} src={src} alt={win.name} style={{ ...imgStyle, position: 'absolute', inset: 0, borderRadius: 0, opacity: idx === shot ? 1 : 0, transition: 'opacity 0.9s ease' }} />
+        ))}
+        <div style={{ position: 'absolute', bottom: 8, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 5 }}>
+          {win.images.map((_, idx) => (
+            <span key={idx} style={{ width: 5, height: 5, borderRadius: '50%', background: idx === shot ? win.accent : 'rgba(255,255,255,0.35)', transition: 'background 0.3s' }} />
+          ))}
+        </div>
+      </div>
+    )
+  }
   if (win.image && !failed) {
     return (
       <img
         src={win.image}
         alt={win.name}
         onError={() => setFailed(true)}
-        style={{ width: '100%', height: win.imageHeight || 200, objectFit: win.imageFit || 'cover', objectPosition: win.imagePos || 'center', background: win.imageBg || 'transparent', display: 'block', borderRadius: '14px 14px 0 0' }}
+        style={imgStyle}
       />
     )
   }
