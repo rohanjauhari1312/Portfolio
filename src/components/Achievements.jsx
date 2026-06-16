@@ -159,12 +159,19 @@ function WinCard({ win, index }) {
   return (
     <div
       ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? (hovered ? 'translateY(-8px)' : 'translateY(0)') : 'translateY(36px)',
-        transition: hovered
-          ? 'transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease, border-color 0.3s ease'
-          : `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
+        transform: !visible ? 'translateY(36px)' : hovered ? 'translateY(-8px)' : 'translateY(0)',
+        transition: !visible
+          ? `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`
+          : 'transform 0.3s cubic-bezier(.22,1,.36,1)',
+      }}
+    >
+    <div
+      style={{
+        animation: visible ? `floatCard ${3.8 + index * 0.3}s ease-in-out ${index * 0.5}s infinite` : 'none',
         background: 'rgba(16,16,16,0.92)',
         border: `1px solid ${hovered ? `${win.accent}90` : `${win.accent}30`}`,
         borderRadius: 16, overflow: 'hidden',
@@ -172,10 +179,9 @@ function WinCard({ win, index }) {
         boxShadow: hovered
           ? `0 8px 32px ${win.accent}40, 0 0 60px ${win.accent}20`
           : `0 0 18px ${win.accent}18`,
+        transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
         cursor: 'default',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       <div style={{ position: 'relative' }}>
         <WinImage win={win} />
@@ -247,6 +253,7 @@ function WinCard({ win, index }) {
         </div>
       </div>
     </div>
+    </div>
   )
 }
 
@@ -266,6 +273,7 @@ export default function Achievements() {
 
   return (
     <section style={{ background: 'rgba(10,10,10,0.85)', padding: isMobile ? '24px 0 48px' : '40px 0 80px' }} id="achievements">
+      <style>{`@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }`}</style>
       <div style={{ height: 1, background: 'linear-gradient(to right, transparent, rgba(250,204,21,0.15), transparent)', marginBottom: isMobile ? 32 : 48 }} />
 
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: isMobile ? '0 24px' : '0 64px' }}>

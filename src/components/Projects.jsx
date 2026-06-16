@@ -307,6 +307,7 @@ function ProjectImage({ project }) {
 
 function ProjectCard({ project, index, onNavigate }) {
   const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -321,25 +322,27 @@ function ProjectCard({ project, index, onNavigate }) {
   return (
     <div
       ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(36px)',
-        transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`,
+        transform: !visible ? 'translateY(36px)' : hovered ? 'translateY(-8px)' : 'translateY(0)',
+        transition: !visible
+          ? `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`
+          : 'transform 0.3s cubic-bezier(.22,1,.36,1)',
+      }}
+    ><div
+      style={{
         animation: visible ? `floatCard ${4 + index * 0.4}s ease-in-out ${index * 0.7}s infinite` : 'none',
         background: 'rgba(16,16,16,0.92)',
-        border: `1px solid ${project.accentColor}30`,
+        border: `1px solid ${hovered ? `${project.accentColor}90` : `${project.accentColor}30`}`,
         borderRadius: 16,
         overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
-        boxShadow: `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`,
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.borderColor = `${project.accentColor}90`
-        e.currentTarget.style.boxShadow = `0 0 24px ${project.accentColor}80, 0 0 60px ${project.accentColor}45, 0 0 100px ${project.accentColor}20, inset 0 0 0 1px ${project.accentColor}30`
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.borderColor = `${project.accentColor}30`
-        e.currentTarget.style.boxShadow = `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`
+        boxShadow: hovered
+          ? `0 0 24px ${project.accentColor}80, 0 0 60px ${project.accentColor}45, 0 0 100px ${project.accentColor}20, inset 0 0 0 1px ${project.accentColor}30`
+          : `0 0 18px ${project.accentColor}18, inset 0 0 0 1px ${project.accentColor}10`,
+        transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
       }}
     >
       <ProjectImage project={project} />
@@ -466,7 +469,7 @@ function ProjectCard({ project, index, onNavigate }) {
         </div>
 
       </div>
-    </div>
+    </div></div>
   )
 }
 

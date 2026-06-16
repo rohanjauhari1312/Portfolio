@@ -86,6 +86,7 @@ const JOBS = [
 
 function JobCard({ job, index, isMobile }) {
   const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -100,10 +101,17 @@ function JobCard({ job, index, isMobile }) {
   return (
     <div
       ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(32px)',
-        transition: `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms`,
+        transform: !visible ? 'translateY(32px)' : hovered ? 'translateY(-8px)' : 'translateY(0)',
+        transition: !visible
+          ? `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms`
+          : 'transform 0.3s cubic-bezier(.22,1,.36,1)',
+      }}
+    ><div
+      style={{
         animation: visible ? `floatCard ${3.8 + index * 0.35}s ease-in-out ${index * 0.5}s infinite` : 'none',
         background: `linear-gradient(135deg, ${job.accentColor}08 0%, rgba(16,16,16,0.92) 60%)`,
         border: `1px solid ${job.accentColor}30`,
@@ -112,14 +120,10 @@ function JobCard({ job, index, isMobile }) {
         padding: isMobile ? '20px' : '28px 32px',
         backdropFilter: isMobile ? 'none' : 'blur(8px)',
         WebkitBackdropFilter: isMobile ? 'none' : 'blur(8px)',
-        boxShadow: `0 0 18px ${job.accentColor}18, inset 0 0 0 1px ${job.accentColor}10`,
-        transition: `opacity 0.6s ease ${index * 120}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 120}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = `0 0 24px ${job.accentColor}80, 0 0 60px ${job.accentColor}45, 0 0 100px ${job.accentColor}20, inset 0 0 0 1px ${job.accentColor}30`
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.boxShadow = `0 0 18px ${job.accentColor}18, inset 0 0 0 1px ${job.accentColor}10`
+        boxShadow: hovered
+          ? `0 0 24px ${job.accentColor}80, 0 0 60px ${job.accentColor}45, 0 0 100px ${job.accentColor}20, inset 0 0 0 1px ${job.accentColor}30`
+          : `0 0 18px ${job.accentColor}18, inset 0 0 0 1px ${job.accentColor}10`,
+        transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 18 }}>
@@ -265,7 +269,7 @@ function JobCard({ job, index, isMobile }) {
           </span>
         ))}
       </div>
-    </div>
+    </div></div>
   )
 }
 
