@@ -11,6 +11,7 @@ const ABOUT = 'I build products that make complex things feel simple, automating
 const TRAITS = [
   { label: '4+ Years in Product', color: '#facc15' },
   { label: 'Agentic AI',          color: '#facc15' },
+  { label: 'Automation',          color: '#4ade80' },
   { label: 'Data-Driven',         color: '#fb923c' },
   { label: 'User Obsessed',       color: '#fb923c' },
 ]
