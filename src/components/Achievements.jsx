@@ -146,6 +146,7 @@ function WinImage({ win }) {
 
 function WinCard({ win, index }) {
   const [visible, setVisible] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const ref = useRef(null)
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -160,16 +161,21 @@ function WinCard({ win, index }) {
       ref={ref}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(36px)',
-        transition: `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms`,
+        transform: visible ? (hovered ? 'translateY(-8px)' : 'translateY(0)') : 'translateY(36px)',
+        transition: hovered
+          ? 'transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease, border-color 0.3s ease'
+          : `opacity 0.65s ease ${index * 100}ms, transform 0.75s cubic-bezier(.22,1,.36,1) ${index * 100}ms, box-shadow 0.3s ease, border-color 0.3s ease`,
         background: 'rgba(16,16,16,0.92)',
-        border: `1px solid ${win.accent}30`,
+        border: `1px solid ${hovered ? `${win.accent}90` : `${win.accent}30`}`,
         borderRadius: 16, overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
-        boxShadow: `0 0 18px ${win.accent}18`,
+        boxShadow: hovered
+          ? `0 8px 32px ${win.accent}40, 0 0 60px ${win.accent}20`
+          : `0 0 18px ${win.accent}18`,
+        cursor: 'default',
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = `${win.accent}90`; e.currentTarget.style.boxShadow = `0 0 24px ${win.accent}70, 0 0 60px ${win.accent}30` }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = `${win.accent}30`; e.currentTarget.style.boxShadow = `0 0 18px ${win.accent}18` }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <div style={{ position: 'relative' }}>
         <WinImage win={win} />
