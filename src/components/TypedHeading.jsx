@@ -1,6 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, style: s = {}, as: Tag = 'h2', speed = 55, cursorColor = '#facc15' }) {
+function renderText(str, charStyles) {
+  if (!charStyles) return str
+  const parts = []
+  let buf = ''
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i]
+    if (charStyles[ch]) {
+      if (buf) { parts.push(buf); buf = '' }
+      parts.push(<span key={i} style={charStyles[ch]}>{ch}</span>)
+    } else {
+      buf += ch
+    }
+  }
+  if (buf) parts.push(buf)
+  return parts.length === 1 && typeof parts[0] === 'string' ? parts[0] : parts
+}
+
+export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, style: s = {}, as: Tag = 'h2', speed = 55, cursorColor = '#facc15', charStyles }) {
   const ref = useRef(null)
   const [count, setCount] = useState(0)
   const [started, setStarted] = useState(false)
@@ -39,38 +56,34 @@ export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, 
     }} />
   )
 
-  // When finished, glue the cursor to the last word (in a nowrap span) so it
-  // never orphans onto its own line when the heading fills the line exactly.
   if (done) {
     const tail = suffixText || text
     const sp = tail.lastIndexOf(' ')
     const head = sp >= 0 ? tail.slice(0, sp + 1) : ''
     const last = sp >= 0 ? tail.slice(sp + 1) : tail
     const gluedLast = (
-      <span style={{ whiteSpace: 'nowrap' }}>{last}{cursor}</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{renderText(last, charStyles)}{cursor}</span>
     )
     return (
       <Tag ref={ref} style={s}>
-        {suffixText ? text : head}
+        {suffixText ? renderText(text, charStyles) : renderText(head, charStyles)}
         {suffixText
-          ? <span style={suffixStyle}>{head}{gluedLast}</span>
+          ? <span style={suffixStyle}>{renderText(head, charStyles)}{gluedLast}</span>
           : gluedLast}
       </Tag>
     )
   }
 
-  // While typing: render the full text with the not-yet-typed portion
-  // transparent so the heading reserves its final size and never reflows.
   return (
     <Tag ref={ref} style={s}>
-      {text.slice(0, mainTyped)}
+      {renderText(text.slice(0, mainTyped), charStyles)}
       {!cursorInSuffix && cursor}
-      <span style={{ opacity: 0 }} aria-hidden="true">{text.slice(mainTyped)}</span>
+      <span style={{ opacity: 0 }} aria-hidden="true">{renderText(text.slice(mainTyped), charStyles)}</span>
       {suffixText && (
         <span style={suffixStyle}>
-          {suffixText.slice(0, suffixTyped)}
+          {renderText(suffixText.slice(0, suffixTyped), charStyles)}
           {cursorInSuffix && cursor}
-          <span style={{ opacity: 0 }} aria-hidden="true">{suffixText.slice(suffixTyped)}</span>
+          <span style={{ opacity: 0 }} aria-hidden="true">{renderText(suffixText.slice(suffixTyped), charStyles)}</span>
         </span>
       )}
     </Tag>
