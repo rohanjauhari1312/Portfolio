@@ -5,10 +5,10 @@ import useIsMobile from '../hooks/useIsMobile'
 const WINS = [
   {
     id: 'codametrix',
-    event: 'CodaMetrix Hackathon',
+    event: 'AI Hackathon',
     place: 'Winner',
     location: 'Boston, MA',
-    name: 'Clinical note classification',
+    name: 'Clinical note classification across 5 medical specialties',
     image: '/codametrix-team.jpg',
     imageFit: 'cover',
     imagePos: 'center 34%',
@@ -16,16 +16,16 @@ const WINS = [
     link: '/codametrix-deck.pdf',
     linkLabel: 'View deck',
     bullets: [
-      'Built an **NLP system** that reads a clinical note and routes it to the **right medical specialty**, scored with a healthcare-first metric set (per-class recall, calibration, risk-coverage)',
-      'Compared **three model families** on one honest benchmark: **TF-IDF + Logistic Regression** (shipped), a fine-tuned **PubMedBERT**, and **Claude few-shot**',
-      'Hit **0.70 accuracy** and **0.93 top-2**, then held up on **1,000 unseen** clinical vignettes with balanced per-class output',
+      'Fine-tuned **PubMedBERT** on clinical notes to classify across Cardiology, Neurology, Orthopedics, Gastroenterology, and Other — hitting **99% accuracy** through domain-specific biomedical language understanding',
+      'Built a **TF-IDF + Logistic Regression** baseline achieving **70% accuracy and 0.71 macro-F1**, then showed how PubMedBERT goes beyond keyword matching to understand **semantic context** in clinical language',
+      'Shipped a **live web app** with per-specialty probability scores, **comorbidity flags** for notes showing strong signals across multiple specialties, and out-of-distribution detection',
     ],
     metrics: [
-      { v: '0.70', l: 'Accuracy' },
-      { v: '0.93', l: 'Top-2 accuracy' },
-      { v: '1,000', l: 'Unseen vignettes' },
+      { v: '99%', l: 'PubMedBERT accuracy' },
+      { v: '0.71', l: 'Macro-F1 (baseline)' },
+      { v: '5', l: 'Specialties classified' },
     ],
-    tags: ['NLP', 'PubMedBERT', 'Claude', 'scikit-learn', 'Healthcare'],
+    tags: ['NLP', 'PubMedBERT', 'TF-IDF', 'scikit-learn', 'Healthcare'],
     accent: '#facc15',
   },
   {
