@@ -67,7 +67,7 @@ const PROJECTS = [
       { label: 'Product Doc', href: '/swifthire.pdf' },
     ],
     name: 'SwiftHire',
-    tagline: 'Automated Job Search Pipeline',
+    tagline: 'Multi-agent end-to-end job search automation',
     bullets: [
       'Resume is rewritten per JD by Claude, cold email is drafted, **Outlook is pre-filled** with the right contact. You read, attach, send',
       'Python poller checks Greenhouse and Ashby APIs every 15 min; Chrome extension **auto-downloads the tailored resume** from Claude and looks up a recruiter on Apollo',
