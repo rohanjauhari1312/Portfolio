@@ -64,7 +64,7 @@ const WINS = [
     badge: 'mic',
     location: 'Boston, MA',
     name: 'Product management session',
-    image: '/pm-speech.jpg',
+    images: ['/pm-speech.jpg', '/session.jpg', '/sesssion 2.jpeg'],
     imageFit: 'cover',
     imagePos: 'center 26%',
     imageHeight: 280,
