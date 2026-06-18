@@ -5,7 +5,7 @@ import useIsMobile from '../hooks/useIsMobile'
 const WINS = [
   {
     id: 'codametrix',
-    event: 'AI Hackathon',
+    event: 'CodaMetrix AI Hackathon',
     place: 'Winner',
     location: 'Boston, MA',
     name: 'Clinical note classification across 5 medical specialties',
