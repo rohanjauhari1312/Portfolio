@@ -66,7 +66,7 @@ const WINS = [
     name: 'Product management session',
     images: ['/pm-speech.jpg', '/session.jpg', '/sesssion 2.jpeg'],
     imageFit: 'cover',
-    imagePos: 'center 26%',
+    imagePositions: ['center 26%', 'right 72%', 'center 50%'],
     imageHeight: 280,
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7394388534838632448/',
     linkLabel: 'See post',
@@ -110,7 +110,7 @@ function WinImage({ win }) {
     return (
       <div style={{ position: 'relative', width: '100%', height: win.imageHeight || 200, borderRadius: '14px 14px 0 0', overflow: 'hidden' }}>
         {win.images.map((src, idx) => (
-          <img key={src} src={src} alt={win.name} style={{ ...imgStyle, position: 'absolute', inset: 0, borderRadius: 0, opacity: idx === shot ? 1 : 0, transition: 'opacity 0.9s ease' }} />
+          <img key={src} src={src} alt={win.name} style={{ ...imgStyle, objectPosition: (win.imagePositions && win.imagePositions[idx]) || win.imagePos || 'center', position: 'absolute', inset: 0, borderRadius: 0, opacity: idx === shot ? 1 : 0, transition: 'opacity 0.9s ease' }} />
         ))}
         <div style={{ position: 'absolute', bottom: 8, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 5 }}>
           {win.images.map((_, idx) => (
