@@ -66,7 +66,7 @@ const WINS = [
     name: 'Product management session',
     images: ['/pm-speech.jpg', '/session.jpg', '/sesssion 2.jpeg'],
     imageFit: 'cover',
-    imagePositions: ['center 26%', 'right 72%', 'center 50%'],
+    imagePositions: ['center 26%', 'right 92%', 'center 50%'],
     imageHeight: 280,
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7394388534838632448/',
     linkLabel: 'See post',
