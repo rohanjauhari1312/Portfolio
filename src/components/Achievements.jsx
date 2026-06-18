@@ -177,8 +177,8 @@ function WinCard({ win, index }) {
         borderRadius: 16, overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
         boxShadow: hovered
-          ? `0 8px 32px ${win.accent}40, 0 0 60px ${win.accent}20`
-          : `0 0 18px ${win.accent}18`,
+          ? `0 0 24px ${win.accent}80, 0 0 60px ${win.accent}45, 0 0 100px ${win.accent}20, inset 0 0 0 1px ${win.accent}30`
+          : `0 0 18px ${win.accent}18, inset 0 0 0 1px ${win.accent}10`,
         transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
         cursor: 'default',
       }}
