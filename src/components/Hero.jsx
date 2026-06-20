@@ -102,14 +102,14 @@ function lineTypedParts(line, charCount) {
   return { head: head.slice(0, headTyped), word: lastWord.slice(0, wordTyped) }
 }
 
-function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }) {
+function TypedLines({ lines, start, onDone, speed = 58, lineDelay = 320, style }) {
   const [lineIndex, setLineIndex] = useState(0)
   const [charCount, setCharCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
   const doneRef = useRef(false)
 
   useEffect(() => {
-    const blink = setInterval(() => setCursorOn(p => !p), 600)
+    const blink = setInterval(() => setCursorOn(p => !p), 380)
     return () => clearInterval(blink)
   }, [])
 
