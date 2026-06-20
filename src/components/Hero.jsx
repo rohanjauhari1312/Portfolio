@@ -6,7 +6,13 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const NAME = 'Rohan Jauhari'
 
-const ABOUT = 'I build products that make complex things feel simple, automating workflows for enterprise teams, turning raw data into decisions, and shipping AI into the hands of everyday users.'
+const ABOUT_LINES = [
+  'I conceptualize and build',
+  'the right product',
+  'for the right audience',
+  'at the right time',
+  'respecting constraints.',
+]
 
 const TRAITS = [
   { label: '4+ Years in Product', color: '#facc15' },
@@ -83,6 +89,74 @@ function FadeIn({ children, delay = 0, className = '', direction = 'up' }) {
       }}
     >
       {children}
+    </div>
+  )
+}
+
+function lineTypedParts(line, charCount) {
+  const lastSpace = line.lastIndexOf(' ')
+  const head = lastSpace >= 0 ? line.slice(0, lastSpace + 1) : ''
+  const lastWord = lastSpace >= 0 ? line.slice(lastSpace + 1) : line
+  const headTyped = Math.min(charCount, head.length)
+  const wordTyped = Math.max(0, charCount - head.length)
+  return { head: head.slice(0, headTyped), word: lastWord.slice(0, wordTyped) }
+}
+
+function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }) {
+  const [lineIndex, setLineIndex] = useState(0)
+  const [charCount, setCharCount] = useState(0)
+  const [cursorOn, setCursorOn] = useState(true)
+  const doneRef = useRef(false)
+
+  useEffect(() => {
+    const blink = setInterval(() => setCursorOn(p => !p), 600)
+    return () => clearInterval(blink)
+  }, [])
+
+  useEffect(() => {
+    if (!start || lineIndex >= lines.length) return
+    const line = lines[lineIndex]
+    if (charCount < line.length) {
+      const t = setTimeout(() => setCharCount(c => c + 1), speed)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => {
+      if (lineIndex + 1 >= lines.length) {
+        if (!doneRef.current) { doneRef.current = true; onDone && onDone() }
+      } else {
+        setLineIndex(li => li + 1)
+        setCharCount(0)
+      }
+    }, lineDelay)
+    return () => clearTimeout(t)
+  }, [start, lineIndex, charCount, lines, speed, lineDelay, onDone])
+
+  return (
+    <div style={style}>
+      {lines.map((line, i) => {
+        if (i > lineIndex || !start) return null
+        const isCurrent = i === lineIndex
+        const cc = isCurrent ? charCount : line.length
+        const { head, word } = lineTypedParts(line, cc)
+        return (
+          <div key={i}>
+            {head}
+            <span style={{ color: '#facc15', fontWeight: 700 }}>{word}</span>
+            {isCurrent && (
+              <span style={{
+                display: 'inline-block',
+                width: '0.06em',
+                height: '0.85em',
+                background: '#facc15',
+                marginLeft: 3,
+                verticalAlign: 'middle',
+                opacity: cursorOn ? 1 : 0,
+                boxShadow: '0 0 6px #facc15',
+              }} />
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -169,15 +243,16 @@ function ScrollIndicator() {
 
 export default function Hero({ onNavigate }) {
   const [nameTyped,   setNameTyped]   = useState(false)
+  const [aboutTyped,  setAboutTyped]  = useState(false)
   const [neuralReady, setNeuralReady] = useState(false)
   const [neuralKey,   setNeuralKey]   = useState(0)
   const isMobile = useIsMobile()
 
   useEffect(() => {
-    if (!nameTyped) return
-    const t = setTimeout(() => setNeuralReady(true), isMobile ? 300 : 1400)
+    if (!aboutTyped) return
+    const t = setTimeout(() => setNeuralReady(true), isMobile ? 200 : 400)
     return () => clearTimeout(t)
-  }, [nameTyped, isMobile])
+  }, [aboutTyped, isMobile])
 
   const handleNeuralReplay = () => {
     setNeuralReady(false)
@@ -299,11 +374,12 @@ export default function Hero({ onNavigate }) {
               </FadeIn>
 
               {/* 4. About */}
-              <FadeIn delay={800}>
-                <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                  {ABOUT}
-                </p>
-              </FadeIn>
+              <TypedLines
+                lines={ABOUT_LINES}
+                start={nameTyped}
+                onDone={() => setAboutTyped(true)}
+                style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0 }}
+              />
 
               {/* 5. Traits */}
               <FadeIn delay={900}>
@@ -453,11 +529,12 @@ export default function Hero({ onNavigate }) {
                 <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
               </p>
 
-              <FadeIn delay={800}>
-                <p style={{ color: 'rgba(255,255,255,0.52)', fontSize: isMobile ? 15 : 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 0 }}>
-                  {ABOUT}
-                </p>
-              </FadeIn>
+              <TypedLines
+                lines={ABOUT_LINES}
+                start={nameTyped}
+                onDone={() => setAboutTyped(true)}
+                style={{ color: 'rgba(255,255,255,0.78)', fontSize: isMobile ? 17 : 20, fontWeight: 600, lineHeight: 1.5, maxWidth: 540, marginBottom: 0 }}
+              />
 
               <FadeIn delay={900}>
                 <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 8, marginTop: 40 }}>
