@@ -7,11 +7,11 @@ import useIsMobile from '../hooks/useIsMobile'
 const NAME = 'Rohan Jauhari'
 
 const ABOUT_LINES = [
-  'I conceptualize and build',
-  'the right product',
-  'for the right audience',
-  'at the right time',
-  'respecting constraints.',
+  { text: 'I conceptualize and build', highlight: 1 },
+  { text: 'the right product' },
+  { text: 'for the right audience' },
+  { text: 'at the right time' },
+  { text: 'respecting constraints.' },
 ]
 
 const TRAITS = [
@@ -94,15 +94,22 @@ function FadeIn({ children, delay = 0, className = '', direction = 'up' }) {
 }
 
 function lineTypedParts(line, charCount) {
-  const lastSpace = line.lastIndexOf(' ')
-  const head = lastSpace >= 0 ? line.slice(0, lastSpace + 1) : ''
-  const lastWord = lastSpace >= 0 ? line.slice(lastSpace + 1) : line
-  const headTyped = Math.min(charCount, head.length)
-  const wordTyped = Math.max(0, charCount - head.length)
-  return { head: head.slice(0, headTyped), word: lastWord.slice(0, wordTyped) }
+  const words = line.text.split(' ')
+  const idx = line.highlight != null ? line.highlight : words.length - 1
+  const before = words.slice(0, idx).join(' ') + (idx > 0 ? ' ' : '')
+  const word = words[idx]
+  const after = words.length > idx + 1 ? ' ' + words.slice(idx + 1).join(' ') : ''
+  const wordStart = before.length
+  const afterStart = wordStart + word.length
+
+  return {
+    before: before.slice(0, Math.min(charCount, wordStart)),
+    word: word.slice(0, Math.max(0, Math.min(charCount, afterStart) - wordStart)),
+    after: after.slice(0, Math.max(0, charCount - afterStart)),
+  }
 }
 
-function TypedLines({ lines, start, onDone, speed = 58, lineDelay = 320, style }) {
+function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }) {
   const [lineIndex, setLineIndex] = useState(0)
   const [charCount, setCharCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
@@ -116,7 +123,7 @@ function TypedLines({ lines, start, onDone, speed = 58, lineDelay = 320, style }
   useEffect(() => {
     if (!start || lineIndex >= lines.length) return
     const line = lines[lineIndex]
-    if (charCount < line.length) {
+    if (charCount < line.text.length) {
       const t = setTimeout(() => setCharCount(c => c + 1), speed)
       return () => clearTimeout(t)
     }
@@ -136,12 +143,13 @@ function TypedLines({ lines, start, onDone, speed = 58, lineDelay = 320, style }
       {lines.map((line, i) => {
         if (i > lineIndex || !start) return null
         const isCurrent = i === lineIndex
-        const cc = isCurrent ? charCount : line.length
-        const { head, word } = lineTypedParts(line, cc)
+        const cc = isCurrent ? charCount : line.text.length
+        const { before, word, after } = lineTypedParts(line, cc)
         return (
           <div key={i}>
-            {head}
+            {before}
             <span style={{ color: '#facc15', fontWeight: 700 }}>{word}</span>
+            {after}
             {isCurrent && (
               <span style={{
                 display: 'inline-block',
