@@ -325,9 +325,27 @@ export default function Hero({ onNavigate }) {
             // ─── MOBILE: stacked order — Name → Photo → NN card → About → Traits ───
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-              {/* 1. Name + tagline */}
+              {/* 1. Name + traits + tagline */}
               <div>
                 <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
+                <div style={{
+                  display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 12,
+                  opacity: nameTyped ? 1 : 0,
+                  transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
+                  transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
+                }}>
+                  {TRAITS.map((t) => (
+                    <div key={t.label} style={{
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '7px 11px',
+                      background: 'rgba(255,255,255,0.03)',
+                      borderLeft: `3px solid ${t.color}`,
+                      borderRadius: '0 6px 6px 0',
+                    }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
                 <p style={{
                   fontSize: 13, margin: '0 0 0', textAlign: 'center',
                   fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
@@ -403,23 +421,6 @@ export default function Hero({ onNavigate }) {
                 onDone={() => setAboutTyped(true)}
                 style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0 }}
               />
-
-              {/* 5. Traits */}
-              <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-                  {TRAITS.map((t) => (
-                    <div key={t.label} style={{
-                      display: 'inline-flex', alignItems: 'center',
-                      padding: '7px 11px',
-                      background: 'rgba(255,255,255,0.03)',
-                      borderLeft: `3px solid ${t.color}`,
-                      borderRadius: '0 6px 6px 0',
-                    }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
 
             </div>
           ) : (
@@ -541,8 +542,28 @@ export default function Hero({ onNavigate }) {
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
 
               <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
+
+              <div style={{
+                display: 'flex', flexWrap: 'nowrap', gap: 8, margin: '-28px 0 24px',
+                opacity: nameTyped ? 1 : 0,
+                transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
+              }}>
+                {TRAITS.map(t => (
+                  <div key={t.label} style={{
+                    display: 'inline-flex', alignItems: 'center',
+                    padding: '9px 13px',
+                    background: 'rgba(255,255,255,0.03)',
+                    borderLeft: `3px solid ${t.color}`,
+                    borderRadius: '0 6px 6px 0',
+                  }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
+                  </div>
+                ))}
+              </div>
+
               <p style={{
-                fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
+                fontSize: 14, margin: '0 0 32px', fontWeight: 500,
                 letterSpacing: '0.02em', lineHeight: 1.5,
                 color: 'rgba(255,255,255,0.45)',
                 opacity: nameTyped ? 1 : 0,
@@ -561,22 +582,6 @@ export default function Hero({ onNavigate }) {
                 onDone={() => setAboutTyped(true)}
                 style={{ color: 'rgba(255,255,255,0.78)', fontSize: isMobile ? 17 : 20, fontWeight: 600, lineHeight: 1.5, maxWidth: 540, marginBottom: 0 }}
               />
-
-              <FadeIn delay={900}>
-                <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 8, marginTop: 40 }}>
-                  {TRAITS.map(t => (
-                    <div key={t.label} style={{
-                      display: 'inline-flex', alignItems: 'center',
-                      padding: '9px 13px',
-                      background: 'rgba(255,255,255,0.03)',
-                      borderLeft: `3px solid ${t.color}`,
-                      borderRadius: '0 6px 6px 0',
-                    }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
 
             </div>
 
