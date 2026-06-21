@@ -102,11 +102,11 @@ function lineTypedParts(line, charCount) {
   const wordStart = before.length
   const afterStart = wordStart + word.length
 
-  const split = (str, typedLen) => ({ shown: str.slice(0, typedLen), hidden: str.slice(typedLen) })
-  const b = split(before, Math.min(charCount, wordStart))
-  const w = split(word, Math.max(0, Math.min(charCount, afterStart) - wordStart))
-  const a = split(after, Math.max(0, charCount - afterStart))
-  return { before: b, word: w, after: a }
+  return {
+    before: before.slice(0, Math.min(charCount, wordStart)),
+    word: word.slice(0, Math.max(0, Math.min(charCount, afterStart) - wordStart)),
+    after: after.slice(0, Math.max(0, charCount - afterStart)),
+  }
 }
 
 function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }) {
@@ -138,23 +138,27 @@ function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }
     return () => clearTimeout(t)
   }, [start, lineIndex, charCount, lines, speed, lineDelay, onDone])
 
-  // Every line is always rendered (untyped chars hidden via opacity) so the
-  // block's height is fixed from the first paint — typing progress never
-  // changes layout height, which would otherwise shift everything above it
-  // because the hero section vertically centers its content.
+  // Lines not yet reached are rendered fully but invisible, just to reserve
+  // their row height up front — so the block's total height never grows as
+  // typing progresses, which would otherwise shift everything above it
+  // (the hero section vertically centers its content).
   return (
     <div style={style}>
       {lines.map((line, i) => {
         const isCurrent = start && i === lineIndex
-        const cc = !start ? 0 : i < lineIndex ? line.text.length : i === lineIndex ? charCount : 0
+        const isPast = start && i < lineIndex
+
+        if (!isCurrent && !isPast) {
+          return <div key={i} style={{ opacity: 0 }}>{line.text}</div>
+        }
+
+        const cc = isPast ? line.text.length : charCount
         const { before, word, after } = lineTypedParts(line, cc)
         return (
           <div key={i}>
-            {before.shown}<span style={{ opacity: 0 }}>{before.hidden}</span>
-            <span style={{ color: '#facc15', fontWeight: 700 }}>
-              {word.shown}<span style={{ opacity: 0 }}>{word.hidden}</span>
-            </span>
-            {after.shown}<span style={{ opacity: 0 }}>{after.hidden}</span>
+            {before}
+            <span style={{ color: '#facc15', fontWeight: 700 }}>{word}</span>
+            {after}
             {isCurrent && (
               <span style={{
                 display: 'inline-block',
