@@ -22,13 +22,52 @@ const TRAITS = [
   { label: 'User Obsessed',       color: '#fb923c' },
 ]
 
-function NameHeading({ name, center }) {
+function AnimatedName({ name, onTyped, fast, center }) {
+  const [count, setCount] = useState(0)
+  const [cursorOn, setCursorOn] = useState(true)
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      let i = 0
+      const interval = setInterval(() => {
+        i++
+        setCount(i)
+        if (i >= name.length) {
+          clearInterval(interval)
+          onTyped && onTyped()
+        }
+      }, fast ? 32 : 55)
+      return () => clearInterval(interval)
+    }, fast ? 200 : 400)
+    return () => clearTimeout(delay)
+  }, [name, fast])
+
+  useEffect(() => {
+    const blink = setInterval(() => setCursorOn(p => !p), 700)
+    return () => clearInterval(blink)
+  }, [])
+
+  const done = count >= name.length
+
   return (
     <h1
       className="font-extrabold tracking-tight leading-[1.05] mb-10"
       style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left' }}
     >
-      {name}
+      {name.slice(0, count)}
+      <span
+        style={{
+          display: 'inline-block',
+          width: '0.06em',
+          height: '0.88em',
+          background: '#facc15',
+          marginLeft: 4,
+          verticalAlign: 'middle',
+          opacity: done ? (cursorOn ? 1 : 0) : 1,
+          transition: done ? 'opacity 0.1s' : 'none',
+          boxShadow: '0 0 8px #facc15',
+        }}
+      />
     </h1>
   )
 }
@@ -63,11 +102,11 @@ function lineTypedParts(line, charCount) {
   const wordStart = before.length
   const afterStart = wordStart + word.length
 
-  return {
-    before: before.slice(0, Math.min(charCount, wordStart)),
-    word: word.slice(0, Math.max(0, Math.min(charCount, afterStart) - wordStart)),
-    after: after.slice(0, Math.max(0, charCount - afterStart)),
-  }
+  const split = (str, typedLen) => ({ shown: str.slice(0, typedLen), hidden: str.slice(typedLen) })
+  const b = split(before, Math.min(charCount, wordStart))
+  const w = split(word, Math.max(0, Math.min(charCount, afterStart) - wordStart))
+  const a = split(after, Math.max(0, charCount - afterStart))
+  return { before: b, word: w, after: a }
 }
 
 function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }) {
@@ -99,18 +138,23 @@ function TypedLines({ lines, start, onDone, speed = 36, lineDelay = 260, style }
     return () => clearTimeout(t)
   }, [start, lineIndex, charCount, lines, speed, lineDelay, onDone])
 
+  // Every line is always rendered (untyped chars hidden via opacity) so the
+  // block's height is fixed from the first paint — typing progress never
+  // changes layout height, which would otherwise shift everything above it
+  // because the hero section vertically centers its content.
   return (
     <div style={style}>
       {lines.map((line, i) => {
-        if (i > lineIndex || !start) return null
-        const isCurrent = i === lineIndex
-        const cc = isCurrent ? charCount : line.text.length
+        const isCurrent = start && i === lineIndex
+        const cc = !start ? 0 : i < lineIndex ? line.text.length : i === lineIndex ? charCount : 0
         const { before, word, after } = lineTypedParts(line, cc)
         return (
           <div key={i}>
-            {before}
-            <span style={{ color: '#facc15', fontWeight: 700 }}>{word}</span>
-            {after}
+            {before.shown}<span style={{ opacity: 0 }}>{before.hidden}</span>
+            <span style={{ color: '#facc15', fontWeight: 700 }}>
+              {word.shown}<span style={{ opacity: 0 }}>{word.hidden}</span>
+            </span>
+            {after.shown}<span style={{ opacity: 0 }}>{after.hidden}</span>
             {isCurrent && (
               <span style={{
                 display: 'inline-block',
@@ -211,6 +255,7 @@ function ScrollIndicator() {
 }
 
 export default function Hero({ onNavigate }) {
+  const [nameTyped,   setNameTyped]   = useState(false)
   const [introDone,   setIntroDone]   = useState(false)
   const [aboutTyped,  setAboutTyped]  = useState(false)
   const [neuralReady, setNeuralReady] = useState(false)
@@ -218,9 +263,10 @@ export default function Hero({ onNavigate }) {
   const isMobile = useIsMobile()
 
   useEffect(() => {
-    const t = setTimeout(() => setIntroDone(true), isMobile ? 700 : 900)
+    if (!nameTyped) return
+    const t = setTimeout(() => setIntroDone(true), 350)
     return () => clearTimeout(t)
-  }, [isMobile])
+  }, [nameTyped])
 
   useEffect(() => {
     if (!aboutTyped) return
@@ -281,19 +327,20 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Name + tagline */}
               <div>
-                <NameHeading name={NAME} center />
-                <FadeIn delay={300}>
-                  <p style={{
-                    fontSize: 13, margin: '0 0 0', textAlign: 'center',
-                    fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
-                    color: 'rgba(255,255,255,0.45)',
-                  }}>
-                    Working at the intersection of{' '}
-                    <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                    {' '}and{' '}
-                    <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
-                  </p>
-                </FadeIn>
+                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
+                <p style={{
+                  fontSize: 13, margin: '0 0 0', textAlign: 'center',
+                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
+                  color: 'rgba(255,255,255,0.45)',
+                  opacity: nameTyped ? 1 : 0,
+                  transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
+                  transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
+                }}>
+                  Working at the intersection of{' '}
+                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                  {' '}and{' '}
+                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+                </p>
               </div>
 
               {/* 2. Photo with badges */}
@@ -493,19 +540,20 @@ export default function Hero({ onNavigate }) {
             {/* RIGHT COLUMN — text */}
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
 
-              <NameHeading name={NAME} />
-              <FadeIn delay={300}>
-                <p style={{
-                  fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
-                  letterSpacing: '0.02em', lineHeight: 1.5,
-                  color: 'rgba(255,255,255,0.45)',
-                }}>
-                  Working at the intersection of{' '}
-                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                  {' '}and{' '}
-                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
-                </p>
-              </FadeIn>
+              <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
+              <p style={{
+                fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
+                letterSpacing: '0.02em', lineHeight: 1.5,
+                color: 'rgba(255,255,255,0.45)',
+                opacity: nameTyped ? 1 : 0,
+                transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
+                transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
+              }}>
+                Working at the intersection of{' '}
+                <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                {' '}and{' '}
+                <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+              </p>
 
               <TypedLines
                 lines={ABOUT_LINES}
