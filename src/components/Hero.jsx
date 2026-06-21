@@ -22,52 +22,13 @@ const TRAITS = [
   { label: 'User Obsessed',       color: '#fb923c' },
 ]
 
-function AnimatedName({ name, onTyped, fast, center }) {
-  const [count, setCount] = useState(0)
-  const [cursorOn, setCursorOn] = useState(true)
-
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      let i = 0
-      const interval = setInterval(() => {
-        i++
-        setCount(i)
-        if (i >= name.length) {
-          clearInterval(interval)
-          onTyped && onTyped()
-        }
-      }, fast ? 32 : 55)
-      return () => clearInterval(interval)
-    }, fast ? 200 : 400)
-    return () => clearTimeout(delay)
-  }, [name, fast])
-
-  useEffect(() => {
-    const blink = setInterval(() => setCursorOn(p => !p), 700)
-    return () => clearInterval(blink)
-  }, [])
-
-  const done = count >= name.length
-
+function NameHeading({ name, center }) {
   return (
     <h1
       className="font-extrabold tracking-tight leading-[1.05] mb-10"
       style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left' }}
     >
-      {name.slice(0, count)}
-      <span
-        style={{
-          display: 'inline-block',
-          width: '0.06em',
-          height: '0.88em',
-          background: '#facc15',
-          marginLeft: 4,
-          verticalAlign: 'middle',
-          opacity: done ? (cursorOn ? 1 : 0) : 1,
-          transition: done ? 'opacity 0.1s' : 'none',
-          boxShadow: '0 0 8px #facc15',
-        }}
-      />
+      {name}
     </h1>
   )
 }
@@ -250,11 +211,16 @@ function ScrollIndicator() {
 }
 
 export default function Hero({ onNavigate }) {
-  const [nameTyped,   setNameTyped]   = useState(false)
+  const [introDone,   setIntroDone]   = useState(false)
   const [aboutTyped,  setAboutTyped]  = useState(false)
   const [neuralReady, setNeuralReady] = useState(false)
   const [neuralKey,   setNeuralKey]   = useState(0)
   const isMobile = useIsMobile()
+
+  useEffect(() => {
+    const t = setTimeout(() => setIntroDone(true), isMobile ? 700 : 900)
+    return () => clearTimeout(t)
+  }, [isMobile])
 
   useEffect(() => {
     if (!aboutTyped) return
@@ -315,17 +281,19 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Name + tagline */}
               <div>
-                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
-                <p style={{
-                  fontSize: 13, margin: '0 0 0', textAlign: 'center',
-                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
-                  color: 'rgba(255,255,255,0.45)',
-                }}>
-                  Working at the intersection of{' '}
-                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                  {' '}and{' '}
-                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
-                </p>
+                <NameHeading name={NAME} center />
+                <FadeIn delay={300}>
+                  <p style={{
+                    fontSize: 13, margin: '0 0 0', textAlign: 'center',
+                    fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
+                    color: 'rgba(255,255,255,0.45)',
+                  }}>
+                    Working at the intersection of{' '}
+                    <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                    {' '}and{' '}
+                    <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+                  </p>
+                </FadeIn>
               </div>
 
               {/* 2. Photo with badges */}
@@ -384,7 +352,7 @@ export default function Hero({ onNavigate }) {
               {/* 4. About */}
               <TypedLines
                 lines={ABOUT_LINES}
-                start={nameTyped}
+                start={introDone}
                 onDone={() => setAboutTyped(true)}
                 style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0 }}
               />
@@ -525,21 +493,23 @@ export default function Hero({ onNavigate }) {
             {/* RIGHT COLUMN — text */}
             <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
 
-              <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={isMobile} />
-              <p style={{
-                fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
-                letterSpacing: '0.02em', lineHeight: 1.5,
-                color: 'rgba(255,255,255,0.45)',
-              }}>
-                Working at the intersection of{' '}
-                <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                {' '}and{' '}
-                <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
-              </p>
+              <NameHeading name={NAME} />
+              <FadeIn delay={300}>
+                <p style={{
+                  fontSize: 14, margin: '-28px 0 32px', fontWeight: 500,
+                  letterSpacing: '0.02em', lineHeight: 1.5,
+                  color: 'rgba(255,255,255,0.45)',
+                }}>
+                  Working at the intersection of{' '}
+                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
+                  {' '}and{' '}
+                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+                </p>
+              </FadeIn>
 
               <TypedLines
                 lines={ABOUT_LINES}
-                start={nameTyped}
+                start={introDone}
                 onDone={() => setAboutTyped(true)}
                 style={{ color: 'rgba(255,255,255,0.78)', fontSize: isMobile ? 17 : 20, fontWeight: 600, lineHeight: 1.5, maxWidth: 540, marginBottom: 0 }}
               />
