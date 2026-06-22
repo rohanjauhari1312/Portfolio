@@ -182,7 +182,7 @@ export default function Contact() {
       <div ref={ref} style={{ maxWidth: 1320, margin: '0 auto', padding: isMobile ? '0 24px' : '0 64px' }}>
 
         {/* CTA block */}
-        <div style={{ textAlign: 'left', maxWidth: 680, margin: isMobile ? '0 0 48px' : '0 0 64px' }}>
+        <div style={{ textAlign: 'left', margin: isMobile ? '0 0 48px' : '0 0 64px' }}>
           <div style={{ ...fade(0), display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 10, marginBottom: 20 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px #facc15', display: 'inline-block' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#facc15' }}>
@@ -197,10 +197,10 @@ export default function Contact() {
               background: 'linear-gradient(90deg, #facc15, #fb923c)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}
-            style={{ fontSize: 'clamp(2.2rem,6vw,4rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 20px' }}
+            style={{ fontSize: 'clamp(1.8rem,4.4vw,4rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 20px', whiteSpace: isMobile ? 'normal' : 'nowrap' }}
           />
 
-          <p style={{ ...fade(160), fontSize: 17, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, margin: '0 0 40px' }}>
+          <p style={{ ...fade(160), fontSize: 17, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, margin: '0 0 40px', maxWidth: 680 }}>
             Product, strategy, or operations. If you&apos;re building in AI, data, or SaaS, I&apos;d love to connect.
           </p>
 
