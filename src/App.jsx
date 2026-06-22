@@ -7,6 +7,7 @@ import Skills from './components/Skills'
 import Education from './components/Education'
 import Roadmap from './components/Roadmap'
 import Experience from './components/Experience'
+import Mantra from './components/Mantra'
 import Projects from './components/Projects'
 import Achievements from './components/Achievements'
 import Contact from './components/Contact'
@@ -132,6 +133,7 @@ export default function App() {
         <Education />
         <Roadmap />
         <Experience />
+        <Mantra />
         <Projects onNavigate={navigateTo} />
         <Achievements />
         <Contact />
