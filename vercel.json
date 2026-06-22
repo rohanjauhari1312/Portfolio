@@ -5,6 +5,8 @@
   "rewrites": [
     { "source": "/ragproject", "destination": "https://supportiq-oywb.onrender.com/" },
     { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" },
+    { "source": "/trynourish", "destination": "https://nourish-app-sigma.vercel.app/" },
+    { "source": "/trynourish/:path*", "destination": "https://nourish-app-sigma.vercel.app/:path*" },
     { "source": "/swifthire", "destination": "/index.html" },
     { "source": "/nourish", "destination": "/index.html" },
     { "source": "/framer-demo", "destination": "/index.html" },

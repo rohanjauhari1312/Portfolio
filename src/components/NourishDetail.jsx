@@ -127,7 +127,7 @@ export default function NourishDetail({ onBack }) {
         </button>
 
         <a
-          href="https://nourish-agent.netlify.app/"
+          href="/trynourish"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -179,7 +179,7 @@ export default function NourishDetail({ onBack }) {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <a
-            href="https://nourish-agent.netlify.app/"
+            href="/trynourish"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -368,7 +368,7 @@ export default function NourishDetail({ onBack }) {
         {/* CTA */}
         <div style={{ textAlign: 'center', paddingTop: 20 }}>
           <a
-            href="https://nourish-agent.netlify.app/"
+            href="/trynourish"
             target="_blank"
             rel="noopener noreferrer"
             style={{
