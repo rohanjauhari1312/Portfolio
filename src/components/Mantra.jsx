@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
+import TypedHeading from './TypedHeading'
 
 const PRINCIPLES = [
   {
@@ -55,7 +56,7 @@ function PrincipleCard({ p, index }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: !visible ? 'translateY(28px)' : hovered ? 'translateY(-6px)' : 'translateY(0)',
+        transform: !visible ? 'translateY(28px)' : hovered ? 'translateY(-8px)' : 'translateY(0)',
         transition: !visible
           ? `opacity 0.6s ease ${index * 110}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${index * 110}ms`
           : 'transform 0.3s cubic-bezier(.22,1,.36,1)',
@@ -63,15 +64,22 @@ function PrincipleCard({ p, index }) {
     >
       <div
         style={{
+          animation: `floatCard ${4 + index * 0.4}s ease-in-out ${index * 0.7}s infinite`,
           padding: '28px 26px',
           borderRadius: 16,
           background: 'rgba(255,255,255,0.03)',
-          border: `1px solid ${hovered ? `${p.color}55` : 'rgba(255,255,255,0.07)'}`,
+          border: `1px solid ${hovered ? `${p.color}90` : `${p.color}30`}`,
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
           height: '100%',
-          boxShadow: hovered ? `0 0 28px ${p.color}30, 0 0 60px ${p.color}15` : 'none',
-          transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxShadow: hovered
+            ? `0 0 24px ${p.color}80, 0 0 60px ${p.color}45, 0 0 100px ${p.color}20, inset 0 0 0 1px ${p.color}30`
+            : `0 0 18px ${p.color}18, inset 0 0 0 1px ${p.color}10`,
+          transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
         }}
       >
         <div
@@ -114,6 +122,9 @@ export default function Mantra() {
 
   return (
     <section style={{ background: 'rgba(10,10,10,0.85)', padding: isMobile ? '24px 0 48px' : '40px 0 80px' }} id="mantra">
+      <style>{`
+        @keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+      `}</style>
       <div style={{ height: 1, background: 'linear-gradient(to right, transparent, rgba(250,204,21,0.15), transparent)', marginBottom: isMobile ? 32 : 48 }} />
 
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: isMobile ? '0 24px' : '0 64px' }}>
@@ -124,15 +135,22 @@ export default function Mantra() {
             opacity: titleVisible ? 1 : 0,
             transform: titleVisible ? 'translateY(0)' : 'translateY(20px)',
             transition: 'opacity 0.6s ease, transform 0.7s cubic-bezier(.22,1,.36,1)',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px #facc15', display: 'inline-block' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#facc15' }}>Philosophy</span>
           </div>
-          <h2 style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
-            My shipping <span style={{ color: '#facc15' }}>mantra</span>.
-          </h2>
+          <TypedHeading
+            text="My shipping "
+            suffixText="mantra."
+            suffixStyle={{ color: '#facc15' }}
+            style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}
+          />
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.38)', marginTop: 12, maxWidth: 480 }}>
             Three things I refuse to ship without.
           </p>

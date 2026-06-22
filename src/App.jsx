@@ -133,9 +133,9 @@ export default function App() {
         <Education />
         <Roadmap />
         <Experience />
-        <Mantra />
         <Projects onNavigate={navigateTo} />
         <Achievements />
+        <Mantra />
         <Contact />
         <ScrollTop />
         <ChatBot onNavigate={navigateTo} />
