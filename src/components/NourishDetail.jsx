@@ -34,14 +34,13 @@ const AGENTS = [
   { name: 'Orchestrator',     role: 'The router',          image: '/nourish-orchestrator.jpg', description: 'A lightweight router. Every message from the app arrives here. It reads the message, picks the right specialist, passes it on. No knowledge of its own, no database access by design.' },
   { name: 'Nutrition Agent',  role: 'The brain',           image: '/nourish-nutrition.jpg',    description: 'Handles everything food and health related: meal logging, nutrient tracking, meal suggestions, profile saves, and all database writes. Has Supabase MCP access, reads your profile at the start of every conversation.' },
   { name: 'Health Monitor',   role: 'The data pipeline',   image: '/nourish-health.jpg',       description: 'Runs every 15 minutes, independent of the user. Calls the Google Fit API, pulls the latest biometrics from Fitbit, steps, heart rate, sleep, calories, active minutes, and adjusts daily targets.' },
-  { name: 'Scheduling Agent', role: 'Calendar and email',  image: '/nourish-scheduling.jpg',   description: 'Handles Gmail and Google Calendar. Schedules meal prep reminders, blocks gym time, reads your calendar to understand busy days and adjusts meal suggestions around them.' },
 ]
 
 const STACK = [
   { k: 'Web App',         v: 'HTML/JS PWA on Netlify, installable on phone, works offline' },
   { k: 'Auth',            v: 'Supabase Auth with Google OAuth' },
-  { k: 'Agent Backend',   v: 'n8n Cloud, all four agent workflows' },
-  { k: 'AI Model',        v: 'Claude (Anthropic), powers all four agents' },
+  { k: 'Agent Backend',   v: 'n8n Cloud, all three agent workflows' },
+  { k: 'AI Model',        v: 'Claude (Anthropic), powers all three agents' },
   { k: 'Database',        v: 'Supabase Postgres, single DB for all tables and all agents' },
   { k: 'DB Access',       v: 'Supabase MCP, direct agent-to-database writes and reads' },
   { k: 'Wearable Data',   v: 'Google Fitness REST API, reads Fitbit via Health Connect on Pixel' },
@@ -293,7 +292,7 @@ export default function NourishDetail({ onBack }) {
 
         {/* Agent Architecture */}
         <Section label="Architecture">
-          <TypedHeading text="Four agents. One system." speed={28} cursorColor={GREEN} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 12px', color: '#f5f5f5' }} />
+          <TypedHeading text="Three agents. One system." speed={28} cursorColor={GREEN} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 12px', color: '#f5f5f5' }} />
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.38)', margin: '0 0 32px', lineHeight: 1.7 }}>
             Each agent has one job. The Orchestrator routes but never processes. The Nutrition Agent writes data but never routes. The Health Monitor pulls data but never suggests meals. Clean separation means each agent can be improved or extended without touching the others.
           </p>
