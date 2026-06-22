@@ -182,8 +182,8 @@ export default function Contact() {
       <div ref={ref} style={{ maxWidth: 1320, margin: '0 auto', padding: isMobile ? '0 24px' : '0 64px' }}>
 
         {/* CTA block */}
-        <div style={{ textAlign: 'center', maxWidth: 680, margin: isMobile ? '0 auto 48px' : '0 auto 64px' }}>
-          <div style={{ ...fade(0), display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 20 }}>
+        <div style={{ textAlign: 'left', maxWidth: 680, margin: isMobile ? '0 0 48px' : '0 0 64px' }}>
+          <div style={{ ...fade(0), display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 10, marginBottom: 20 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px #facc15', display: 'inline-block' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#facc15' }}>
               Let&apos;s Connect
@@ -204,7 +204,7 @@ export default function Contact() {
             Product, strategy, or operations. If you&apos;re building in AI, data, or SaaS, I&apos;d love to connect.
           </p>
 
-          <div style={{ ...fade(220), display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ ...fade(220), display: 'flex', gap: 12, justifyContent: 'flex-start', flexWrap: 'wrap' }}>
             <a
               href="mailto:jauhari.r@northeastern.edu"
               style={{
