@@ -332,24 +332,6 @@ export default function Hero({ onNavigate }) {
               {/* 1. Name + traits + tagline */}
               <div>
                 <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
-                <div style={{
-                  display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 12,
-                  opacity: nameTyped ? 1 : 0,
-                  transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
-                  transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
-                }}>
-                  {TRAITS.map((t) => (
-                    <div key={t.label} style={{
-                      display: 'inline-flex', alignItems: 'center',
-                      padding: '7px 11px',
-                      background: 'rgba(255,255,255,0.03)',
-                      borderLeft: `3px solid ${t.color}`,
-                      borderRadius: '0 6px 6px 0',
-                    }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 700, color: t.color, whiteSpace: 'nowrap' }}>{t.label}</span>
-                    </div>
-                  ))}
-                </div>
                 <p style={{
                   fontSize: 13, margin: '0 0 0', textAlign: 'center',
                   fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
