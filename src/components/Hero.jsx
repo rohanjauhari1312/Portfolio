@@ -411,20 +411,20 @@ export default function Hero({ onNavigate }) {
                 </div>
               </FadeIn>
 
-              {/* 3. NN card (no replay button on mobile) */}
+              {/* 3. About */}
+              <TypedLines
+                lines={ABOUT_LINES}
+                start={introDone}
+                onDone={() => setAboutTyped(true)}
+                style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0, textAlign: 'center' }}
+              />
+
+              {/* 4. NN card (no replay button on mobile) */}
               <FadeIn delay={600}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} />
                 </div>
               </FadeIn>
-
-              {/* 4. About */}
-              <TypedLines
-                lines={ABOUT_LINES}
-                start={introDone}
-                onDone={() => setAboutTyped(true)}
-                style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0 }}
-              />
 
             </div>
           ) : (
