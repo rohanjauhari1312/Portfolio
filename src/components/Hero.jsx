@@ -329,22 +329,9 @@ export default function Hero({ onNavigate }) {
             // ─── MOBILE: stacked order — Name → Photo → NN card → About → Traits ───
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-              {/* 1. Name + traits + tagline */}
+              {/* 1. Name */}
               <div>
-                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center marginBottom={12} />
-                <p style={{
-                  fontSize: 13, margin: '0 0 0', textAlign: 'center',
-                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
-                  color: 'rgba(255,255,255,0.45)',
-                  opacity: nameTyped ? 1 : 0,
-                  transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
-                  transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
-                }}>
-                  Working at the intersection of{' '}
-                  <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                  {' '}and{' '}
-                  <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
-                </p>
+                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center marginBottom={0} />
               </div>
 
               {/* 2. Photo with badges */}
