@@ -322,7 +322,7 @@ export default function Hero({ onNavigate }) {
 
         <div
           className="relative z-10 w-full mx-auto"
-          style={{ maxWidth: 1320, padding: isMobile ? '48px 20px 16px' : '120px 64px 64px' }}
+          style={{ maxWidth: 1320, padding: isMobile ? '16px 20px 16px' : '120px 64px 64px' }}
         >
 
           {isMobile ? (
