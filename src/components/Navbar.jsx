@@ -48,10 +48,10 @@ export default function Navbar() {
       <header
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          height: 64,
+          height: isMobile ? 44 : 64,
           display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-end' : 'flex-start',
           gap: 40,
-          padding: isMobile ? '0 20px' : '0 40px',
+          padding: isMobile ? '0 16px' : '0 40px',
           background: scrolled || menuOpen ? 'rgba(10,10,10,0.55)' : 'transparent',
           borderBottom: scrolled || menuOpen ? '1px solid rgba(250,204,21,0.08)' : '1px solid transparent',
           backdropFilter: scrolled || menuOpen ? 'blur(18px)' : 'none',
@@ -126,7 +126,7 @@ export default function Navbar() {
       {/* Mobile dropdown menu */}
       {isMobile && (
         <div style={{
-          position: 'fixed', top: 64, left: 0, right: 0, zIndex: 99,
+          position: 'fixed', top: 44, left: 0, right: 0, zIndex: 99,
           background: 'rgba(10,10,10,0.6)',
           backdropFilter: 'blur(18px)',
           WebkitBackdropFilter: 'blur(18px)',

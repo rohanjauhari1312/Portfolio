@@ -22,7 +22,7 @@ const TRAITS = [
   { label: 'User Obsessed',       color: '#fb923c' },
 ]
 
-function AnimatedName({ name, onTyped, fast, center }) {
+function AnimatedName({ name, onTyped, fast, center, marginBottom }) {
   const [count, setCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
 
@@ -51,8 +51,8 @@ function AnimatedName({ name, onTyped, fast, center }) {
 
   return (
     <h1
-      className="font-extrabold tracking-tight leading-[1.05] mb-10"
-      style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left' }}
+      className="font-extrabold tracking-tight leading-[1.05]"
+      style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left', marginBottom: marginBottom != null ? marginBottom : 40 }}
     >
       {name.slice(0, count)}
       <span
@@ -322,7 +322,7 @@ export default function Hero({ onNavigate }) {
 
         <div
           className="relative z-10 w-full mx-auto"
-          style={{ maxWidth: 1320, padding: isMobile ? '68px 20px 16px' : '120px 64px 64px' }}
+          style={{ maxWidth: 1320, padding: isMobile ? '48px 20px 16px' : '120px 64px 64px' }}
         >
 
           {isMobile ? (
@@ -331,7 +331,7 @@ export default function Hero({ onNavigate }) {
 
               {/* 1. Name + traits + tagline */}
               <div>
-                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
+                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center marginBottom={12} />
                 <p style={{
                   fontSize: 13, margin: '0 0 0', textAlign: 'center',
                   fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
