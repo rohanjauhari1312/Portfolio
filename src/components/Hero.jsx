@@ -22,7 +22,7 @@ const TRAITS = [
   { label: 'User Obsessed',       color: '#fb923c' },
 ]
 
-function AnimatedName({ name, onTyped, fast, center, compact }) {
+function AnimatedName({ name, onTyped, fast, center }) {
   const [count, setCount] = useState(0)
   const [cursorOn, setCursorOn] = useState(true)
 
@@ -51,8 +51,8 @@ function AnimatedName({ name, onTyped, fast, center, compact }) {
 
   return (
     <h1
-      className={`font-extrabold tracking-tight leading-[1.05] ${compact ? '' : 'mb-10'}`}
-      style={{ fontSize: compact ? 'clamp(2rem, 9vw, 3rem)' : 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left', marginBottom: compact ? 4 : undefined }}
+      className="font-extrabold tracking-tight leading-[1.05] mb-10"
+      style={{ fontSize: 'clamp(2.4rem, 7vw, 5.5rem)', color: '#f5f5f5', whiteSpace: 'nowrap', textAlign: center ? 'center' : 'left' }}
     >
       {name.slice(0, count)}
       <span
@@ -284,7 +284,7 @@ export default function Hero({ onNavigate }) {
     setTimeout(() => setNeuralReady(true), 80)
   }
 
-  const photoSize = isMobile ? 130 : 300
+  const photoSize = isMobile ? 200 : 300
 
   return (
     <>
@@ -310,8 +310,8 @@ export default function Hero({ onNavigate }) {
 
       <section
         id="about"
-        className="relative w-full overflow-hidden flex items-center"
-        style={{ background: 'transparent', minHeight: '100vh' }}
+        className={`relative w-full overflow-hidden flex ${isMobile ? '' : 'items-center'}`}
+        style={{ background: 'transparent', minHeight: '100vh', alignItems: isMobile ? 'flex-start' : undefined }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -322,19 +322,19 @@ export default function Hero({ onNavigate }) {
 
         <div
           className="relative z-10 w-full mx-auto"
-          style={{ maxWidth: 1320, padding: isMobile ? '20px 20px 16px' : '120px 64px 64px' }}
+          style={{ maxWidth: 1320, padding: isMobile ? '80px 20px 16px' : '120px 64px 64px' }}
         >
 
           {isMobile ? (
             // ─── MOBILE: stacked order — Name → Photo → NN card → About → Traits ───
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
               {/* 1. Name + traits + tagline */}
               <div>
-                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center compact />
+                <AnimatedName name={NAME} onTyped={() => setNameTyped(true)} fast={true} center />
                 <p style={{
-                  fontSize: 12, margin: '0 0 0', textAlign: 'center',
-                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.4,
+                  fontSize: 13, margin: '0 0 0', textAlign: 'center',
+                  fontWeight: 500, letterSpacing: '0.02em', lineHeight: 1.5,
                   color: 'rgba(255,255,255,0.45)',
                   opacity: nameTyped ? 1 : 0,
                   transform: nameTyped ? 'translateY(0)' : 'translateY(10px)',
@@ -349,7 +349,7 @@ export default function Hero({ onNavigate }) {
 
               {/* 2. Photo with badges */}
               <FadeIn delay={400}>
-                <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', margin: '4px 0' }}>
+                <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
                   <div style={{ position: 'relative' }}>
                     <PhotoGlow isMobile />
                     <div style={{
@@ -398,12 +398,12 @@ export default function Hero({ onNavigate }) {
                 lines={ABOUT_LINES}
                 start={introDone}
                 onDone={() => setAboutTyped(true)}
-                style={{ color: 'rgba(255,255,255,0.78)', fontSize: 13.5, fontWeight: 600, lineHeight: 1.35, margin: 0, textAlign: 'center' }}
+                style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0, textAlign: 'center' }}
               />
 
               {/* 4. NN card (no replay button on mobile) */}
               <FadeIn delay={600}>
-                <div style={{ display: 'flex', justifyContent: 'center', transform: 'scale(0.82)', transformOrigin: 'top center', margin: '-6px 0 -28px' }}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} />
                 </div>
               </FadeIn>
