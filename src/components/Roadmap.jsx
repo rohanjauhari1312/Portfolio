@@ -87,9 +87,10 @@ export default function Roadmap() {
 
       <div style={{
         position: 'fixed',
-        bottom: isMobile ? 14 : 24,
+        top: isMobile ? 52 : undefined,
+        bottom: isMobile ? undefined : 24,
         left: '50%',
-        transform: `translateX(-50%) translateY(${show ? 0 : 60}px)`,
+        transform: `translateX(-50%) translateY(${show ? 0 : (isMobile ? -60 : 60)}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
         zIndex: 200,
