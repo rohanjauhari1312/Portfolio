@@ -7,6 +7,8 @@
     { "source": "/ragproject/:path*", "destination": "https://supportiq-oywb.onrender.com/:path*" },
     { "source": "/trynourish", "destination": "https://nourish-app-sigma.vercel.app/" },
     { "source": "/trynourish/:path*", "destination": "https://nourish-app-sigma.vercel.app/:path*" },
+    { "source": "/watchlessai", "destination": "https://web-production-6798a.up.railway.app/" },
+    { "source": "/watchlessai/:path*", "destination": "https://web-production-6798a.up.railway.app/:path*" },
     { "source": "/swifthire", "destination": "/index.html" },
     { "source": "/nourish", "destination": "/index.html" },
     { "source": "/framer-demo", "destination": "/index.html" },
