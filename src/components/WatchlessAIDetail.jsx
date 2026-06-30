@@ -250,11 +250,35 @@ export default function WatchlessAIDetail({ onBack }) {
             Camera ingestion (OpenCV) and frame analysis (Claude Haiku vision call) are fixed single steps. The three agents each run their own multi-step tool-calling loop — they decide what to do next based on what they find.
           </p>
           <div style={{ marginBottom: 36, borderRadius: 14, overflow: 'hidden', border: `1px solid ${CYAN_BORDER}` }}>
-            <img
-              src="/watchlessai-architecture.svg"
-              alt="WatchlessAI architecture diagram showing camera ingestion, vision call, storage, and three agent loops"
-              style={{ width: '100%', display: 'block' }}
-            />
+            <svg width="100%" viewBox="0 0 680 740" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+              <title>WatchlessAI: where the three agents sit in the system</title>
+              <rect width="680" height="740" fill="#0e0f12"/>
+              <defs>
+                <marker id="arrow-wai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </marker>
+              </defs>
+              <line x1="200" y1="96" x2="200" y2="156" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="480" y1="96" x2="480" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="200" y1="212" x2="300" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="280" y1="328" x2="200" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="400" y1="328" x2="440" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="240" y1="444" x2="300" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="440" y1="444" x2="380" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="300" y1="560" x2="200" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <line x1="380" y1="560" x2="480" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-wai)"/>
+              <g><rect x="110" y="40" width="180" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="200" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Camera source</text><text x="200" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">RTSP or uploaded file</text></g>
+              <g><rect x="390" y="40" width="180" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="480" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">User question</text><text x="480" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">typed in Ask tab</text></g>
+              <g><rect x="110" y="156" width="180" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="200" y="174" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Vision call</text><text x="200" y="192" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">one fixed step, not an agent</text></g>
+              <g><rect x="240" y="272" width="200" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Storage</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">SQLite + saved frames</text></g>
+              <g><rect x="110" y="388" width="180" height="56" rx="8" fill="#04342C" stroke="#1D9E75" strokeWidth="0.5"/><text x="200" y="406" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Alert engine</text><text x="200" y="424" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">decides for itself</text></g>
+              <g><rect x="390" y="388" width="180" height="56" rx="8" fill="#04342C" stroke="#1D9E75" strokeWidth="0.5"/><text x="480" y="406" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Chat agent</text><text x="480" y="424" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">decides what to search</text></g>
+              <g><rect x="240" y="504" width="200" height="56" rx="8" fill="#04342C" stroke="#1D9E75" strokeWidth="0.5"/><text x="340" y="522" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Validation agent</text><text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">double-checks independently</text></g>
+              <g><rect x="110" y="620" width="180" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="200" y="638" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Alert event stored</text><text x="200" y="656" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">appears in Alerts tab</text></g>
+              <g><rect x="390" y="620" width="180" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="480" y="638" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Answer shown</text><text x="480" y="656" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">rendered in chat</text></g>
+              <rect x="150" y="696" width="14" height="14" rx="3" fill="#04342C" stroke="#1D9E75" strokeWidth="0.5"/>
+              <text x="172" y="703" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
+            </svg>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {AGENTS.map((agent) => (
