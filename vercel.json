@@ -9,6 +9,7 @@
     { "source": "/trynourish/:path*", "destination": "https://nourish-app-sigma.vercel.app/:path*" },
     { "source": "/trywatchlessai", "destination": "https://web-production-6798a.up.railway.app/" },
     { "source": "/trywatchlessai/:path*", "destination": "https://web-production-6798a.up.railway.app/:path*" },
+    { "source": "/watchlessai", "destination": "/index.html" },
     { "source": "/swifthire", "destination": "/index.html" },
     { "source": "/nourish", "destination": "/index.html" },
     { "source": "/framer-demo", "destination": "/index.html" },
