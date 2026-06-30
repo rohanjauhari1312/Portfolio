@@ -34,7 +34,7 @@ const PROJECTS = [
   },
   {
     id: 'watchlessai',
-    image: '/security app2.webp',
+    image: '/security-app2.webp',
     link: '/trywatchlessai',
     linkLabel: 'Try it',
     hasDetail: 'watchlessai',
