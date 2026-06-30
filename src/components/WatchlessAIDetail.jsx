@@ -249,6 +249,13 @@ export default function WatchlessAIDetail({ onBack }) {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: '0 0 36px', maxWidth: 680 }}>
             Camera ingestion (OpenCV) and frame analysis (Claude Haiku vision call) are fixed single steps. The three agents each run their own multi-step tool-calling loop — they decide what to do next based on what they find.
           </p>
+          <div style={{ marginBottom: 36, borderRadius: 14, overflow: 'hidden', border: `1px solid ${CYAN_BORDER}` }}>
+            <img
+              src="/watchlessai-architecture.svg"
+              alt="WatchlessAI architecture diagram showing camera ingestion, vision call, storage, and three agent loops"
+              style={{ width: '100%', display: 'block' }}
+            />
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {AGENTS.map((agent) => (
               <div key={agent.name} style={{
