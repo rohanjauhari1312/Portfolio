@@ -149,7 +149,7 @@ export default function WatchlessAIDetail({ onBack }) {
           fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1,
           color: CYAN, margin: '0 0 28px',
         }}>
-          WATCHLESSAI
+          WatchlessAI
         </h1>
 
         <blockquote style={{
