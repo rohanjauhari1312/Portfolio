@@ -175,6 +175,7 @@ const PROJECTS = [
       'Showed this is a **nighttime business** — 9pm–2am has 15x the order volume of morning; driver incentives and marketing were misaligned',
     ],
     gradient: 'linear-gradient(135deg, #2a0a00 0%, #7c1a05 50%, #c0330f 100%)',
+    bodyBg: 'linear-gradient(160deg, rgba(58,12,4,0.95) 0%, rgba(20,6,4,0.95) 100%)',
     iconBg: 'linear-gradient(135deg, #ea3a1f, #ff6b4a)',
     icon: 'D',
     accentColor: '#fb923c',
@@ -388,7 +389,7 @@ function ProjectCard({ project, index, onNavigate }) {
     ><div
       style={{
         animation: visible ? `floatCard ${4 + index * 0.4}s ease-in-out ${index * 0.7}s infinite` : 'none',
-        background: 'rgba(16,16,16,0.92)',
+        background: project.bodyBg || 'rgba(16,16,16,0.92)',
         border: `1px solid ${hovered ? `${project.accentColor}90` : `${project.accentColor}30`}`,
         borderRadius: 16,
         overflow: 'hidden',
