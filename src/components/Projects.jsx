@@ -166,7 +166,7 @@ const PROJECTS = [
     imagePad: 28,
     link: '/doordash-report.pdf',
     linkLabel: 'View Report',
-    name: 'DoorDash S&O Case Study',
+    name: 'DoorDash Strategy and Ops Case Study',
     tagline: 'Data Analysis · Three-sided Marketplace · 20,000 Orders',
     bullets: [
       'Found a **single-day system failure** that took down Las Vegas and Memphis entirely — 122 orders, $4.4K lost, no alert fired until month end',
