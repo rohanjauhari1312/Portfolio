@@ -157,7 +157,7 @@ export default function Contact() {
       return
     }
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting || e.boundingClientRect.top < 0) { setVisible(true); obs.disconnect() } },
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } },
       { threshold: 0.15 }
     )
     if (ref.current) obs.observe(ref.current)
