@@ -78,12 +78,12 @@ export default function TypedHeading({ text, suffixText = '', suffixStyle = {}, 
     <Tag ref={ref} style={s}>
       {renderText(text.slice(0, mainTyped), charStyles)}
       {!cursorInSuffix && cursor}
-      <span style={{ opacity: 0 }} aria-hidden="true">{renderText(text.slice(mainTyped), charStyles)}</span>
+      <span style={{ visibility: 'hidden' }} aria-hidden="true">{renderText(text.slice(mainTyped), charStyles)}</span>
       {suffixText && (
         <span style={suffixStyle}>
           {renderText(suffixText.slice(0, suffixTyped), charStyles)}
           {cursorInSuffix && cursor}
-          <span style={{ opacity: 0 }} aria-hidden="true">{renderText(suffixText.slice(suffixTyped), charStyles)}</span>
+          <span style={{ visibility: 'hidden' }} aria-hidden="true">{renderText(suffixText.slice(suffixTyped), charStyles)}</span>
         </span>
       )}
     </Tag>
