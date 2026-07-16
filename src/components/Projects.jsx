@@ -177,7 +177,7 @@ const PROJECTS = [
     gradient: 'linear-gradient(135deg, #2a0a00 0%, #7c1a05 50%, #c0330f 100%)',
     iconBg: 'linear-gradient(135deg, #ea3a1f, #ff6b4a)',
     icon: 'D',
-    accentColor: '#f87171',
+    accentColor: '#ea3a1f',
     tags: ['Data Analysis', 'SQL', 'Tableau', 'Three-sided Marketplace', 'Operations', 'Python'],
     metrics: [
       { v: '20K', l: 'Orders analyzed' },
