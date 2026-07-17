@@ -162,7 +162,7 @@ const PROJECTS = [
     id: 'doordash',
     image: '/doordash-trim.png',
     imageFit: 'contain',
-    imageBg: '#ea3a1f',
+    imageBg: '#ffffff',
     imagePad: '32px',
     link: '/doordash-report.pdf',
     linkLabel: 'View Report',
