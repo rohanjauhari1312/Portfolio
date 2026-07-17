@@ -166,6 +166,7 @@ const PROJECTS = [
     imagePad: '32px',
     link: '/doordash-report.pdf',
     linkLabel: 'View Report',
+    hasDetail: 'doordash',
     name: 'DoorDash Analytics',
     tagline: 'Tableau · Three-sided Marketplace · 20,000 Orders',
     bullets: [

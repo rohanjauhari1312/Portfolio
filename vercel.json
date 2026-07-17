@@ -12,6 +12,7 @@
   ],
   "rewrites": [
     { "source": "/watchlessai", "destination": "/index.html" },
+    { "source": "/doordash", "destination": "/index.html" },
     { "source": "/swifthire", "destination": "/index.html" },
     { "source": "/nourish", "destination": "/index.html" },
     { "source": "/framer-demo", "destination": "/index.html" },
