@@ -422,7 +422,27 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
       }}>
         <img src="/emoji.png" alt="" style={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)' }} />
         <div>
-          <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot by Rohan</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot by Rohan</div>
+            {callState === 'idle' && (
+              <button
+                onClick={startCall}
+                aria-label="Start voice call"
+                title="Call Rohan"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0,
+                  padding: '0 10px', height: 26, borderRadius: 7,
+                  background: 'rgba(74,222,128,0.12)', border: '1px solid rgba(74,222,128,0.35)',
+                  cursor: 'pointer',
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span style={{ fontSize: 11.5, fontWeight: 700, color: '#4ade80' }}>Call</span>
+              </button>
+            )}
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', display: 'inline-block', flexShrink: 0 }} />
             <span style={{
@@ -433,30 +453,11 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
             }}>Talk to me, in my voice</span>
           </div>
         </div>
-        {callState === 'idle' && (
-          <button
-            onClick={startCall}
-            aria-label="Start voice call"
-            title="Call Rohan"
-            style={{
-              marginLeft: 'auto',
-              display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0,
-              padding: '0 13px', height: 34, borderRadius: 9,
-              background: 'rgba(74,222,128,0.12)', border: '1px solid rgba(74,222,128,0.35)',
-              cursor: 'pointer',
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            <span style={{ fontSize: 12.5, fontWeight: 700, color: '#4ade80' }}>Call</span>
-          </button>
-        )}
         <button
           onClick={onClose}
           aria-label="Close chat"
           style={{
-            marginLeft: callState === 'idle' ? 10 : 'auto',
+            marginLeft: 'auto',
             background: fullscreen ? 'rgba(255,255,255,0.05)' : 'none',
             border: fullscreen ? '1px solid rgba(255,255,255,0.1)' : 'none',
             borderRadius: fullscreen ? 8 : 0,
