@@ -213,6 +213,59 @@ export default function RohBotDetail({ onBack }) {
         {/* Stack */}
         <Section label="Architecture">
           <TypedHeading text="What it's built on." speed={28} cursorColor={Y} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 28px', color: '#f5f5f5' }} />
+
+          <div style={{ marginBottom: 36, borderRadius: 14, overflow: 'hidden', border: `1px solid ${Y_BORD}` }}>
+            <svg width="100%" viewBox="0 0 680 900" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+              <title>RohBot: where Claude decides and which tools it calls</title>
+              <rect width="680" height="900" fill="#0e0f12"/>
+              <defs>
+                <marker id="arrow-rb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </marker>
+              </defs>
+
+              {/* vertical spine */}
+              <line x1="340" y1="96" x2="340" y2="156" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="340" y1="212" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              {/* branch to 3 tools */}
+              <line x1="260" y1="328" x2="130" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="340" y1="328" x2="340" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="420" y1="328" x2="550" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              {/* converge back */}
+              <line x1="130" y1="444" x2="260" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="340" y1="444" x2="340" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="550" y1="444" x2="420" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="340" y1="560" x2="340" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+              <line x1="340" y1="676" x2="340" y2="736" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-rb)"/>
+
+              {/* You speak */}
+              <g><rect x="220" y="40" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You speak</text><text x="340" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">tap the call button</text></g>
+
+              {/* ElevenLabs STT */}
+              <g><rect x="180" y="156" width="320" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="174" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">ElevenLabs — speech to text</text><text x="340" y="192" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">streams audio, real-time transcription</text></g>
+
+              {/* Claude decides — agent */}
+              <g><rect x="150" y="272" width="380" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#ffe58a">Claude — decides</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#e0bd52">RAG over my case studies, picks a tool or just answers</text></g>
+
+              {/* 3 tool boxes */}
+              <g><rect x="20" y="388" width="220" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="130" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#ffe58a">n8n → Calendar</text><text x="130" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#e0bd52">checks slots, books the call</text></g>
+              <g><rect x="250" y="388" width="180" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#ffe58a">n8n → Gmail</text><text x="340" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#e0bd52">sends resume or transcript</text></g>
+              <g><rect x="460" y="388" width="200" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="560" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#e8e9ec">Client tool</text><text x="560" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#9a9da4">opens a project page live</text></g>
+
+              {/* Claude composes reply — agent */}
+              <g><rect x="150" y="504" width="380" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="522" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#ffe58a">Claude — composes reply</text><text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#e0bd52">confirms the action out loud</text></g>
+
+              {/* ElevenLabs TTS */}
+              <g><rect x="180" y="620" width="320" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="638" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">ElevenLabs — text to speech</text><text x="340" y="656" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">spoken back in my cloned voice</text></g>
+
+              {/* You hear it */}
+              <g><rect x="220" y="736" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="754" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You hear it, live</text><text x="340" y="772" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">same chat window, no page reload</text></g>
+
+              <rect x="150" y="826" width="14" height="14" rx="3" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/>
+              <text x="172" y="833" dominantBaseline="central" fontSize="12" fill="#9a9da4">= Claude: decides which tool to call, or whether one is needed at all</text>
+            </svg>
+          </div>
+
           <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
             {STACK.map((s, i) => (
               <div key={s.k} style={{ display: 'flex', borderBottom: i < STACK.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none', background: i % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
