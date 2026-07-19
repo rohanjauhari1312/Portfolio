@@ -418,31 +418,11 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
         padding: fullscreen ? 'calc(14px + env(safe-area-inset-top)) 18px 14px' : '14px 18px',
         borderBottom: '1px solid rgba(250,204,21,0.08)',
         background: 'rgba(250,204,21,0.03)',
-        display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0,
+        display: 'flex', alignItems: 'stretch', gap: 12, flexShrink: 0,
       }}>
-        <img src="/emoji.png" alt="" style={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)' }} />
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot by Rohan</div>
-            {callState === 'idle' && (
-              <button
-                onClick={startCall}
-                aria-label="Start voice call"
-                title="Call Rohan"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0,
-                  padding: '0 10px', height: 26, borderRadius: 7,
-                  background: 'rgba(74,222,128,0.12)', border: '1px solid rgba(74,222,128,0.35)',
-                  cursor: 'pointer',
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <span style={{ fontSize: 11.5, fontWeight: 700, color: '#4ade80' }}>Call</span>
-              </button>
-            )}
-          </div>
+        <img src="/emoji.png" alt="" style={{ width: 46, height: 46, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(250,204,21,0.2)', alignSelf: 'center' }} />
+        <div style={{ alignSelf: 'center' }}>
+          <div style={{ fontSize: 13.5, fontWeight: 700, color: '#f5f5f5', letterSpacing: '-0.01em' }}>RohBot by Rohan</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 6px #4ade80', display: 'inline-block', flexShrink: 0 }} />
             <span style={{
@@ -453,11 +433,31 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
             }}>Talk to me, in my voice</span>
           </div>
         </div>
+        {callState === 'idle' && (
+          <button
+            onClick={startCall}
+            aria-label="Start voice call"
+            title="Call Rohan"
+            style={{
+              alignSelf: 'stretch',
+              display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0,
+              padding: '0 12px', borderRadius: 7,
+              background: 'rgba(74,222,128,0.12)', border: '1px solid rgba(74,222,128,0.35)',
+              cursor: 'pointer',
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#4ade80' }}>Call</span>
+          </button>
+        )}
         <button
           onClick={onClose}
           aria-label="Close chat"
           style={{
             marginLeft: 'auto',
+            alignSelf: 'center',
             background: fullscreen ? 'rgba(255,255,255,0.05)' : 'none',
             border: fullscreen ? '1px solid rgba(255,255,255,0.1)' : 'none',
             borderRadius: fullscreen ? 8 : 0,
@@ -551,50 +551,6 @@ export default function ChatConversation({ onClose, fullscreen = false, autoFocu
             </button>
           </div>
         )}
-
-        {/* Read / Listen toggle — controls whether Rohan's reply is spoken */}
-        <div style={{
-          display: 'flex', gap: 5, marginBottom: 10,
-          padding: 4, borderRadius: 11,
-          background: 'rgba(255,255,255,0.04)',
-          border: '1px solid rgba(255,255,255,0.07)',
-        }}>
-          {[
-            {
-              on: false, label: 'Rohan writes',
-              icon: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>,
-            },
-            {
-              on: true, label: 'Rohan speaks',
-              icon: <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></>,
-            },
-          ].map(opt => {
-            const active = voiceOn === opt.on
-            return (
-              <button
-                key={opt.label}
-                onClick={() => {
-                  if (!opt.on) stopSpeaking()
-                  setVoiceOn(opt.on)
-                }}
-                style={{
-                  flex: 1, padding: '7px 0', borderRadius: 8, cursor: 'pointer',
-                  border: 'none',
-                  background: active ? '#facc15' : 'transparent',
-                  color: active ? '#0a0a0a' : 'rgba(255,255,255,0.5)',
-                  fontSize: 12.5, fontWeight: 700, letterSpacing: '0.01em',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                  transition: 'background 0.2s, color 0.2s',
-                }}
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  {opt.icon}
-                </svg>
-                {opt.label}
-              </button>
-            )
-          })}
-        </div>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
           <textarea
