@@ -240,26 +240,35 @@ export default function RohBotDetail({ onBack }) {
 
               {/* You speak */}
               <g><rect x="220" y="40" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You speak</text><text x="340" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">tap the call button</text></g>
+              <g transform="translate(232,50) scale(0.62)" stroke="#9a9da4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></g>
 
               {/* ElevenLabs STT */}
               <g><rect x="180" y="156" width="320" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="174" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">ElevenLabs — speech to text</text><text x="340" y="192" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">streams audio, real-time transcription</text></g>
+              <g transform="translate(192,166) scale(0.62)" stroke="#9a9da4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></g>
 
               {/* Claude decides — agent */}
               <g><rect x="150" y="272" width="380" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#ffe58a">Claude — decides</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#e0bd52">RAG over my case studies, picks a tool or just answers</text></g>
+              <g transform="translate(162,282) scale(0.62)" stroke="#facc15" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></g>
 
               {/* 3 tool boxes */}
               <g><rect x="20" y="388" width="220" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="130" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#ffe58a">n8n → Calendar</text><text x="130" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#e0bd52">checks slots, books the call</text></g>
+              <g transform="translate(32,398) scale(0.55)" stroke="#facc15" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></g>
               <g><rect x="250" y="388" width="180" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#ffe58a">n8n → Gmail</text><text x="340" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#e0bd52">sends resume or transcript</text></g>
+              <g transform="translate(260,398) scale(0.55)" stroke="#facc15" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></g>
               <g><rect x="460" y="388" width="200" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="560" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#e8e9ec">Client tool</text><text x="560" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#9a9da4">opens a project page live</text></g>
+              <g transform="translate(472,398) scale(0.55)" stroke="#9a9da4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></g>
 
               {/* Claude composes reply — agent */}
               <g><rect x="150" y="504" width="380" height="56" rx="8" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/><text x="340" y="522" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#ffe58a">Claude — composes reply</text><text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#e0bd52">confirms the action out loud</text></g>
+              <g transform="translate(162,514) scale(0.62)" stroke="#facc15" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></g>
 
               {/* ElevenLabs TTS */}
               <g><rect x="180" y="620" width="320" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="638" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">ElevenLabs — text to speech</text><text x="340" y="656" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">spoken back in my cloned voice</text></g>
+              <g transform="translate(192,630) scale(0.62)" stroke="#9a9da4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></g>
 
               {/* You hear it */}
               <g><rect x="220" y="736" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="754" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You hear it, live</text><text x="340" y="772" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">same chat window, no page reload</text></g>
+              <g transform="translate(232,746) scale(0.62)" stroke="#9a9da4" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></g>
 
               <rect x="150" y="826" width="14" height="14" rx="3" fill="#332b08" stroke="#facc15" strokeWidth="0.5"/>
               <text x="172" y="833" dominantBaseline="central" fontSize="12" fill="#9a9da4">= Claude: decides which tool to call, or whether one is needed at all</text>
