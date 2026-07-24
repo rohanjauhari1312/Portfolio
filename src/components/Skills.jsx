@@ -330,7 +330,10 @@ export default function Skills() {
         <TypedHeading
           text="Ship-ready "
           suffixText="skills."
-          suffixStyle={{ color: '#facc15' }}
+          suffixStyle={{
+            background: 'linear-gradient(90deg, #facc15, #fb923c)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+          }}
           style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}
         />
       </div>
