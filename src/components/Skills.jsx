@@ -76,8 +76,8 @@ const FLIGHT_EASE = 'cubic-bezier(.25, 1, .5, 1)'
 
 const ETL_STAGES = [
   { key: 'extract',   label: 'Extract',   sub: 'Scanning raw skill data',   ms: 1600, color: '#facc15' },
-  { key: 'transform', label: 'Transform', sub: 'Skills moving to domains',  ms: 2500, color: '#fb923c' },
-  { key: 'load',      label: 'Load',      sub: 'Populating data warehouse', ms: 900,  color: '#60a5fa' },
+  { key: 'transform', label: 'Transform', sub: 'Skills moving to domains',  ms: 2500, color: '#60a5fa' },
+  { key: 'load',      label: 'Load',      sub: 'Populating data warehouse', ms: 900,  color: '#fb923c' },
   { key: 'analyze',   label: 'Analyze',   sub: 'Intelligence ready',        ms: 700,  color: '#4ade80' },
 ]
 const ETL_TOTAL_MS = ETL_STAGES.reduce((a, b) => a + b.ms, 0)
@@ -288,7 +288,7 @@ export default function Skills() {
           height: 100%;
           width: 0%;
           border-radius: 999px;
-          background: linear-gradient(90deg, #facc15, #fb923c, #60a5fa, #4ade80);
+          background: linear-gradient(90deg, #facc15, #60a5fa, #fb923c, #4ade80);
           animation: etlFill ${ETL_TOTAL_MS}ms linear forwards;
         }
         .etl-progress-fill--done { width: 100%; animation: none; }
