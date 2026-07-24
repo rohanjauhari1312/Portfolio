@@ -579,7 +579,7 @@ export default function Projects({ onNavigate }) {
               Projects
             </span>
           </div>
-          <TypedHeading text="What I've shipped." style={{
+          <TypedHeading text="Things I've " suffixText="built." suffixStyle={{ color: '#facc15' }} style={{
             fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             fontWeight: 800, color: '#f5f5f5',
             letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0,

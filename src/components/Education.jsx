@@ -143,7 +143,7 @@ export default function Education() {
               Education
             </span>
           </div>
-          <TypedHeading text="Where I learnt to ship." style={{
+          <TypedHeading text="My academic " suffixText="foundation." suffixStyle={{ color: '#facc15' }} style={{
             fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: '#f5f5f5',
             letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0,
           }} />

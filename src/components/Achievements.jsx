@@ -291,7 +291,9 @@ export default function Achievements() {
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#facc15' }}>Achievements</span>
           </div>
           <TypedHeading
-            text="Testaments of shipments — beyond resume."
+            text="Testaments of wins — beyond "
+            suffixText="resume."
+            suffixStyle={{ color: '#facc15' }}
             style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: '#f5f5f5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0, whiteSpace: 'nowrap' }}
             charStyles={{ '—': { fontSize: '0.5em', fontWeight: 700, opacity: 0.6, verticalAlign: 'middle' } }}
           />
