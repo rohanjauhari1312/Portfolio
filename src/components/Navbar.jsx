@@ -4,6 +4,7 @@ import useIsMobile from '../hooks/useIsMobile'
 const LINKS = [
   { label: 'About',    href: '#about',    path: '/about' },
   { label: 'Skills',   href: '#skills',   path: '/skills' },
+  { label: 'Education',href: '#education',path: '/education' },
   { label: 'Work',     href: '#work',     path: '/experience' },
   { label: 'Projects', href: '#projects', path: '/projects' },
   { label: 'Wins',     href: '#achievements', path: '/achievements' },
