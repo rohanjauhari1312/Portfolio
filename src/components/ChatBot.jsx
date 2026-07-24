@@ -131,7 +131,7 @@ export default function ChatBot({ onNavigate }) {
             </svg>
           </div>
           <div>
-            <div style={{ fontSize: 13, color: 'rgba(250,204,21,0.6)', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 2 }}>RohBot by Rohan</div>
+            <div style={{ fontSize: 13, color: '#facc15', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 2 }}>RohBot by Rohan</div>
             <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', fontWeight: 400 }}>Ask me. I know his secrets!</div>
           </div>
         </div>
