@@ -75,10 +75,10 @@ const STAGGER_MS = 70
 const FLIGHT_EASE = 'cubic-bezier(.25, 1, .5, 1)'
 
 const ETL_STAGES = [
-  { key: 'extract',   label: 'Extract',   sub: 'Scanning raw skill data',   ms: 1600 },
-  { key: 'transform', label: 'Transform', sub: 'Skills moving to domains',  ms: 2500 },
-  { key: 'load',      label: 'Load',      sub: 'Populating data warehouse', ms: 900  },
-  { key: 'analyze',   label: 'Analyze',   sub: 'Intelligence ready',        ms: 700  },
+  { key: 'extract',   label: 'Extract',   sub: 'Scanning raw skill data',   ms: 1600, color: '#facc15' },
+  { key: 'transform', label: 'Transform', sub: 'Skills moving to domains',  ms: 2500, color: '#fb923c' },
+  { key: 'load',      label: 'Load',      sub: 'Populating data warehouse', ms: 900,  color: '#60a5fa' },
+  { key: 'analyze',   label: 'Analyze',   sub: 'Intelligence ready',        ms: 700,  color: '#4ade80' },
 ]
 const ETL_TOTAL_MS = ETL_STAGES.reduce((a, b) => a + b.ms, 0)
 
@@ -557,13 +557,14 @@ export default function Skills() {
               {ETL_STAGES.map((st, i) => (
                 <div key={st.key} style={{
                   flex: 1, padding: isMobile ? '8px 8px' : '10px 14px', borderRadius: 8,
-                  background: i === etlStage ? 'rgba(250,204,21,0.07)' : i < etlStage ? 'rgba(250,204,21,0.06)' : 'transparent',
-                  border: `1px solid ${i === etlStage ? 'rgba(250,204,21,0.22)' : i < etlStage ? 'rgba(250,204,21,0.18)' : 'rgba(255,255,255,0.04)'}`,
+                  background: i === etlStage ? `${st.color}18` : i < etlStage ? `${st.color}12` : 'transparent',
+                  border: `1px solid ${i === etlStage ? `${st.color}55` : i < etlStage ? `${st.color}40` : 'rgba(255,255,255,0.04)'}`,
+                  boxShadow: i === etlStage ? `0 0 16px ${st.color}22` : 'none',
                   transition: 'all 0.45s ease',
                 }}>
                   <div style={{
                     fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: i === etlStage ? '#facc15' : i < etlStage ? 'rgba(250,204,21,0.85)' : 'rgba(255,255,255,0.13)',
+                    color: i === etlStage ? st.color : i < etlStage ? `${st.color}d8` : 'rgba(255,255,255,0.13)',
                     transition: 'color 0.45s ease', display: 'flex', alignItems: 'center', gap: 6,
                   }}>
                     {i < etlStage && <span style={{ color: '#4ade80', fontSize: 9, fontWeight: 900 }}>✓</span>}
