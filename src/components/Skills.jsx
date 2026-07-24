@@ -518,12 +518,13 @@ export default function Skills() {
                         transition: 'width 0.55s cubic-bezier(.22,1,.36,1), opacity 0.45s ease',
                       }} />
                       <div style={{
-                        fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                        color: cat.color, marginTop: 5,
-                        display: 'flex', alignItems: 'center', gap: 4,
+                        fontSize: 14, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
+                        color: cat.color, marginTop: 8,
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        textShadow: `0 0 14px ${cat.color}55`,
                       }}>
                         <span style={{
-                          color: '#4ade80', fontSize: 9, fontWeight: 900,
+                          color: '#4ade80', fontSize: 12, fontWeight: 900,
                           opacity: isLoaded ? 1 : 0,
                           transform: isLoaded ? 'scale(1)' : 'scale(0.5)',
                           transition: 'opacity 0.3s ease, transform 0.3s cubic-bezier(.22,1,.36,1)',
@@ -532,7 +533,7 @@ export default function Skills() {
                         </span>
                         {cat.name}
                       </div>
-                      <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.2)' }}>
+                      <div style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.35)', marginTop: 1 }}>
                         {cat.skills.length} skills
                       </div>
                     </div>
