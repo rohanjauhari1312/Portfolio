@@ -6,7 +6,7 @@ import { trackSection, trackExternalLink, trackClick } from '../hooks/useAnalyti
 const PROJECTS = [
   {
     id: 'smartcart',
-    image: '/grocery.webp',
+    image: '/grocery.png',
     link: '/trysmartcart',
     linkLabel: 'Try it',
     hasDetail: 'smartcart',
