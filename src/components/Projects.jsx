@@ -34,7 +34,7 @@ const PROJECTS = [
   },
   {
     id: 'smartcart',
-    image: null,
+    image: '/grocery.webp',
     link: '/trysmartcart',
     linkLabel: 'Try it',
     hasDetail: 'smartcart',
