@@ -8,9 +8,12 @@
     { "source": "/trynourish", "destination": "https://nourish-app-sigma.vercel.app/", "permanent": false },
     { "source": "/trynourish/:path*", "destination": "https://nourish-app-sigma.vercel.app/:path*", "permanent": false },
     { "source": "/trywatchlessai", "destination": "https://web-production-6798a.up.railway.app/", "permanent": false },
-    { "source": "/trywatchlessai/:path*", "destination": "https://web-production-6798a.up.railway.app/:path*", "permanent": false }
+    { "source": "/trywatchlessai/:path*", "destination": "https://web-production-6798a.up.railway.app/:path*", "permanent": false },
+    { "source": "/trysmartcart", "destination": "https://ui-phi-two-62.vercel.app/", "permanent": false },
+    { "source": "/trysmartcart/:path*", "destination": "https://ui-phi-two-62.vercel.app/:path*", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/smartcart", "destination": "/index.html" },
     { "source": "/watchlessai", "destination": "/index.html" },
     { "source": "/doordash", "destination": "/index.html" },
     { "source": "/swifthire", "destination": "/index.html" },

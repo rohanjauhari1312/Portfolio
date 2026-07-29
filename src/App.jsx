@@ -21,8 +21,9 @@ import RohBotScreen from './components/RohBotScreen'
 import RohBotDetail from './components/RohBotDetail'
 import WatchlessAIDetail from './components/WatchlessAIDetail'
 import DoorDashDetail from './components/DoorDashDetail'
+import SmartCartDetail from './components/SmartCartDetail'
 
-const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot', 'voice-agent', 'watchlessai', 'doordash']
+const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot', 'voice-agent', 'watchlessai', 'doordash', 'smartcart']
 const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'achievements', 'contact']
 
 export default function App() {
@@ -119,7 +120,7 @@ export default function App() {
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
       <div style={{
-        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo' || view === 'rohbot' || view === 'voice-agent' || view === 'watchlessai' || view === 'doordash') ? 'none' : 'block',
+        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo' || view === 'rohbot' || view === 'voice-agent' || view === 'watchlessai' || view === 'doordash' || view === 'smartcart') ? 'none' : 'block',
         minHeight: '100vh',
         background: `
           radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
@@ -150,6 +151,7 @@ export default function App() {
       {view === 'voice-agent' && <RohBotDetail onBack={navigateBack} />}
       {view === 'watchlessai' && <WatchlessAIDetail onBack={navigateBack} />}
       {view === 'doordash' && <DoorDashDetail onBack={navigateBack} />}
+      {view === 'smartcart' && <SmartCartDetail onBack={navigateBack} />}
     </>
   )
 }
