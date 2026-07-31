@@ -203,11 +203,13 @@ export default function SmartCartDetail({ onBack }) {
               {/* spine */}
               <line x1="340" y1="96" x2="340" y2="156" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="212" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              {/* branch to discovery + quality (parallel) */}
-              <line x1="300" y1="328" x2="170" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="380" y1="328" x2="510" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="170" y1="444" x2="230" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="510" y1="444" x2="450" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              {/* orchestrator fans out one agent per category, in parallel */}
+              <line x1="280" y1="328" x2="115" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="328" x2="340" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="400" y1="328" x2="565" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="115" y1="444" x2="230" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="444" x2="340" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="565" y1="444" x2="450" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="200" y1="560" x2="300" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="480" y1="560" x2="380" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="676" x2="340" y2="736" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
@@ -225,12 +227,13 @@ export default function SmartCartDetail({ onBack }) {
               {/* Orchestrator */}
               <g><rect x="150" y="272" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Grocery orchestrator</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fans out per category, applies learned quantities</text></g>
 
-              {/* Parallel: Discovery + Quality */}
-              <g><rect x="20" y="388" width="300" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="170" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Discovery agent</text><text x="170" y="424" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fill="#5DCAA5">searches the real Kroger catalog</text></g>
-              <g><rect x="360" y="388" width="300" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="510" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Quality &amp; Nutrition agent</text><text x="510" y="424" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fill="#5DCAA5">reads ingredients, not keywords</text></g>
+              {/* One Discovery + Quality agent instance PER category, spawned in parallel */}
+              <g><rect x="20" y="388" width="190" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="115" y="404" textAnchor="middle" dominantBaseline="central" fontSize="12.5" fontWeight="500" fill="#9FE1CB">ramen</text><text x="115" y="422" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">discover → score</text></g>
+              <g><rect x="245" y="388" width="190" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="404" textAnchor="middle" dominantBaseline="central" fontSize="12.5" fontWeight="500" fill="#9FE1CB">oat milk</text><text x="340" y="422" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">discover → score</text></g>
+              <g><rect x="470" y="388" width="190" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="565" y="404" textAnchor="middle" dominantBaseline="central" fontSize="12.5" fontWeight="500" fill="#9FE1CB">dumplings</text><text x="565" y="422" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">discover → score</text></g>
 
               {/* parallel label */}
-              <text x="340" y="470" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">runs in parallel — categories don't depend on each other</text>
+              <text x="340" y="470" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Discovery + Quality agent spawned per category, all running in parallel</text>
 
               {/* Suggestion agent */}
               <g><rect x="150" y="504" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="522" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Suggestion agent</text><text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">ranks, explains price vs quality trade-offs</text></g>
