@@ -204,14 +204,18 @@ export default function SmartCartDetail({ onBack }) {
               <line x1="340" y1="96" x2="340" y2="146" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="222" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* orchestrator fans out one agent per category, in parallel */}
-              <line x1="260" y1="328" x2="100" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="320" y1="328" x2="275" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="200" y1="328" x2="100" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="300" y1="328" x2="275" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="380" y1="328" x2="450" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="430" y1="328" x2="602" y2="378" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
-              <line x1="100" y1="434" x2="220" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="275" y1="434" x2="310" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="450" y1="434" x2="400" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="602" y1="434" x2="470" y2="520" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="460" y1="328" x2="602" y2="378" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              {/* merge stubs from each lane down to a shared bar, then one clean arrow into Suggestion — routes around the tools caption instead of through it */}
+              <line x1="100" y1="434" x2="100" y2="448" stroke="#73726c" strokeWidth="2"/>
+              <line x1="275" y1="434" x2="275" y2="448" stroke="#73726c" strokeWidth="2"/>
+              <line x1="450" y1="434" x2="450" y2="448" stroke="#73726c" strokeWidth="2"/>
+              <line x1="602" y1="434" x2="602" y2="448" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4"/>
+              <line x1="100" y1="448" x2="602" y2="448" stroke="#73726c" strokeWidth="1.5"/>
+              <line x1="340" y1="448" x2="340" y2="454" stroke="#73726c" strokeWidth="2"/>
+              <line x1="340" y1="500" x2="340" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="200" y1="596" x2="300" y2="656" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="480" y1="596" x2="380" y2="656" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="712" x2="340" y2="762" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
@@ -248,10 +252,10 @@ export default function SmartCartDetail({ onBack }) {
                 <text x="602" y="418" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontStyle="italic">N more</text>
               </g>
 
-              {/* parallel label + shared tool calls for this stage, wrapped across 2 lines */}
-              <text x="340" y="456" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Category agent spawned per category, all running in parallel</text>
-              <text x="340" y="477" textAnchor="middle" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">search_kroger · lookup_open_food_facts ·</tspan></text>
-              <text x="340" y="491" textAnchor="middle" fontSize="9.5" fill="#a7f0cb" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">search_nutrition_online · check_diet_conflicts</text>
+              {/* parallel label + shared tool calls for this stage — sits in the gap the merge line breaks around, not behind it */}
+              <text x="340" y="465" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Category agent spawned per category, all running in parallel</text>
+              <text x="340" y="481" textAnchor="middle" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">search_kroger · lookup_open_food_facts ·</tspan></text>
+              <text x="340" y="494" textAnchor="middle" fontSize="9.5" fill="#a7f0cb" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">search_nutrition_online · check_diet_conflicts</text>
 
               {/* Suggestion agent */}
               <g>
