@@ -17,15 +17,6 @@ const AGENTS = [
   { n: '8', name: 'Preference learning agent', role: 'Fire-and-forget', desc: 'Fires immediately after the cart write, asynchronously — doesn\'t block your response. Reads the last 10 orders and updates price sensitivity, quality weighting, preferred brands per category, and typical quantities per category, conservatively.' },
 ]
 
-const TOOLS = [
-  { agent: 'Intent Agent',              tools: 'none — pure parsing, no tool calls' },
-  { agent: 'Discovery Agent',           tools: 'search_kroger' },
-  { agent: 'Quality & Nutrition Agent', tools: 'lookup_open_food_facts, search_nutrition_online, check_diet_conflicts' },
-  { agent: 'Suggestion Agent',          tools: 'none — reasons over data already passed in' },
-  { agent: 'Cart Agent',                tools: 'insert_grocery_session, insert_cart_items, write_kroger_cart' },
-  { agent: 'Preference Learning Agent', tools: 'get_user_preferences, get_session_history, upsert_user_preferences' },
-]
-
 const STACK = [
   { k: 'Frontend',        v: 'React + Vite, deployed on Vercel' },
   { k: 'Orchestration',   v: 'n8n Cloud workflows, running on Railway' },
@@ -200,9 +191,9 @@ export default function SmartCartDetail({ onBack }) {
           </p>
 
           <div style={{ marginBottom: 8, borderRadius: 14, overflow: 'hidden', border: `1px solid ${GREEN_BORDER}` }}>
-            <svg width="100%" viewBox="0 0 680 1120" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
-              <title>SmartCart request pipeline: intent, parallel discovery/scoring, ranking, cart write, async learning</title>
-              <rect width="680" height="1120" fill="#0e0f12"/>
+            <svg width="100%" viewBox="0 0 680 1240" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+              <title>SmartCart request pipeline with tool calls per agent</title>
+              <rect width="680" height="1240" fill="#0e0f12"/>
               <defs>
                 <marker id="arrow-sc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
                   <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -210,95 +201,72 @@ export default function SmartCartDetail({ onBack }) {
               </defs>
 
               {/* spine */}
-              <line x1="340" y1="96" x2="340" y2="156" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="212" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="96" x2="340" y2="146" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="222" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* orchestrator fans out one agent per category, in parallel */}
-              <line x1="260" y1="328" x2="100" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="320" y1="328" x2="275" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="380" y1="328" x2="450" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="430" y1="328" x2="602" y2="388" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
-              <line x1="100" y1="444" x2="220" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="275" y1="444" x2="310" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="450" y1="444" x2="400" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="602" y1="444" x2="470" y2="504" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
-              <line x1="200" y1="560" x2="300" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="480" y1="560" x2="380" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="676" x2="340" y2="736" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="792" x2="340" y2="852" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="908" x2="310" y2="968" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="260" y1="328" x2="100" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="320" y1="328" x2="275" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="380" y1="328" x2="450" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="430" y1="328" x2="602" y2="378" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="100" y1="434" x2="220" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="275" y1="434" x2="310" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="450" y1="434" x2="400" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="602" y1="434" x2="470" y2="506" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="200" y1="582" x2="300" y2="642" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="480" y1="582" x2="380" y2="642" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="698" x2="340" y2="748" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="804" x2="340" y2="854" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="930" x2="340" y2="980" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* async fire-and-forget branch off cart agent */}
-              <line x1="500" y1="895" x2="555" y2="996" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="450" y1="930" x2="450" y2="1076" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
 
               {/* You type */}
               <g><rect x="220" y="40" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You type a request</text><text x="340" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">free text, hits a webhook</text></g>
 
               {/* Intent agent */}
-              <g><rect x="150" y="156" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="174" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Intent agent</text><text x="340" y="192" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">parses categories, quantities, budget, dish decomposition</text></g>
+              <g><rect x="150" y="146" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="166" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Intent agent</text><text x="340" y="186" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">parses categories, quantities, budget, dish decomposition</text><text x="340" y="206" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">tools: none — pure parsing, no tool calls</text></g>
 
               {/* Orchestrator */}
               <g><rect x="150" y="272" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Grocery orchestrator</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fans out per category, applies learned quantities</text></g>
 
               {/* One Discovery + Quality agent instance PER category, spawned in parallel */}
-              <g><rect x="20" y="388" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="100" y="402" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="100" y="420" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. ramen</text></g>
-              <g><rect x="195" y="388" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="275" y="402" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="275" y="420" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. oat milk</text></g>
-              <g><rect x="370" y="388" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="450" y="402" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="450" y="420" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. dumplings</text></g>
+              <g><rect x="20" y="378" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="100" y="392" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="100" y="410" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. ramen</text></g>
+              <g><rect x="195" y="378" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="275" y="392" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="275" y="410" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. oat milk</text></g>
+              <g><rect x="370" y="378" width="160" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="450" y="392" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="700" fill="#9FE1CB">Category agent</text><text x="450" y="410" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">e.g. dumplings</text></g>
               {/* ellipsis lane — scales to however many categories you order */}
               <g>
-                <rect x="545" y="388" width="115" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="4 3" opacity="0.6"/>
-                <circle cx="588" cy="408" r="2.5" fill="#4ade80"/>
-                <circle cx="602" cy="408" r="2.5" fill="#4ade80"/>
-                <circle cx="616" cy="408" r="2.5" fill="#4ade80"/>
-                <text x="602" y="428" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontStyle="italic">N more</text>
+                <rect x="545" y="378" width="115" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="4 3" opacity="0.6"/>
+                <circle cx="588" cy="398" r="2.5" fill="#4ade80"/>
+                <circle cx="602" cy="398" r="2.5" fill="#4ade80"/>
+                <circle cx="616" cy="398" r="2.5" fill="#4ade80"/>
+                <text x="602" y="418" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontStyle="italic">N more</text>
               </g>
 
-              {/* parallel label */}
-              <text x="340" y="470" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Category agent spawned per category, all running in parallel</text>
+              {/* parallel label + shared tool calls for this stage */}
+              <text x="340" y="458" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Category agent spawned per category, all running in parallel</text>
+              <text x="340" y="476" textAnchor="middle" fontSize="9" fill="#73726c" fontStyle="italic">tools: search_kroger · lookup_open_food_facts · search_nutrition_online · check_diet_conflicts</text>
 
               {/* Suggestion agent */}
-              <g><rect x="150" y="504" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="522" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Suggestion agent</text><text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">ranks, explains price vs quality trade-offs</text></g>
+              <g><rect x="150" y="506" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="526" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Suggestion agent</text><text x="340" y="546" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">ranks, explains price vs quality trade-offs</text><text x="340" y="566" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#73726c" fontStyle="italic">tools: none — reasons over data already passed in</text></g>
 
               {/* You pick */}
-              <g><rect x="220" y="620" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="638" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You pick</text><text x="340" y="656" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">ranked options, editable quantity stepper</text></g>
+              <g><rect x="220" y="642" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="660" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You pick</text><text x="340" y="678" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">ranked options, editable quantity stepper</text></g>
 
               {/* Selection handler */}
-              <g><rect x="150" y="736" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="754" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Selection handler</text><text x="340" y="772" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">resolves picks, computes real total vs budget</text></g>
+              <g><rect x="150" y="748" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="766" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Selection handler</text><text x="340" y="784" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">resolves picks, computes real total vs budget</text></g>
 
               {/* Cart agent */}
-              <g><rect x="150" y="852" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="870" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Cart agent</text><text x="340" y="888" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">writes Supabase row + real Kroger cart via their API</text></g>
+              <g><rect x="150" y="854" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="874" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Cart agent</text><text x="340" y="894" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">writes Supabase row + real Kroger cart via their API</text><text x="340" y="914" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">insert_grocery_session, insert_cart_items, write_kroger_cart</text></g>
 
               {/* Response returned */}
-              <g><rect x="190" y="968" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="310" y="986" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="310" y="1004" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
+              <g><rect x="150" y="980" width="380" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="998" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="340" y="1016" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
 
               {/* Preference learning agent (async, dashed) */}
-              <g><rect x="450" y="996" width="210" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/><text x="555" y="1014" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="500" fill="#9FE1CB">Preference learning</text><text x="555" y="1032" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">fire-and-forget, async</text></g>
+              <g><rect x="150" y="1076" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/><text x="340" y="1096" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Preference learning agent</text><text x="340" y="1116" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fire-and-forget, doesn't block your response</text><text x="340" y="1136" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">get_user_preferences, get_session_history, upsert_user_preferences</text></g>
 
-              <rect x="150" y="1078" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
-              <text x="172" y="1085" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
+              <rect x="150" y="1194" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
+              <text x="172" y="1201" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
             </svg>
-          </div>
-
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', margin: '28px 0 14px' }}>Which agent calls which tools:</p>
-          <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
-            <div style={{
-              display: 'grid', gridTemplateColumns: '220px 1fr',
-              background: 'rgba(255,255,255,0.03)',
-              borderBottom: '1px solid rgba(255,255,255,0.07)',
-              padding: '10px 20px',
-            }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Agent</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Tools</div>
-            </div>
-            {TOOLS.map((row, i) => (
-              <div key={row.agent} style={{
-                display: 'grid', gridTemplateColumns: '220px 1fr',
-                padding: '14px 20px',
-                borderBottom: i < TOOLS.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
-              }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: GREEN }}>{row.agent}</div>
-                <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, fontFamily: row.tools.startsWith('none') ? 'inherit' : 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>{row.tools}</div>
-              </div>
-            ))}
           </div>
         </Section>
 
