@@ -17,6 +17,15 @@ const AGENTS = [
   { n: '8', name: 'Preference learning agent', role: 'Fire-and-forget', desc: 'Fires immediately after the cart write, asynchronously — doesn\'t block your response. Reads the last 10 orders and updates price sensitivity, quality weighting, preferred brands per category, and typical quantities per category, conservatively.' },
 ]
 
+const TOOLS = [
+  { agent: 'Intent Agent',              tools: 'none — pure parsing, no tool calls' },
+  { agent: 'Discovery Agent',           tools: 'search_kroger' },
+  { agent: 'Quality & Nutrition Agent', tools: 'lookup_open_food_facts, search_nutrition_online, check_diet_conflicts' },
+  { agent: 'Suggestion Agent',          tools: 'none — reasons over data already passed in' },
+  { agent: 'Cart Agent',                tools: 'insert_grocery_session, insert_cart_items, write_kroger_cart' },
+  { agent: 'Preference Learning Agent', tools: 'get_user_preferences, get_session_history, upsert_user_preferences' },
+]
+
 const STACK = [
   { k: 'Frontend',        v: 'React + Vite, deployed on Vercel' },
   { k: 'Orchestration',   v: 'n8n Cloud workflows, running on Railway' },
@@ -266,6 +275,30 @@ export default function SmartCartDetail({ onBack }) {
               <rect x="150" y="1078" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
               <text x="172" y="1085" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
             </svg>
+          </div>
+
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', margin: '28px 0 14px' }}>Which agent calls which tools:</p>
+          <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div style={{
+              display: 'grid', gridTemplateColumns: '220px 1fr',
+              background: 'rgba(255,255,255,0.03)',
+              borderBottom: '1px solid rgba(255,255,255,0.07)',
+              padding: '10px 20px',
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Agent</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Tools</div>
+            </div>
+            {TOOLS.map((row, i) => (
+              <div key={row.agent} style={{
+                display: 'grid', gridTemplateColumns: '220px 1fr',
+                padding: '14px 20px',
+                borderBottom: i < TOOLS.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: GREEN }}>{row.agent}</div>
+                <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, fontFamily: row.tools.startsWith('none') ? 'inherit' : 'ui-monospace, SFMono-Regular, Menlo, monospace' }}>{row.tools}</div>
+              </div>
+            ))}
           </div>
         </Section>
 
