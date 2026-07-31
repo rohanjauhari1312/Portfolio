@@ -204,17 +204,17 @@ export default function SmartCartDetail({ onBack }) {
               <line x1="340" y1="96" x2="340" y2="156" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="212" x2="340" y2="272" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* branch to discovery + quality (parallel) */}
-              <line x1="300" y1="328" x2="200" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="380" y1="328" x2="480" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="200" y1="444" x2="200" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="480" y1="444" x2="480" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="300" y1="328" x2="170" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="380" y1="328" x2="510" y2="388" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="170" y1="444" x2="230" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="510" y1="444" x2="450" y2="504" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="200" y1="560" x2="300" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="480" y1="560" x2="380" y2="620" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="676" x2="340" y2="736" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="340" y1="792" x2="340" y2="852" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="908" x2="340" y2="968" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="908" x2="310" y2="968" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* async fire-and-forget branch off cart agent */}
-              <line x1="440" y1="1000" x2="560" y2="1024" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="500" y1="895" x2="555" y2="996" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
 
               {/* You type */}
               <g><rect x="220" y="40" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You type a request</text><text x="340" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">free text, hits a webhook</text></g>
@@ -226,8 +226,8 @@ export default function SmartCartDetail({ onBack }) {
               <g><rect x="150" y="272" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="290" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Grocery orchestrator</text><text x="340" y="308" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fans out per category, applies learned quantities</text></g>
 
               {/* Parallel: Discovery + Quality */}
-              <g><rect x="20" y="388" width="360" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="200" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Discovery agent</text><text x="200" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#5DCAA5">searches real Kroger catalog, in parallel per category</text></g>
-              <g><rect x="300" y="388" width="360" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="480" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Quality &amp; Nutrition agent</text><text x="480" y="424" textAnchor="middle" dominantBaseline="central" fontSize="11" fill="#5DCAA5">reads ingredients, catches hidden animal products</text></g>
+              <g><rect x="20" y="388" width="300" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="170" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Discovery agent</text><text x="170" y="424" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fill="#5DCAA5">searches the real Kroger catalog</text></g>
+              <g><rect x="360" y="388" width="300" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="510" y="406" textAnchor="middle" dominantBaseline="central" fontSize="13" fontWeight="500" fill="#9FE1CB">Quality &amp; Nutrition agent</text><text x="510" y="424" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fill="#5DCAA5">reads ingredients, not keywords</text></g>
 
               {/* parallel label */}
               <text x="340" y="470" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">runs in parallel — categories don't depend on each other</text>
@@ -245,10 +245,10 @@ export default function SmartCartDetail({ onBack }) {
               <g><rect x="150" y="852" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="870" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Cart agent</text><text x="340" y="888" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">writes Supabase row + real Kroger cart via their API</text></g>
 
               {/* Response returned */}
-              <g><rect x="220" y="968" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="986" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="340" y="1004" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
+              <g><rect x="190" y="968" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="310" y="986" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="310" y="1004" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
 
               {/* Preference learning agent (async, dashed) */}
-              <g><rect x="440" y="996" width="220" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/><text x="550" y="1014" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="500" fill="#9FE1CB">Preference learning</text><text x="550" y="1032" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">fire-and-forget, async</text></g>
+              <g><rect x="450" y="996" width="210" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/><text x="555" y="1014" textAnchor="middle" dominantBaseline="central" fontSize="12" fontWeight="500" fill="#9FE1CB">Preference learning</text><text x="555" y="1032" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#5DCAA5">fire-and-forget, async</text></g>
 
               <rect x="150" y="1078" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
               <text x="172" y="1085" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
