@@ -191,9 +191,9 @@ export default function SmartCartDetail({ onBack }) {
           </p>
 
           <div style={{ marginBottom: 8, borderRadius: 14, overflow: 'hidden', border: `1px solid ${GREEN_BORDER}` }}>
-            <svg width="100%" viewBox="0 0 680 1240" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+            <svg width="100%" viewBox="0 0 680 1280" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
               <title>SmartCart request pipeline with tool calls per agent</title>
-              <rect width="680" height="1240" fill="#0e0f12"/>
+              <rect width="680" height="1280" fill="#0e0f12"/>
               <defs>
                 <marker id="arrow-sc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
                   <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -208,17 +208,17 @@ export default function SmartCartDetail({ onBack }) {
               <line x1="320" y1="328" x2="275" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="380" y1="328" x2="450" y2="378" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               <line x1="430" y1="328" x2="602" y2="378" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
-              <line x1="100" y1="434" x2="220" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="275" y1="434" x2="310" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="450" y1="434" x2="400" y2="506" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="602" y1="434" x2="470" y2="506" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
-              <line x1="200" y1="582" x2="300" y2="642" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="480" y1="582" x2="380" y2="642" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="698" x2="340" y2="748" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="804" x2="340" y2="854" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
-              <line x1="340" y1="930" x2="340" y2="980" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="100" y1="434" x2="220" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="275" y1="434" x2="310" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="450" y1="434" x2="400" y2="520" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="602" y1="434" x2="470" y2="520" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="200" y1="596" x2="300" y2="656" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="480" y1="596" x2="380" y2="656" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="712" x2="340" y2="762" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="818" x2="340" y2="868" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
+              <line x1="340" y1="964" x2="340" y2="1014" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-sc)"/>
               {/* async fire-and-forget branch off cart agent */}
-              <line x1="450" y1="930" x2="450" y2="1076" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
+              <line x1="450" y1="964" x2="450" y2="1110" stroke="#73726c" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-sc)"/>
 
               {/* You type */}
               <g><rect x="220" y="40" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="58" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You type a request</text><text x="340" y="76" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">free text, hits a webhook</text></g>
@@ -229,7 +229,7 @@ export default function SmartCartDetail({ onBack }) {
                 <text x="340" y="166" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Intent agent</text>
                 <text x="340" y="186" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">parses categories, quantities, budget, dish decomposition</text>
                 <line x1="170" y1="198" x2="510" y2="198" stroke="#4ade80" strokeWidth="0.5" opacity="0.25"/>
-                <text x="340" y="211" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">none — pure parsing, no tool calls</tspan></text>
+                <text x="340" y="211" textAnchor="middle" dominantBaseline="central" fontSize="10" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">none — pure parsing</tspan></text>
               </g>
 
               {/* Orchestrator */}
@@ -248,48 +248,51 @@ export default function SmartCartDetail({ onBack }) {
                 <text x="602" y="418" textAnchor="middle" dominantBaseline="central" fontSize="9" fill="#73726c" fontStyle="italic">N more</text>
               </g>
 
-              {/* parallel label + shared tool calls for this stage */}
+              {/* parallel label + shared tool calls for this stage, wrapped across 2 lines */}
               <text x="340" y="456" textAnchor="middle" fontSize="11" fill="#73726c" fontStyle="italic">one Category agent spawned per category, all running in parallel</text>
-              <text x="340" y="477" textAnchor="middle" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">search_kroger · lookup_open_food_facts · search_nutrition_online · check_diet_conflicts</tspan></text>
+              <text x="340" y="477" textAnchor="middle" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">search_kroger · lookup_open_food_facts ·</tspan></text>
+              <text x="340" y="491" textAnchor="middle" fontSize="9.5" fill="#a7f0cb" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">search_nutrition_online · check_diet_conflicts</text>
 
               {/* Suggestion agent */}
               <g>
-                <rect x="150" y="506" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
-                <text x="340" y="526" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Suggestion agent</text>
-                <text x="340" y="546" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">ranks, explains price vs quality trade-offs</text>
-                <line x1="170" y1="558" x2="510" y2="558" stroke="#4ade80" strokeWidth="0.5" opacity="0.25"/>
-                <text x="340" y="571" textAnchor="middle" dominantBaseline="central" fontSize="10.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">none — reasons over data already passed in</tspan></text>
+                <rect x="150" y="520" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
+                <text x="340" y="540" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Suggestion agent</text>
+                <text x="340" y="560" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">ranks, explains price vs quality trade-offs</text>
+                <line x1="170" y1="572" x2="510" y2="572" stroke="#4ade80" strokeWidth="0.5" opacity="0.25"/>
+                <text x="340" y="585" textAnchor="middle" dominantBaseline="central" fontSize="10" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">none — already scored</tspan></text>
               </g>
 
               {/* You pick */}
-              <g><rect x="220" y="642" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="660" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You pick</text><text x="340" y="678" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">ranked options, editable quantity stepper</text></g>
+              <g><rect x="220" y="656" width="240" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="674" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">You pick</text><text x="340" y="692" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">ranked options, editable quantity stepper</text></g>
 
               {/* Selection handler */}
-              <g><rect x="150" y="748" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="766" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Selection handler</text><text x="340" y="784" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">resolves picks, computes real total vs budget</text></g>
+              <g><rect x="150" y="762" width="380" height="56" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/><text x="340" y="780" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Selection handler</text><text x="340" y="798" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">resolves picks, computes real total vs budget</text></g>
 
-              {/* Cart agent */}
+              {/* Cart agent — tool list wrapped across 2 lines */}
               <g>
-                <rect x="150" y="854" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
-                <text x="340" y="874" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Cart agent</text>
-                <text x="340" y="894" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">writes Supabase row + real Kroger cart via their API</text>
-                <line x1="170" y1="906" x2="510" y2="906" stroke="#4ade80" strokeWidth="0.5" opacity="0.25"/>
-                <text x="340" y="919" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">insert_grocery_session, insert_cart_items, write_kroger_cart</tspan></text>
+                <rect x="150" y="868" width="380" height="96" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
+                <text x="340" y="888" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Cart agent</text>
+                <text x="340" y="908" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">writes Supabase row + real Kroger cart via their API</text>
+                <line x1="170" y1="920" x2="510" y2="920" stroke="#4ade80" strokeWidth="0.5" opacity="0.25"/>
+                <text x="340" y="933" textAnchor="middle" dominantBaseline="central" fontSize="10" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">insert_grocery_session,</tspan></text>
+                <text x="340" y="949" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#a7f0cb" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">insert_cart_items, write_kroger_cart</text>
               </g>
 
               {/* Response returned */}
-              <g><rect x="150" y="980" width="380" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="998" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="340" y="1016" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
+              <g><rect x="150" y="1014" width="380" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="340" y="1032" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#e8e9ec">Response returns</text><text x="340" y="1050" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#9a9da4">doesn't wait on learning</text></g>
 
-              {/* Preference learning agent (async, dashed) */}
+              {/* Preference learning agent (async, dashed) — tool list wrapped across 2 lines */}
               <g>
-                <rect x="150" y="1076" width="380" height="76" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/>
-                <text x="340" y="1096" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Preference learning agent</text>
-                <text x="340" y="1116" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fire-and-forget, doesn't block your response</text>
-                <line x1="170" y1="1128" x2="510" y2="1128" stroke="#4ade80" strokeWidth="0.5" opacity="0.25" strokeDasharray="3 2"/>
-                <text x="340" y="1141" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">get_user_preferences, get_session_history, upsert_user_preferences</tspan></text>
+                <rect x="150" y="1110" width="380" height="96" rx="8" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="5 3"/>
+                <text x="340" y="1130" textAnchor="middle" dominantBaseline="central" fontSize="14" fontWeight="500" fill="#9FE1CB">Preference learning agent</text>
+                <text x="340" y="1150" textAnchor="middle" dominantBaseline="central" fontSize="12" fill="#5DCAA5">fire-and-forget, doesn't block your response</text>
+                <line x1="170" y1="1162" x2="510" y2="1162" stroke="#4ade80" strokeWidth="0.5" opacity="0.25" strokeDasharray="3 2"/>
+                <text x="340" y="1175" textAnchor="middle" dominantBaseline="central" fontSize="10" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"><tspan fill="#4ade80" fontWeight="800" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letterSpacing="0.08em">TOOLS </tspan><tspan fill="#a7f0cb">get_user_preferences,</tspan></text>
+                <text x="340" y="1191" textAnchor="middle" dominantBaseline="central" fontSize="10" fill="#a7f0cb" fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace">get_session_history, upsert_user_preferences</text>
               </g>
 
-              <rect x="150" y="1194" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
-              <text x="172" y="1201" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
+              <rect x="150" y="1236" width="14" height="14" rx="3" fill="#0a2e17" stroke="#4ade80" strokeWidth="0.5"/>
+              <text x="172" y="1243" dominantBaseline="central" fontSize="12" fill="#9a9da4">= agent: calls tools and decides the next step itself</text>
             </svg>
           </div>
         </Section>
