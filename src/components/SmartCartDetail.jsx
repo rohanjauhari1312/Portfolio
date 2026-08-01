@@ -7,14 +7,14 @@ const GREEN_BORDER = 'rgba(74,222,128,0.2)'
 const GRAD         = { background: 'linear-gradient(90deg, #facc15, #fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }
 
 const AGENTS = [
-  { n: '1', name: 'Intent agent', role: 'Parses free text', desc: 'Turns "ramen x3, oat milk, dumplings, under $50, high-protein" into structured categories, quantities, budget, and per-item notes. Decomposes dish names like "tacos" into tortillas, protein, salsa, toppings, adjusting the protein note against your diet rules. Explicit "(x3)" hints are pulled out; anything without one defaults to 1.' },
-  { n: '2', name: 'Grocery orchestrator', role: 'Fans out the work', desc: 'Takes the parsed categories and dispatches Discovery + Quality & Nutrition in parallel, one call per category. If a category came through with the ambiguous default quantity of 1 and the user has a learned typical quantity, it substitutes that in — but an explicit "(x3)" from the user always wins.' },
-  { n: '3', name: 'Discovery agent', role: 'Searches the real catalog', desc: 'Searches Kroger\'s actual product catalog for each category, one call per category, run in parallel since scoring one category never depends on another.' },
-  { n: '4', name: 'Quality & Nutrition agent', role: 'Reads ingredients, not keywords', desc: 'Scores every candidate. Calls a nutrition lookup, falls back to web search if empty, and reads actual ingredient lists rather than keyword-matching — catching non-obvious animal-derived stuff a keyword filter would miss: rennet in parmesan, gelatin, isinglass, fish-derived "natural flavors." Carries diet semantics correctly, so meat isn\'t falsely flagged for a nonveg or keto diet.' },
-  { n: '5', name: 'Suggestion agent', role: 'Ranks and explains', desc: 'Ranks the scored candidates per category and explains the price-vs-quality trade-off in plain language, weighted by what\'s known about the user\'s preferences so far.' },
-  { n: '6', name: 'Selection handler', role: 'Resolves your picks', desc: 'Takes what you actually confirmed in the UI and resolves it back against the original suggestions — matching product IDs, computing the real total against budget and free-delivery threshold.' },
-  { n: '7', name: 'Cart agent', role: 'Writes for real', desc: 'Writes two things: a row in Supabase (session + cart items, real quantities) and a real write to your Kroger cart via their API. If the Kroger write fails, it says so honestly in the summary instead of claiming success.' },
-  { n: '8', name: 'Preference learning agent', role: 'Fire-and-forget', desc: 'Fires immediately after the cart write, asynchronously — doesn\'t block your response. Reads the last 10 orders and updates price sensitivity, quality weighting, preferred brands per category, and typical quantities per category, conservatively.' },
+  { n: '1', name: 'Intent agent', type: 'Simple reflex', role: 'Parses free text', desc: 'Turns "ramen x3, oat milk, dumplings, under $50, high-protein" into structured categories, quantities, budget, and per-item notes. Decomposes dish names like "tacos" into tortillas, protein, salsa, toppings, adjusting the protein note against your diet rules. Explicit "(x3)" hints are pulled out; anything without one defaults to 1.' },
+  { n: '2', name: 'Grocery orchestrator', type: 'Model-based reflex', role: 'Fans out the work', desc: 'Takes the parsed categories and dispatches Discovery + Quality & Nutrition in parallel, one call per category. If a category came through with the ambiguous default quantity of 1 and the user has a learned typical quantity, it substitutes that in — but an explicit "(x3)" from the user always wins.' },
+  { n: '3', name: 'Discovery agent', type: 'Goal-based', role: 'Searches the real catalog', desc: 'Searches Kroger\'s actual product catalog for each category, one call per category, run in parallel since scoring one category never depends on another.' },
+  { n: '4', name: 'Quality & Nutrition agent', type: 'Utility-based', role: 'Reads ingredients, not keywords', desc: 'Scores every candidate. Calls a nutrition lookup, falls back to web search if empty, and reads actual ingredient lists rather than keyword-matching — catching non-obvious animal-derived stuff a keyword filter would miss: rennet in parmesan, gelatin, isinglass, fish-derived "natural flavors." Carries diet semantics correctly, so meat isn\'t falsely flagged for a nonveg or keto diet.' },
+  { n: '5', name: 'Suggestion agent', type: 'Utility-based', role: 'Ranks and explains', desc: 'Ranks the scored candidates per category and explains the price-vs-quality trade-off in plain language, weighted by what\'s known about the user\'s preferences so far.' },
+  { n: '6', name: 'Selection handler', type: 'Simple reflex', role: 'Resolves your picks', desc: 'Takes what you actually confirmed in the UI and resolves it back against the original suggestions — matching product IDs, computing the real total against budget and free-delivery threshold.' },
+  { n: '7', name: 'Cart agent', type: 'Simple reflex', role: 'Writes for real', desc: 'Writes two things: a row in Supabase (session + cart items, real quantities) and a real write to your Kroger cart via their API. If the Kroger write fails, it says so honestly in the summary instead of claiming success.' },
+  { n: '8', name: 'Preference learning agent', type: 'Learning agent', role: 'Fire-and-forget', desc: 'Fires immediately after the cart write, asynchronously — doesn\'t block your response. Reads the last 10 orders and updates price sensitivity, quality weighting, preferred brands per category, and typical quantities per category, conservatively.' },
 ]
 
 const STACK = [
@@ -318,8 +318,13 @@ export default function SmartCartDetail({ onBack }) {
                   fontSize: 13, fontWeight: 800, color: GREEN,
                 }}>{a.n}</div>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 15, fontWeight: 700, color: GREEN }}>{a.name}</span>
+                    <span style={{
+                      fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                      color: '#0a0a0a', background: GREEN,
+                      padding: '2px 8px', borderRadius: 5,
+                    }}>{a.type}</span>
                     <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>{a.role}</span>
                   </div>
                   <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{a.desc}</p>
