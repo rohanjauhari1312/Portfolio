@@ -17,6 +17,7 @@ const PROJECTS = [
       'Reads **actual ingredient lists**, not keywords, catching hidden animal-derived stuff a keyword filter would miss: rennet, gelatin, isinglass',
       'Writes to a **real Kroger cart** via their API and a real Supabase preference table, not a simulated demo',
       '**Preference learning agent** runs fire-and-forget after the cart write, requiring a pattern to repeat across 2+ orders before it trusts it',
+      'Cut the busiest agent\'s **round trips by ~70-80%** by batching tool calls across items instead of calling sequentially per item',
     ],
     gradient: 'linear-gradient(135deg, #052e16 0%, #14532d 50%, #166534 100%)',
     iconBg: 'linear-gradient(135deg, #16a34a, #4ade80)',
@@ -25,7 +26,7 @@ const PROJECTS = [
     tags: ['Agentic AI', 'Multi-agent', 'n8n', 'Claude', 'Kroger API', 'Supabase'],
     metrics: [
       { v: '8', l: 'Agents in the pipeline' },
-      { v: 'Real', l: 'Kroger cart writes' },
+      { v: '↓75%', l: 'Round trips per request' },
       { v: '2+', l: 'Orders before it learns' },
     ],
     status: 'Personal Project',

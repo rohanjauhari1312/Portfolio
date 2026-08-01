@@ -26,6 +26,35 @@ const STACK = [
   { k: 'Memory',          v: 'Supabase — stores sessions, cart items, and a per-user preferences row' },
 ]
 
+const OPTIMIZATIONS = [
+  {
+    title: 'Prompt engineering', tag: 'cost',
+    points: [
+      'Reduced the highest-traffic agent\'s system prompt by ~10% (11,732 → 10,536 characters) by cutting redundant few-shot examples while preserving distinct correctness-critical cases',
+      'Capped structured-output field verbosity — explanatory notes constrained to short phrases instead of full sentences',
+    ],
+  },
+  {
+    title: 'Tool-call batching', tag: 'cost + latency',
+    points: [
+      'Identified that per-item sequential tool-calling re-transmitted the full system prompt on every round trip (N items × 1-2 calls = 10+ round trips per request)',
+      'Rewrote the agent\'s instructions to batch tool calls across all items in a single pass, cutting round trips from ~10+ to ~2-3 per request (~70-80% reduction)',
+      'Added a post-processing validation filter to guard against the model returning items not present in the input',
+    ],
+  },
+  {
+    title: 'Upstream candidate limiting', tag: 'cost + latency',
+    points: [
+      'Reduced search result fan-out per category (8 → 5 candidates), proportionally cutting downstream per-item LLM tool calls by ~37.5%',
+    ],
+  },
+]
+
+const RULED_OUT = [
+  { title: 'Provider-side prompt caching', reason: 'Not exposed by the available integration node — would require direct API integration to unlock.' },
+  { title: 'Batch API (50% discount)', reason: 'Incompatible with the system\'s real-time request/response requirement.' },
+]
+
 const LEARNING_RULES = [
   { title: '2-session confirmation threshold', detail: 'The same brand or the same quantity has to show up in more than one separate order before it\'s trusted as a real preference, not a coincidence. One weird order — an out-of-stock substitution, a one-off bulk buy — doesn\'t skew the whole profile.' },
   { title: 'Gradual nudging, not overfitting', detail: 'Quality weight moves from 0.5 toward 0.6, not jumping to 0.9 off one session. The system tracks a trend, not a snapshot of your most recent order.' },
@@ -392,6 +421,52 @@ export default function SmartCartDetail({ onBack }) {
                 <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>{r.detail}</div>
               </div>
             ))}
+          </div>
+        </Section>
+
+        {/* Cost & latency optimization */}
+        <Section label="Cost & latency">
+          <TypedHeading text="Cut round trips by " suffixText="75%." suffixStyle={GRAD} speed={28} cursorColor={GREEN} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: '#f5f5f5' }} />
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: '0 0 28px', maxWidth: 680 }}>
+            More agents means more tokens and more round trips, so every agent got audited for waste. Three changes shipped, two were evaluated and correctly ruled out.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 28 }}>
+            {OPTIMIZATIONS.map((o) => (
+              <div key={o.title} style={{ padding: '20px 24px', borderRadius: 12, background: GREEN_BG, border: `1px solid ${GREEN_BORDER}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: GREEN }}>{o.title}</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: '#0a0a0a', background: GREEN, padding: '2px 8px', borderRadius: 5, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{o.tag}</span>
+                </div>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {o.points.map((p, i) => (
+                    <li key={i} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                      <span style={{ width: 4, height: 4, borderRadius: '50%', flexShrink: 0, marginTop: 7, background: GREEN, opacity: 0.7 }} />
+                      <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', margin: '0 0 14px' }}>Evaluated and correctly ruled out:</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
+            {RULED_OUT.map((r) => (
+              <div key={r.title} style={{ padding: '14px 20px', borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>✕</span>
+                  <span style={{ fontSize: 13.5, fontWeight: 700, color: 'rgba(255,255,255,0.6)' }}>{r.title}</span>
+                </div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6 }}>{r.reason}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ padding: '18px 22px', borderRadius: 12, background: GREEN_BG, border: `1px solid ${GREEN_BORDER}` }}>
+            <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0 }}>
+              All changes verified via <span style={{ color: GREEN, fontWeight: 700 }}>live end-to-end execution traces</span>, not just code review, before deployment — with before/after prompt-length diffs confirmed exactly at the character level.
+            </p>
           </div>
         </Section>
 
