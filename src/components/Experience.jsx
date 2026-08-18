@@ -69,8 +69,8 @@ const JOBS = [
     accentColor: '#ef4444',
     bgColor: 'rgba(239,68,68,0.13)',
     role: 'Research Assistant [Agentic Systems, Health Monitoring]',
-    period: 'Jan 2026 – Present',
-    duration: '6 months and counting',
+    period: 'Jan 2026 – Aug 2026',
+    duration: '8 months',
     location: 'Boston, MA',
     type: 'Research',
     highlights: [
