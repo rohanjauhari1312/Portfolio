@@ -7,7 +7,7 @@ const EDUCATION = [
     logo: '/northeastern.png',
     degree: 'MS · Information Systems',
     period: 'Sep 2024 – Aug 2026',
-    note: 'GPA 3.73',
+    note: 'GPA 3.76',
     color: '#ef4444',
     bg: 'rgba(239,68,68,0.1)',
     location: 'Boston, MA',
@@ -73,7 +73,7 @@ export default function About() {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 620, lineHeight: 1.75, margin: 0 }}>
             I build products that make complex things feel simple, automating workflows for enterprise teams,
             turning raw data into decisions, and shipping AI into the hands of everyday users.
-            4 years across McKinsey and a growth-stage SaaS, currently finishing my MS at Northeastern (GPA 3.73).
+            4 years across McKinsey and a growth-stage SaaS, currently finishing my MS at Northeastern (GPA 3.76).
           </p>
         </div>
 

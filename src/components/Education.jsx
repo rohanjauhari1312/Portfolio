@@ -8,7 +8,7 @@ const EDUCATION = [
     logo: '/northeastern.png',
     degree: 'MS · Information Systems',
     period: 'Sep 2024 – Aug 2026',
-    note: 'GPA 3.73',
+    note: 'GPA 3.76',
     color: '#ef4444',
     location: 'Boston, MA',
   },
