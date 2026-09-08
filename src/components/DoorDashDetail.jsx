@@ -5,6 +5,16 @@ const RED        = '#ea3a1f'
 const RED_BG     = 'rgba(234,58,31,0.07)'
 const RED_BORDER = 'rgba(234,58,31,0.2)'
 
+const ACTIONS = [
+  { when: 'Week 1', action: 'Turn off the five markets with no Dashers', how: 'Geo-fence Memphis, Las Vegas, Greenville, Laurinburg and Honolulu until we can staff them. Contact the 79 customers whose orders failed.', owner: 'Regional Ops', metric: 'No undelivered orders in those markets' },
+  { when: 'Weeks 1–4', action: 'Report ASAP and scheduled orders separately', how: '416 scheduled orders average 142 minutes because their clock starts when the customer books. One filter fixes the baseline.', owner: 'Analytics', metric: 'ASAP-only baseline used in the ops review' },
+  { when: 'Weeks 2–6', action: 'Escalate orders at 35 minutes', how: "Flag and reassign before the order crosses 50 minutes, where refund incidence more than doubles.", owner: 'Regional Ops', metric: 'Share of orders over 50 min, from 6.1% down' },
+  { when: 'Quarter 1', action: 'Move the discount budget into peak-hour Dasher pay', how: 'Keep the $11.7K flat. Put it into dinner incentives in the ten slowest markets. Run it as a market-matched test for six weeks so the result can be attributed.', owner: 'Growth + Dasher Ops', metric: 'Repeat rate for new customers, against a 31% target' },
+  { when: 'Quarter 1', action: 'Add a food-ready timestamp', how: 'Splits the 12.5 pre-pickup minutes into merchant wait and Dasher wait, so each side can be given its own target.', owner: 'Product + Data Eng', metric: 'Merchant wait and Dasher wait reported separately' },
+  { when: 'Quarter 1–2', action: 'Pay for Dasher tenure', how: 'Bonus at the 6th and 21st delivery, where prep time actually drops. Focus on dinner in Bellevue, San Antonio and Dallas.', owner: 'Dasher Ops', metric: 'Share of volume from 6+ order Dashers, 32% to 50%' },
+  { when: 'Ongoing', action: 'Ready-time standard for the slowest merchants', how: 'Restaurant is the largest single factor in the pre-pickup wait, at 29.5% of the variation. Start with the four merchants above 20 minutes. Prep estimates before any penalty.', owner: 'Merchant Ops', metric: '5 minutes off prep in the three slowest markets' },
+]
+
 function useReveal(threshold = 0.1) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -44,7 +54,7 @@ function Section({ label, children, delay = 0 }) {
   )
 }
 
-function Finding({ number, title, subtitle, children, rec, exec }) {
+function PainPoint({ number, stage, title, subtitle, children, rec, exec }) {
   const [ref, visible] = useReveal()
   return (
     <div
@@ -58,10 +68,11 @@ function Finding({ number, title, subtitle, children, rec, exec }) {
         paddingLeft: 32,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 8, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 11, fontWeight: 700, color: RED, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-          Finding {number}
+          Pain Point {number}
         </span>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{stage}</span>
       </div>
       <h2 style={{ fontSize: 'clamp(1.4rem,3.5vw,2rem)', fontWeight: 800, color: '#f5f5f5', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
         {title}
@@ -70,11 +81,11 @@ function Finding({ number, title, subtitle, children, rec, exec }) {
       {children}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 28 }}>
         <div style={{ padding: '20px 24px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: RED, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>Recommendation</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: RED, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>Growth lever</div>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: 0 }}>{rec}</p>
         </div>
         <div style={{ padding: '20px 24px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>Execution</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>Recommendation</div>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0 }}>{exec}</p>
         </div>
       </div>
@@ -99,13 +110,20 @@ function StatRow({ stats }) {
   )
 }
 
-function Chart({ src, alt, caption }) {
+function Bars({ title, items, note }) {
   return (
-    <div style={{ marginBottom: 8 }}>
-      <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: '#fff' }}>
-        <img src={src} alt={alt} style={{ width: '100%', display: 'block' }} />
-      </div>
-      {caption && <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', margin: '8px 0 0', fontStyle: 'italic' }}>{caption}</p>}
+    <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)', padding: '20px 24px', marginBottom: 8 }}>
+      {title && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', margin: '0 0 14px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{title}</p>}
+      {items.map((r) => (
+        <div key={r.label} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+          <span style={{ width: 130, fontSize: 13, color: 'rgba(255,255,255,0.55)', flexShrink: 0 }}>{r.label}</span>
+          <div style={{ flex: 1, height: 8, borderRadius: 4, background: 'rgba(255,255,255,0.06)' }}>
+            <div style={{ width: `${r.pct}%`, height: '100%', borderRadius: 4, background: r.highlight ? RED : 'rgba(255,255,255,0.2)' }} />
+          </div>
+          <span style={{ width: 56, fontSize: 13, color: r.highlight ? RED : 'rgba(255,255,255,0.35)', fontWeight: 600, textAlign: 'right' }}>{r.display}</span>
+        </div>
+      ))}
+      {note && <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', margin: '14px 0 0', fontStyle: 'italic' }}>{note}</p>}
     </div>
   )
 }
@@ -160,7 +178,7 @@ export default function DoorDashDetail({ onBack }) {
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '120px 64px 80px' }}>
         <div style={{ marginBottom: 16 }}>
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: RED }}>
-            Strategy & Operations · Data Analysis
+            Strategy & Operations Case Study
           </span>
         </div>
 
@@ -168,202 +186,227 @@ export default function DoorDashDetail({ onBack }) {
           <img src="/doordash-trim.png" alt="DoorDash" style={{ height: 36, display: 'block' }} />
         </div>
 
-        <h1 style={{ fontSize: 'clamp(2.4rem,6vw,4.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, color: '#f5f5f5', margin: '0 0 24px' }}>
-          What the September<br />numbers show
+        <h1 style={{ fontSize: 'clamp(2.2rem,5.6vw,4rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.1, color: '#f5f5f5', margin: '0 0 24px' }}>
+          Every order crosses three parties and four handoffs. The pain points cluster in one stretch of it.
         </h1>
 
         <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, maxWidth: 680, margin: '0 0 40px' }}>
-          Six findings from 20,000 orders placed in September 2024 — with specific recommendations on where the business is leaking and how to fix it. Built with Python, Tableau, and SQL on a three-sided marketplace dataset.
+          The customer orders, the merchant prepares, a Dasher collects and delivers. Of the 28.5 minutes a customer waits, 12.5 pass before a Dasher even reaches the store. Mapped across 20,000 orders and 56 markets, with seven prioritized actions and an owner for each.
         </p>
 
-        {/* 4 hero stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 40 }}>
-          {[
-            { v: '1 day', l: 'took down two whole markets' },
-            { v: '2 stores', l: 'losing driver and billing data' },
-            { v: '3,240/yr', l: 'orders confirmed, then dropped' },
-            { v: '15x', l: 'more orders at night than morning' },
-          ].map((s) => (
-            <div key={s.l} style={{
-              padding: '18px 16px', borderRadius: 10,
-              background: RED_BG, border: `1px solid ${RED_BORDER}`,
-            }}>
-              <div style={{ fontSize: 22, fontWeight: 800, color: RED, marginBottom: 6 }}>{s.v}</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>{s.l}</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          {['Python', 'Tableau', 'SQL', 'Three-sided marketplace', 'September 2024'].map(t => (
-            <span key={t} style={{
-              fontSize: 11, color: 'rgba(255,255,255,0.4)',
-              background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-              padding: '5px 10px', borderRadius: 6,
-            }}>{t}</span>
-          ))}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+          <a
+            href="/doordash-report.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: '13px 28px', borderRadius: 8, fontSize: 14,
+              fontWeight: 700, background: RED, color: '#fff',
+              textDecoration: 'none',
+              boxShadow: `0 0 24px ${RED}50`,
+            }}
+          >
+            View Full Report
+          </a>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {['Tableau', 'SQL', 'Python', 'Three-sided marketplace', '20,000 orders'].map(t => (
+              <span key={t} style={{
+                fontSize: 11, color: 'rgba(255,255,255,0.4)',
+                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+                padding: '5px 10px', borderRadius: 6,
+              }}>{t}</span>
+            ))}
+          </div>
         </div>
       </div>
 
       <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${RED}20, transparent)` }} />
 
-      {/* Findings */}
+      {/* Content */}
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '80px 64px 120px' }}>
 
-        <Section label="The findings">
-          <TypedHeading text="Six things worth fixing." speed={28} cursorColor={RED} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 8px', color: '#f5f5f5' }} />
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: 640, margin: '0 0 0' }}>
-            Each finding covers one side of the marketplace — or a failure that cut across all three. Each comes with a specific recommendation and a path to execute it without heavy engineering lift.
+        {/* The order lifecycle diagram */}
+        <Section label="The order lifecycle">
+          <TypedHeading text="Three of four pain points sit " suffixText="before pickup." suffixStyle={{ color: RED }} speed={28} cursorColor={RED} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: '#f5f5f5' }} />
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, margin: '0 0 32px', maxWidth: 680 }}>
+            The drive itself is the most consistent stage at 16.0 minutes, barely moving across markets or hours. Everything before it is where the variation — and the cost — lives.
           </p>
+
+          <div style={{ borderRadius: 14, overflow: 'hidden', border: `1px solid ${RED_BORDER}`, marginBottom: 8 }}>
+            <svg width="100%" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" role="img" style={{ display: 'block' }} fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+              <title>Order lifecycle: customer orders, merchant preps, Dasher arrives, collects, delivers</title>
+              <rect width="680" height="340" fill="#0e0f12"/>
+              <defs>
+                <marker id="arrow-dd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </marker>
+              </defs>
+
+              {/* connecting arrows between stages */}
+              <line x1="126" y1="90" x2="146" y2="90" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-dd)"/>
+              <line x1="262" y1="90" x2="282" y2="90" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-dd)"/>
+              <line x1="398" y1="90" x2="418" y2="90" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-dd)"/>
+              <line x1="534" y1="90" x2="554" y2="90" stroke="#73726c" strokeWidth="2" markerEnd="url(#arrow-dd)"/>
+
+              {/* tip dashed arc */}
+              <path d="M 68 62 Q 340 10 612 62" fill="none" stroke={RED} strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrow-dd)"/>
+              <text x="340" y="24" textAnchor="middle" fontSize="10.5" fill={RED} fontWeight="700">Tip, $3.75 average — tracks order size, not speed</text>
+
+              {/* 5 stage boxes, evenly spaced with visible gaps for arrows */}
+              <g><rect x="10" y="62" width="116" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="68" y="82" textAnchor="middle" dominantBaseline="central" fontSize="11.5" fontWeight="500" fill="#e8e9ec">Customer orders</text><text x="68" y="99" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fill="#9a9da4">20,000 · $35.98 avg</text></g>
+              <g><rect x="146" y="62" width="116" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="204" y="82" textAnchor="middle" dominantBaseline="central" fontSize="11.5" fontWeight="500" fill="#e8e9ec">Merchant preps</text><text x="204" y="99" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fill="#9a9da4">67 merchants</text></g>
+              <g><rect x="282" y="62" width="116" height="56" rx="8" fill="#2a1006" stroke={RED} strokeWidth="0.5"/><text x="340" y="82" textAnchor="middle" dominantBaseline="central" fontSize="11.5" fontWeight="500" fill="#ffb199">Dasher arrives</text><text x="340" y="99" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fill="#f0866a">2.2% never do</text></g>
+              <g><rect x="418" y="62" width="116" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="476" y="82" textAnchor="middle" dominantBaseline="central" fontSize="11.5" fontWeight="500" fill="#e8e9ec">Dasher collects</text><text x="476" y="99" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fill="#9a9da4">handoff</text></g>
+              <g><rect x="554" y="62" width="116" height="56" rx="8" fill="#17181c" stroke="#3d3d3a" strokeWidth="0.5"/><text x="612" y="82" textAnchor="middle" dominantBaseline="central" fontSize="11.5" fontWeight="500" fill="#e8e9ec">Dasher delivers</text><text x="612" y="99" textAnchor="middle" dominantBaseline="central" fontSize="9.5" fill="#9a9da4">16.0 min</text></g>
+
+              {/* bracket: before pickup */}
+              <line x1="10" y1="140" x2="408" y2="140" stroke="#73726c" strokeWidth="1"/>
+              <line x1="10" y1="134" x2="10" y2="146" stroke="#73726c" strokeWidth="1"/>
+              <line x1="408" y1="134" x2="408" y2="146" stroke="#73726c" strokeWidth="1"/>
+              <text x="209" y="158" textAnchor="middle" fontSize="11" fill="#e8e9ec" fontWeight="600">Before pickup, 12.5 min · 44% of the total wait</text>
+
+              {/* bracket: the drive */}
+              <line x1="408" y1="140" x2="670" y2="140" stroke="#73726c" strokeWidth="1"/>
+              <line x1="670" y1="134" x2="670" y2="146" stroke="#73726c" strokeWidth="1"/>
+              <text x="539" y="158" textAnchor="middle" fontSize="11" fill="#e8e9ec" fontWeight="600">The drive, 16.0 min</text>
+
+              {/* bracket: total wait */}
+              <line x1="10" y1="186" x2="670" y2="186" stroke={RED} strokeWidth="1.5"/>
+              <line x1="10" y1="180" x2="10" y2="192" stroke={RED} strokeWidth="1.5"/>
+              <line x1="670" y1="180" x2="670" y2="192" stroke={RED} strokeWidth="1.5"/>
+              <text x="340" y="206" textAnchor="middle" fontSize="12" fill={RED} fontWeight="700">Total the customer waits, 28.5 min (ASAP orders)</text>
+
+              {/* 4 pain point callouts */}
+              <g>
+                <circle cx="68" cy="248" r="9" fill={RED}/><text x="68" y="248" textAnchor="middle" dominantBaseline="central" fontSize="10" fontWeight="700" fill="#0a0a0a">1</text>
+                <text x="68" y="270" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">76% never</text>
+                <text x="68" y="283" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">order again</text>
+              </g>
+              <g>
+                <circle cx="204" cy="248" r="9" fill={RED}/><text x="204" y="248" textAnchor="middle" dominantBaseline="central" fontSize="10" fontWeight="700" fill="#0a0a0a">2</text>
+                <text x="204" y="270" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">Prep swings</text>
+                <text x="204" y="283" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">10 to 23 min</text>
+              </g>
+              <g>
+                <circle cx="340" cy="248" r="9" fill={RED}/><text x="340" y="248" textAnchor="middle" dominantBaseline="central" fontSize="10" fontWeight="700" fill="#0a0a0a">3</text>
+                <text x="340" y="270" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">New Dashers</text>
+                <text x="340" y="283" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">2x slower</text>
+              </g>
+              <g>
+                <circle cx="612" cy="248" r="9" fill={RED}/><text x="612" y="248" textAnchor="middle" dominantBaseline="central" fontSize="10" fontWeight="700" fill="#0a0a0a">4</text>
+                <text x="612" y="270" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">Refunds double</text>
+                <text x="612" y="283" textAnchor="middle" fontSize="10.5" fill="#e8e9ec" fontWeight="600">past 50 min</text>
+              </g>
+            </svg>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 28 }}>
+            <div style={{ padding: '20px 24px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>The pattern</div>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0 }}>Three of the four pain points sit before the food is picked up. The drive itself is our most consistent stage, barely moving across markets or hours.</p>
+            </div>
+            <div style={{ padding: '20px 24px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: RED, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>Growth levers</div>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, margin: 0 }}>Speed on the first order, Dasher tenure, and merchant ready-time — together worth more than the $11.7K currently spent on discounts, which moves repeat rate by just 0.2 points.</p>
+            </div>
+          </div>
         </Section>
 
-        <Finding
-          number="01"
-          title="Two cities lost every order on September 4"
-          subtitle="One system failure took down whole markets, and nobody caught it until the end of the month."
-          rec="Have ops and engineering root-cause the September 4 outage, and make sure a region-wide failure is caught the same day, not at month end."
-          exec="Add a market heartbeat: an automatic alert that pages on-call the moment a region's completion rate drops below its own baseline."
+        <PainPoint
+          number="01" stage="Customer orders"
+          title="Customers who came back were served faster. Discounts made no difference."
+          subtitle="76% of customers never come back, and the slow ones leave fastest."
+          rec="Move the discount budget into first-order speed. Keep the $11.7K flat and spend it on peak-hour Dasher pay in the ten slowest markets, run as a market-matched test for six weeks."
+          exec="Discounts shift repeat rate by only 0.2 points. Closing the gap for the slow-first-order group is worth about 676 more repeat customers in this sample."
         >
           <StatRow stats={[
-            { v: '122', l: 'orders failed that day' },
-            { v: '90', l: 'customers got nothing' },
-            { v: '$4.4K', l: 'order value lost in one day' },
-            { v: '4', l: 'regions hit at the same time' },
+            { v: '32.9 min', l: 'wait, one-time customers' },
+            { v: '28.6 min', l: 'wait, repeat customers' },
+            { v: '31.1%', l: 'repeat rate under 20 min' },
+            { v: '17.7%', l: 'repeat rate over an hour' },
           ]} />
-          <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.02)', padding: '20px 24px', marginBottom: 8 }}>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', margin: '0 0 14px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: 10 }}>Failed orders as share of each region's month</p>
-            {[
-              { city: 'Las Vegas', pct: 100 },
-              { city: 'Memphis', pct: 100 },
-              { city: 'Greenville', pct: 95 },
-              { city: 'Perth', pct: 66 },
-              { city: 'Dallas', pct: 5 },
-              { city: 'Scranton', pct: 2 },
-              { city: 'San Francisco', pct: 2 },
-            ].map((r) => (
-              <div key={r.city} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-                <span style={{ width: 100, fontSize: 13, color: 'rgba(255,255,255,0.55)', flexShrink: 0 }}>{r.city}</span>
-                <div style={{ flex: 1, height: 8, borderRadius: 4, background: 'rgba(255,255,255,0.06)' }}>
-                  <div style={{ width: `${r.pct}%`, height: '100%', borderRadius: 4, background: r.pct > 50 ? RED : 'rgba(255,255,255,0.2)' }} />
+          <Bars
+            title="Refunded amount, one-time/churned vs repeat customers"
+            items={[
+              { label: 'One-time / churned', pct: 100, display: '2x', highlight: true },
+              { label: 'Repeat', pct: 50, display: '1x', highlight: false },
+            ]}
+            note="Repeat customers were refunded half as often as one-time customers. Bigger discounts did not produce bigger orders — both trend lines were flat."
+          />
+        </PainPoint>
+
+        <PainPoint
+          number="02" stage="Merchant preps"
+          title="Across the day and across markets, the drive is steady. Everything before it is not."
+          subtitle="Our slowest markets are more than twice our fastest, all of it before pickup."
+          rec="Agree a ready-time standard with the slowest merchants. Start with the four merchants above 20 minutes: give them menu-level prep estimates first, then hold to the standard."
+          exec="The restaurant explains 29.5% of the variation in pre-pickup time — the largest single factor. Target 5 minutes off in the three slowest markets."
+        >
+          <Bars
+            title="Average fulfillment time by market"
+            items={[
+              { label: 'Bellevue', pct: 100, display: '41-45 min', highlight: true },
+              { label: 'San Antonio', pct: 96, display: '41-45 min', highlight: true },
+              { label: 'Dallas', pct: 92, display: '41-45 min', highlight: true },
+              { label: 'Lubbock', pct: 46, display: '20-21 min', highlight: false },
+              { label: 'Whistler', pct: 44, display: '20-21 min', highlight: false },
+            ]}
+            note="Transit stays close to flat across all markets — the gap is entirely pre-pickup. Prep swings between 10 and 23 minutes across the day while transit holds between 12 and 18."
+          />
+        </PainPoint>
+
+        <PainPoint
+          number="03" stage="Dasher arrives"
+          title="New Dashers take twice as long to reach the store, and almost all of ours are new."
+          subtitle="We pay the beginner cost on most orders, and five markets had no Dashers at all."
+          rec="Pay for tenure, not sign-ups. Put a bonus at the 6th and 21st delivery, where the gain appears, focused on dinner in Bellevue, San Antonio and Dallas."
+          exec="Turn off the five empty markets this week: geofence Memphis, Las Vegas, Greenville, Laurinburg and Honolulu until they can be staffed."
+        >
+          <StatRow stats={[
+            { v: '8,932', l: 'of 9,405 Dashers are brand new' },
+            { v: '95%', l: 'do 5 orders or fewer' },
+            { v: '68%', l: 'of volume from that 95%' },
+            { v: '5', l: 'markets delivered zero orders' },
+          ]} />
+          <div style={{ padding: '18px 22px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', margin: 0 }}>
+              An experienced Dasher reaches the store in <span style={{ color: RED, fontWeight: 700 }}>7.3 minutes</span> against <span style={{ fontWeight: 600, color: 'rgba(255,255,255,0.75)' }}>15.5</span> for a new one, and finishes the order 10.6 minutes faster. Memphis, Las Vegas, Greenville, Laurinburg and Honolulu took 108 orders between them and delivered none.
+            </p>
+          </div>
+        </PainPoint>
+
+        <PainPoint
+          number="04" stage="Dasher delivers"
+          title="Past fifty minutes the refunds start, and they climb steeply from there."
+          subtitle="A small tail of slow orders carries a large share of the cost."
+          rec="Treat fifty minutes as a hard line and intervene at thirty-five. Flag and reassign orders at 35 minutes so fewer reach the point where refunds spike."
+          exec="Set the internal target at under 40 minutes, where the curve is still flat, and report the tail rather than the average."
+        >
+          <StatRow stats={[
+            { v: '6.1%', l: 'of orders take longer than 50 min' },
+            { v: '15%', l: 'of all refund spend comes from them' },
+            { v: '2.8x', l: 'the refund cost per order' },
+            { v: '1.3%→3.1%', l: 'refund incidence, before vs after' },
+          ]} />
+        </PainPoint>
+
+        {/* What to do */}
+        <Section label="What to do">
+          <TypedHeading text="Seven actions, in the " suffixText="order I'd do them." suffixStyle={{ color: RED }} speed={28} cursorColor={RED} style={{ fontSize: 'clamp(1.6rem,4vw,2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 28px', color: '#f5f5f5' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {ACTIONS.map((a, i) => (
+              <div key={i} style={{ padding: '18px 22px', borderRadius: 12, background: i === 0 ? RED_BG : 'rgba(255,255,255,0.03)', border: i === 0 ? `1px solid ${RED_BORDER}` : '1px solid rgba(255,255,255,0.07)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: i === 0 ? RED : 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', background: i === 0 ? 'rgba(234,58,31,0.15)' : 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: 5 }}>{a.when}</span>
+                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>{a.owner}</span>
                 </div>
-                <span style={{ width: 38, fontSize: 13, color: r.pct > 50 ? RED : 'rgba(255,255,255,0.35)', fontWeight: 600, textAlign: 'right' }}>{r.pct}%</span>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#f5f5f5', marginBottom: 6 }}>{a.action}</div>
+                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: '0 0 8px' }}>{a.how}</p>
+                <div style={{ fontSize: 12, color: RED, fontWeight: 600 }}>How we know it worked: <span style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 400 }}>{a.metric}</span></div>
               </div>
             ))}
           </div>
-        </Finding>
-
-        <Finding
-          number="02"
-          title="Two restaurants are losing order data"
-          subtitle="Each has its own repeating problem, separate from the September 4 failure."
-          rec="Fix the two stores' data leak, and make partner data problems surface on their own instead of turning up weeks later by accident."
-          exec="Check both point-of-sale connections, then add a payment-health flag showing orders where a store's payout is at risk, so they fix it to get paid."
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }}>
-            <div style={{ padding: '20px 22px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: RED, marginBottom: 10 }}>Store 25675466 — losing driver records</div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
-                {[
-                  '40.5% of orders (15 of 37) delivered but lost driver and payment records',
-                  'Happened on two dates three weeks apart — keeps recurring',
-                  '13 customers affected',
-                ].map((b, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                    <span style={{ width: 4, height: 4, borderRadius: '50%', background: RED, flexShrink: 0, marginTop: 6 }} />
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ padding: '20px 22px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.6)', marginBottom: 10 }}>Store 135488 — losing the payment</div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
-                {[
-                  '10.5% of orders (113 of 1,081) delivered but recorded as $0',
-                  'Averages $37.56 on other orders — real money going unrecorded',
-                  '~$4,244 in revenue never recorded, across 73 customers',
-                ].map((b, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                    <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(255,255,255,0.25)', flexShrink: 0, marginTop: 6 }} />
-                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Finding>
-
-        <Finding
-          number="03"
-          title="A small daily leak that adds up to 3,240 orders a year"
-          subtitle="Every day a handful of orders get confirmed by the restaurant and then never go out."
-          rec="Watch non-delivery as a weekly number, and cut the scheduled-order failure rate, which runs about 3.8x the ASAP rate."
-          exec="Let Dashers reserve scheduled orders ahead for priority, so each has a committed Dasher, and notify the restaurant before pickup."
-        >
-          <StatRow stats={[
-            { v: '270/mo', l: 'confirmed, then never sent' },
-            { v: '244', l: 'customers hit this month' },
-            { v: '3,240/yr', l: 'if it keeps going' },
-            { v: '$3,625', l: 'refunds this month' },
-          ]} />
-          <Chart src="/dd-never-delivered.png" alt="Orders confirmed but never delivered over September" caption="Steady all month — about 9 a day on average, not a one-time spike." />
-          <div style={{ marginTop: 20, padding: '18px 22px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', margin: 0 }}>
-              Scheduled orders fail at <span style={{ color: RED, fontWeight: 700 }}>4.81%</span> vs ASAP at <span style={{ fontWeight: 600, color: 'rgba(255,255,255,0.75)' }}>1.28%</span> — nearly 4x the failure rate. A committed Dasher per scheduled order closes this gap without changing the product experience for ASAP customers.
-            </p>
-          </div>
-        </Finding>
-
-        <Finding
-          number="04"
-          title="This is a nighttime business"
-          subtitle="Orders pile up late at night and nearly disappear in the morning. Plan around it."
-          rec="Point driver supply, incentives, and marketing at the night, where the business is."
-          exec="A peak earnings signal shows Dashers where pay peaks, 9pm to 2am, so top-up pulls supply there."
-        >
-          <div style={{ marginBottom: 20, padding: '18px 22px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.7 }}>
-              The 9pm–2am block has <span style={{ color: RED, fontWeight: 700 }}>8,943 orders</span> vs 577 from 6–11am — fifteen times more at night. Drivers per customer sits at 0.84 at night and 0.91 in the morning: drivers are waiting in the morning, not in short supply.
-            </p>
-          </div>
-          <Chart src="/dd-heat-customers.png" alt="Customer count heatmap by hour and day of week" caption="Tableau heatmap: size = customers that hour, color = drivers per customer. The demand curve is fat late at night and nearly gone from 7–9am." />
-        </Finding>
-
-        <Finding
-          number="05"
-          title="Morning orders wait longest on the kitchen"
-          subtitle="The slow part of a morning delivery is the food getting ready, not the drive."
-          rec="Keep driver spend light: morning is low-value and already has enough drivers."
-          exec="Set an honest, longer morning ETA. If demand rises, dynamic top-up pay covers the supply automatically."
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
-            <div style={{ padding: '18px 20px', borderRadius: 12, background: RED_BG, border: `1px solid ${RED_BORDER}` }}>
-              <div style={{ fontSize: 24, fontWeight: 800, color: RED, marginBottom: 4 }}>~15 min</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>morning handoff time (vs 9 min midday)</div>
-            </div>
-            <div style={{ padding: '18px 20px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div style={{ fontSize: 24, fontWeight: 800, color: 'rgba(255,255,255,0.7)', marginBottom: 4 }}>$27 avg</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>morning order value (vs $42 late night)</div>
-            </div>
-          </div>
-          <Chart src="/dd-heat-prep.png" alt="Prep time and revenue heatmap by hour and day" caption="Tableau heatmap: size = median prep time, color = revenue per order. The slowest handoffs land on the least valuable orders." />
-        </Finding>
-
-        <Finding
-          number="06"
-          title="Refunds track kitchen prep time"
-          subtitle="Overall refunds are low at 1.37%, but they climb where the food takes longest to hand off."
-          rec="Get restaurants to cut morning prep time — faster kitchens mean shorter waits and fewer refunds."
-          exec="A customer-facing fast-prep badge plus prep time in ranking makes faster kitchens win orders. No cash needed."
-        >
-          <StatRow stats={[
-            { v: '1.37%', l: 'overall refund rate' },
-            { v: '1.75%', l: '6–10am refund rate' },
-            { v: '1.32%', l: 'rest of day refund rate' },
-            { v: '~0.4', l: 'correlation with prep time' },
-          ]} />
-          <Chart src="/dd-refund-rate.png" alt="Refund rate and driver count heatmap by hour and day" caption="Tableau heatmap: color = refund rate, size = number of drivers. Refunds move with prep time — the hours with the slowest kitchens carry more refunds." />
-        </Finding>
+        </Section>
 
         {/* CTA */}
         <div style={{
@@ -375,10 +418,10 @@ export default function DoorDashDetail({ onBack }) {
             <img src="/doordash-trim.png" alt="DoorDash" style={{ height: 28, display: 'inline-block' }} />
           </div>
           <h2 style={{ fontSize: 'clamp(1.4rem,3.5vw,2rem)', fontWeight: 800, color: '#f5f5f5', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
-            Full 8-page report
+            Full Strategy & Operations case study
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', margin: '0 0 28px', lineHeight: 1.65 }}>
-            Includes all Tableau visualizations, methodology, and the complete recommendation set with execution steps for each.
+            Includes all Tableau visualizations, methodology, and the complete seven-action plan with owners and success metrics.
           </p>
           <a
             href="/doordash-report.pdf"
