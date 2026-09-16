@@ -37,19 +37,18 @@ export default function Roadmap() {
       const skillsEl    = document.getElementById('skills')
       const educationEl = document.getElementById('education')
       const projectsEl  = document.getElementById('projects')
-      const contactEl   = document.getElementById('contact')
-      if (!skillsEl || !educationEl || !projectsEl || !contactEl) return
+      if (!skillsEl || !educationEl || !projectsEl) return
 
       const viewH   = window.innerHeight
       const scrollY = window.scrollY
       const skillsBottom = skillsEl.offsetTop + skillsEl.offsetHeight
-      const contactTop   = contactEl.offsetTop
 
       const educationInView = scrollY + viewH > educationEl.offsetTop + viewH * 0.2
+      const projectsReached = scrollY + viewH * 0.2 > projectsEl.offsetTop
 
       setShow(
         educationInView &&
-        scrollY + viewH < contactTop + viewH * 0.3
+        !projectsReached
       )
 
       const start      = educationEl.offsetTop
@@ -87,10 +86,9 @@ export default function Roadmap() {
 
       <div style={{
         position: 'fixed',
-        top: isMobile ? 52 : undefined,
-        bottom: isMobile ? undefined : 24,
+        top: isMobile ? 52 : 80,
         left: '50%',
-        transform: `translateX(-50%) translateY(${show ? 0 : (isMobile ? -60 : 60)}px)`,
+        transform: `translateX(-50%) translateY(${show ? 0 : -60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
         zIndex: 200,
