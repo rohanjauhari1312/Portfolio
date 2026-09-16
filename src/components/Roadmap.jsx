@@ -86,9 +86,9 @@ export default function Roadmap() {
 
       <div style={{
         position: 'fixed',
-        top: isMobile ? 52 : 80,
+        bottom: isMobile ? 14 : 24,
         left: '50%',
-        transform: `translateX(-50%) translateY(${show ? 0 : -60}px)`,
+        transform: `translateX(-50%) translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
         zIndex: 200,
@@ -100,7 +100,7 @@ export default function Roadmap() {
           width: isMobile ? 'calc(100vw - 40px)' : 560,
           borderRadius: 18,
           padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
-          background: isMobile ? 'rgba(10,10,10,0.95)' : 'rgba(10,10,10,0.88)',
+          background: isMobile ? 'rgba(10,10,10,0.7)' : 'rgba(10,10,10,0.6)',
           backdropFilter: isMobile ? 'none' : 'blur(24px)',
           WebkitBackdropFilter: isMobile ? 'none' : 'blur(24px)',
           border: `1px solid ${dynamicColor}55`,
