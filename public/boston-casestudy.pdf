@@ -1,137 +1,717 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document (opensource)
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R
+/Producer (pypdf)
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Type /Pages
+/Count 4
+/Kids [ 4 0 R 10 0 R 13 0 R 15 0 R ]
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
 <<
-/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Contents 5 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/Contents 12 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 11 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/Length 6322
 >>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.039216 .039216 .039216 rg
+n 0 0 595.2756 841.8898 re f*
+Q
+q
+1 0 0 1 68.3622 767.8583 cm
+Q
+q
+1 0 0 1 68.3622 755.8583 cm
+q
+.980392 .8 .082353 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (CASE STUDY \267 POWER BI \267 SOCIOECONOMIC ANALYSIS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 741.3543 cm
+Q
+q
+1 0 0 1 68.3622 707.3543 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 6 Tm /F2 28 Tf 34 TL (Boston Liveability) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 673.3543 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 6 Tm /F2 28 Tf 34 TL (Dashboard) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 631.3543 cm
+q
+.666667 .666667 .666667 rg
+BT 1 0 0 1 0 22.5 Tm /F1 9.5 Tf 16 TL (Neighborhood-level socioeconomic analysis across 41 Boston zip codes \227 built with US Census / ACS data,) Tj T* (normalized in Excel, and visualized in Power BI.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 617.685 cm
+Q
+q
+1 0 0 1 68.3622 605.685 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F1 8 Tf .419608 .419608 .419608 rg (Rohan Jauhari  ) Tj (\267) Tj (  May 2026) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 591.185 cm
+q
+.5 w
+1 J
+.227451 .227451 .227451 RG
+n 0 0 m 458.5512 0 l S
+Q
+Q
+q
+1 0 0 1 68.3622 555.185 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F2 8 Tf .980392 .8 .082353 rg (01  ) Tj (  OVERVIEW) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 481.185 cm
+q
+.666667 .666667 .666667 rg
+BT 1 0 0 1 0 54.5 Tm /F1 9.5 Tf 16 TL (Built a Power BI dashboard analyzing liveability across 41 Boston-area zip codes using US Census / ACS) Tj T* (5-year estimates. Data was collected via the Census API \227 one row per zip code \227 processed through a) Tj T* (min-max normalization pipeline in Excel, and assembled into an interactive multi-metric dashboard to surface) Tj T* (neighborhood-level insights.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 445.185 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F2 8 Tf .980392 .8 .082353 rg (02  ) Tj (  DATA AND DIMENSIONS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 419.185 cm
+q
+.666667 .666667 .666667 rg
+BT 1 0 0 1 0 6.5 Tm /F1 9.5 Tf 16 TL -0.087688 Tw (Source: US Census / ACS 5-year estimates, collected via API. 41 zip codes. Five socioeconomic dimensions:) Tj T* 0 Tw ET
+Q
+Q
+q
+1 0 0 1 48.18898 236.185 cm
+q
+.101961 .101961 .101961 rg
+n 0 175 498.8976 -24 re f*
+.066667 .066667 .066667 rg
+n 0 151 498.8976 -151 re f*
+.066667 .066667 .066667 rg
+n 0 151 498.8976 -25 re f*
+.078431 .078431 .078431 rg
+n 0 126 498.8976 -25 re f*
+.066667 .066667 .066667 rg
+n 0 101 498.8976 -38 re f*
+.078431 .078431 .078431 rg
+n 0 63 498.8976 -25 re f*
+.066667 .066667 .066667 rg
+n 0 38 498.8976 -38 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 8 157 cm
+q
+.533333 .533333 .533333 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (Dimension) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 157 cm
+q
+.533333 .533333 .533333 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (Raw Column) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 157 cm
+q
+.533333 .533333 .533333 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (Direction) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 132 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Median Household Income) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 132 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Median Household income) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 132 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Higher = better) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 107 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Education Attainment) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 107 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (% of bachelor degree holders or higher) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 107 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Higher = better) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 69 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Unemployment Rate) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 69 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Unemployment Percent) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 69 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 17.5 Tm /F1 8.5 Tf 13 TL (Lower = better) Tj T* (\(inverted\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 44 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Median Home Value) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 44 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Median home value) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 44 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Higher = better) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 6 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Population Density) Tj T* ET
+Q
+Q
+q
+1 0 0 1 200.7559 6 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Population Density \(per sq mi\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 404.8504 6 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 17.5 Tm /F1 8.5 Tf 13 TL (Lower = better) Tj T* (\(inverted\)) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.227451 .227451 .227451 RG
+.5 w
+n 0 175 m 498.8976 175 l S
+n 0 0 m 498.8976 0 l S
+n 0 0 m 0 175 l S
+n 498.8976 0 m 498.8976 175 l S
+.121569 .121569 .121569 RG
+.3 w
+n 0 151 m 498.8976 151 l S
+n 0 126 m 498.8976 126 l S
+n 0 101 m 498.8976 101 l S
+n 0 63 m 498.8976 63 l S
+n 0 38 m 498.8976 38 l S
+n 192.7559 0 m 192.7559 175 l S
+n 396.8504 0 m 396.8504 175 l S
+Q
+Q
+Q
+q
+1 0 0 1 68.3622 219.1772 cm
+Q
+q
+1 0 0 1 68.3622 183.1772 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F2 8 Tf .980392 .8 .082353 rg (03  ) Tj (  NORMALIZATION FORMULAS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 141.1772 cm
+q
+.666667 .666667 .666667 rg
+BT 1 0 0 1 0 22.5 Tm /F1 9.5 Tf 16 TL (All five dimensions were normalized to a 0\2261 scale using min-max normalization so they could be combined) Tj T* (into a single composite score despite different units and ranges.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 124.6732 cm
+Q
+q
+1 0 0 1 68.3622 106.6732 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4 Tm /F2 10 Tf 14 TL (Standard normalization \(higher = better\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.3622 66.67323 cm
+q
+.094118 .078431 0 rg
+n 0 34 470.5512 -34 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 14 10 cm
+q
+.980392 .8 .082353 rg
+BT 1 0 0 1 0 5 Tm /F3 9 Tf 14 TL (Normalized = \(x - min\(x\)\) / \(max\(x\) - min\(x\)\)) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.8 .082353 .25098 RG
+.6 w
+n 0 34 m 470.5512 34 l S
+n 0 0 m 0 34 l S
+n 470.5512 0 m 470.5512 34 l S
+Q
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.039216 0.039216 0.039216 rg
+n
+66 606.5 103 10.5 re
+f*
+0.419608 0.419608 0.419608 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 68.3622 609.685 Tm
+(May 2026) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 6 0 obj
 <<
-/Contents 13 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 11 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 7 0 obj
 <<
-/Contents 14 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 11 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/Contents 15 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 11 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/PageMode /UseNone /Pages 11 0 R /Type /Catalog
+/BaseFont /Courier
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Author (\(anonymous\)) /CreationDate (D:20260531224400-04'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260531224400-04'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+/Contents 11 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 12 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
 >>
 endobj
 11 0 obj
 <<
-/Count 4 /Kids [ 5 0 R 6 0 R 7 0 R 8 0 R ] /Type /Pages
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 1521
 >>
+stream
+Gau0C>>s99'RnB33%pg/m@m4YCs/C6"&!'h:0@q"].]T*&WQq\p_%Cu5_&_Rfs9WT&cuL*8S%'VqP82HF"mcS?WR,\$,H!Spit#5E>VE$#pNdL%?<o1gB"!C^mPH+2SU</eT*Tf$27^9UgQU55XMV^qL3CDMj]:h3,q(+_/k%A!\Zg_C?n,=-?2[c$HLAuRkgK`HqIW[&%$8$op2u=%OX-SV:BR2He8O`$",`O.-IY+^9l7<2"puZcm<m@a)9((`OITo&B03neqjDF*mA59UaJuNTAW[E,*g$;ft>Zj=Zh8!1s?TG#G[nFH>a:8hM2nV2u'/i4B,mVV/T7s.S:AFQ7sAoK.@\nkW$aMN;#6h1V+NSHf[Z5h^Y3^FkNtnq`3m,9Xm`X'c2?.L^+=2R`(XTL.`M#NGSf8B.9aZ!a6&*p[7399/9!KQN_iqr2lK7Xk]kl1\?<KgXh4Zot_TqeI"<.mrVk[+jqo;<#kk:XYV$<fg=lk)6S'al?n4a)V5NuG#.d\\jip!'DuG1MV%idZhEq#p\:@K.6`^b`d@1eLD"`:F]TiXaBAE&)gb91@=P(6RDmiHjY[jSgutcM]#sb`2NMW3I*lX?Pn1(j'k?:kS`8bf[Eabbk7T5RqoFa8_K+5M%:NNk3P&"i[Br@Y/m4+'Q]dY%_cbSG+6^1^S$7EFZS7L'EQJJ7_@5rj*$M6mXjR:,Zm]@[o;SF,)PT'Bnj\luM%X=3/1&YG8DAiV/2'Tsa&roD0"k4FC$\!QeFrnO'\$P7<suMoi=d7V*D["VgdKaQ-qTc.<Ip;*UuC)F/q\UgW8h(HTV=LPa50k8C$.Y()_55f)_-YcKXWT13r%(CDk@<?[Im7eQ,[K5\fV?[!2rjQ"?8M*rI/p81-1$1_m>7G3'Or6rUK8_IDftt_S+5dLhAn8o\2R73+!:KYf-+tjGZ)9IRQ$uZ\_/+LH<#q`jS=#?H3snm&I*77OhLe.3i,31qcI(`B5m1MTQ!t346q`QA%b#LuCSK\cRG[YmsF&WrY($#M2Ge9]6h+Vp23<fKk69W@-t>^WcDVJ_R`8c@V8>BW=9[Y:rG&j3Yi'eOBZgQL[a!bbs82L:pYfGHKP))4hAFA<rojC.r'r+eG1?]e/1A22Zm\NiJ#\f>E*:5V[N?Y@OI]TQdMG/[Dp)>>8u9]5&Ij@@=[1W?/,"E>q@8R"[,n\ZO,nlTr!P`r9]_p$%da\=L,V)>fn=>/hTBE;le&o!+F%>iC2d._0'>`@/H4@8c<s9f<L.SfC<EI+[UV2C?pC^0YRk+^$mbgg(\4mHG6ncHGd->GfU*QGY@MpfpTPcQg/sr,(rgd(C-Q1S=H6o1#(YW*EHDl`4.ph@&4`*nO04lMKJIYIoiuhs(1OIJ:BXh[8_Ubd6rq</*;`cZ6[JSOo`HUJn6.,8ERC2JF245#>[dMdj0,/MOH'nJgif$FFE<SO/s9:Dd`I(I5_m5YgK*]X(03K9"Y'a'L?*Y,na>QF3:W1n4cXrf+GT=E,A6@.57h8NK0~>
+endstream
 endobj
 12 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1974
+/F1 6 0 R
+/F2 8 0 R
+/F3 9 0 R
 >>
-stream
-Gau`T>BALZ&:Vs/fU"B]3lRA3V_``D5gQ-fKJ\d6HA35EPb=%R;-uZ=?[l*7^>Ns'9';:oOOqpi]D>R^'a91R2#H_F!#H;npQ5O-@<)n.e4c67_I.EXj%L[e8#J7%gZ[TIb_B=B9@Fp)#1oZ>lZQNh38D8/qi$0l)THqX_q&sLCe&Ouf0IRIEm#ro#i0J8(hbOr]"2;f$5HR;V=pj#J=>f^Ar>nHm8gDP*l*#@fDc%Rh0.^goQ>*\(W3mE*qb8_6#Uj.\f1:8HelC52BIn)@IbEcDj8M=\#Y87)4%g;FlJX+V7KA@f7[bjeDDnNf/!MfbjVYA)(.1m9C^*V9_]fW3iJY;(ajt)ZZn3g/=IYM2/"#\<Z_R8D%fq$2(Jp/cr".ijm3EORYqE(NYYO<gHL,J5/bk_P'\sKJae2Db^YL=%*XW?*.pgkmAsZ($(d[Y(fsja@$V-aJX&bAE&WLm&*#L$GL5`:@EoMZ[P4fuas^Z3pr2D=65]Xm\Gm=Qk3seYZkD08'p"GDg0pUM8$cK:(JejV(#g<>\=?K"GpZ`-c(qjkm^"ftJC^i-YRj"'FMT.%O=AaY'[OMp>d5['M/FD7g$2Cn(-:E+XRM3FB,^WoZm[ccgV;@&++S(9RUr2<"FM'TRN7$L*k$;6_cqa7>(dY,!fXi%DSHSb?Otk%\okWFA>a#,@cp2".9:HiRC!HgS<puYp],aX[*M:sAeAZ5VP^U:dGSZZ9WS-1=Tgi^7)0EVCX>T6_MZ;lh"S@GE5b]Zaat<bFDlmos(07pOt0Y/V?L?[=[pj"EK"Ck73p?;"gAUp&7IY.5G8>iQ3[o$V-%bFi.RR#_JkZGk%F4H8:74:*\f<6(I4)YM.d,VM(i`r8)]AG)Vm31<tY3ikX??KZQq^SD5MRcEp4=LqV=^Z:PD")LKB,onSiSuph[a=Ho]O>*AhOF<6_[R<-SSKYtQC'^ON\K29GBs_$MB=VMJ<:9nSLA=Z3b<\Hm.P>iYU-@3e^ScR^qZ1f0b1\ma2aV$+7Pg_h$t3]E^l"_Pg*gl>l3>;t/jJO\4NBsbi-gg[9\WqVBZ\lFd-F3d,%)Jq3$\$qFPO%&>9L3jo+D7foW-f9MDZ=V,qQ/ukY8q4.JX]RLurSeOg\tM=7Cl_2fq?9`>`e$sAL?Vq*7"Da_"[2+J_/;Z)R$]E;o401;(d@gj6t[G7b7^o1=lQT:grRjFpfua;q2\3Z^6&=6L7ossIY<(JS-i`?$C/A%VSYR-bMrWr!G4I1ULTqZ8[68fjM+3;%-FOU+(X1Q@3S)d-V*t-omhOC]S@Br(>P5gbkXWE3@GF0-jG()aK.SBc`^F/GfSO/'<UA%aFg<BT9O]](=/eo55m@j2]PW;4\K&VpSIAHf^HVjbVI&4[p.=I#Tn>FBCb\BcOuW-CR;R?iIJf^k,1`Er3sKX$LDac=R"erK=ufN-fWL4>c)ta:\<1?\#8Gm#lM`I@G4VYHi*sIZ%kFVQiCDBJ&8thq^TUeW[s=MTZUtJ=-\eW79Ko;`a_nnZ1c>+M);52$R<::.NOI7#Lo_:'Y=O98dO`,m$8j$3Jpe20X[rQYZD)aA#fp?QO@IscO$C@-p*]N7`Wf@<QWEZ+of3M%+/&mi]-e;Ws@o.V>N90-)2rUY",s&h94clh$MY(n.C"kQefRP&iFAtOl*o3lM<^"X6QR^B)l)YTm!uA.T@Nm!FpNjHd([=l?dm")bX125@Nf@@U_1Spa);9$!^en[ITb&e/Woa?:p/\/?h6n^fYP-<GsMXmnjZZQ-rJSEE5"g/:?AGPdXOM2;9j/0.4"tq$Znh,55Bp%/H1G3'kegID4s#Bksua&+A2/Cjg`JQ"sCT$'L<?WE[q?Ub$?OFDsd"HdjstQPMJYV+4$_'<c[k5c85cF[_<$B^&<+.l-%Ll1srkbNrpNH'*5.,eJ98$=D76K#P%LF6rRkK-gef`Rrr#hT?)b.qHj#H/ulrIhiimNr~>endstream
 endobj
 13 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1521
+/Contents 14 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font 12 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >>
-stream
-Gau0C>>s99'RnB33%pg/m@m4YCs/C6"&!'h:0@q"].]T*&WQq\p_%Cu5_&_Rfs9WT&cuL*8S%'VqP82HF"mcS?WR,\$,H!Spit#5E>VE$#pNdL%?<o1gB"!C^mPH+2SU</eT*Tf$27^9UgQU55XMV^qL3CDMj]:h3,q(+_/k%A!\Zg_C?n,=-?2[c$HLAuRkgK`HqIW[&%$8$op2u=%OX-SV:BR2He8O`$",`O.-IY+^9l7<2"puZcm<m@a)9((`OITo&B03neqjDF*mA59UaJuNTAW[E,*g$;ft>Zj=Zh8!1s?TG#G[nFH>a:8hM2nV2u'/i4B,mVV/T7s.S:AFQ7sAoK.@\nkW$aMN;#6h1V+NSHf[Z5h^Y3^FkNtnq`3m,9Xm`X'c2?.L^+=2R`(XTL.`M#NGSf8B.9aZ!a6&*p[7399/9!KQN_iqr2lK7Xk]kl1\?<KgXh4Zot_TqeI"<.mrVk[+jqo;<#kk:XYV$<fg=lk)6S'al?n4a)V5NuG#.d\\jip!'DuG1MV%idZhEq#p\:@K.6`^b`d@1eLD"`:F]TiXaBAE&)gb91@=P(6RDmiHjY[jSgutcM]#sb`2NMW3I*lX?Pn1(j'k?:kS`8bf[Eabbk7T5RqoFa8_K+5M%:NNk3P&"i[Br@Y/m4+'Q]dY%_cbSG+6^1^S$7EFZS7L'EQJJ7_@5rj*$M6mXjR:,Zm]@[o;SF,)PT'Bnj\luM%X=3/1&YG8DAiV/2'Tsa&roD0"k4FC$\!QeFrnO'\$P7<suMoi=d7V*D["VgdKaQ-qTc.<Ip;*UuC)F/q\UgW8h(HTV=LPa50k8C$.Y()_55f)_-YcKXWT13r%(CDk@<?[Im7eQ,[K5\fV?[!2rjQ"?8M*rI/p81-1$1_m>7G3'Or6rUK8_IDftt_S+5dLhAn8o\2R73+!:KYf-+tjGZ)9IRQ$uZ\_/+LH<#q`jS=#?H3snm&I*77OhLe.3i,31qcI(`B5m1MTQ!t346q`QA%b#LuCSK\cRG[YmsF&WrY($#M2Ge9]6h+Vp23<fKk69W@-t>^WcDVJ_R`8c@V8>BW=9[Y:rG&j3Yi'eOBZgQL[a!bbs82L:pYfGHKP))4hAFA<rojC.r'r+eG1?]e/1A22Zm\NiJ#\f>E*:5V[N?Y@OI]TQdMG/[Dp)>>8u9]5&Ij@@=[1W?/,"E>q@8R"[,n\ZO,nlTr!P`r9]_p$%da\=L,V)>fn=>/hTBE;le&o!+F%>iC2d._0'>`@/H4@8c<s9f<L.SfC<EI+[UV2C?pC^0YRk+^$mbgg(\4mHG6ncHGd->GfU*QGY@MpfpTPcQg/sr,(rgd(C-Q1S=H6o1#(YW*EHDl`4.ph@&4`*nO04lMKJIYIoiuhs(1OIJ:BXh[8_Ubd6rq</*;`cZ6[JSOo`HUJn6.,8ERC2JF245#>[dMdj0,/MOH'nJgif$FFE<SO/s9:Dd`I(I5_m5YgK*]X(03K9"Y'a'L?*Y,na>QF3:W1n4cXrf+GT=E,A6@.57h8NK0~>endstream
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
+>>
 endobj
 14 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 2322
+/Filter [ /ASCII85Decode /FlateDecode ]
+/Length 2322
 >>
 stream
-GauHN>BcPr&:Vs/R"tC*FH9(V!!.L@F6R;+VJ5&XT'bbM!@=THj8a(drUi83DJClFS0iB_4I/0Fk0n!#;Z\HJP3f@k!kb)Ad5_4o@=A_T=*0g:_V+kFnN]r/Rh>qmBDc][A_dgM:oJ(^Y]QUAQ>Jq3iVnmj:Y;'L0IB^,c-S=UL8GNOfa+%+c1&c,p9PU*:^4L+'rpOG]U#[IjINkZUZuDo\ji@k/:4@ld7^g#@52V?Vd:dAdY@RsRBH$0V(L3@(::A8WD![gAt_HtnpbpD;H["$%%)h'30nrM")2eK_p8o*Q[sAkH'H1*PO_d/rs&'Z,fHT<Rh<XS;ci3IB[h:[3Bead@PVf(e_KZkJ@fLsg_GqWI2<[S$.8u:OU#@+'QL^Ar:Cm)#grk]-g"1eKIj'HBesHXBKlaJlc`SD:?m`CNmlMJ,H:(tMOk6JWWUbb.iS-IJ@gi\cY'a(0t8D9F+qXs&ZaRGaUAf++[gj!Uf!^Or#NQ:<kLMA>WDiYkV3J5S<<aE^cgS3i(jr*ptH*U"5#dYN!pm,f&=6kI-X!b:6:"H'0g[.I&T!5>G^9;&j?7"Nuu`2`$.UX]5kkt%r]E:>u[7VMnH6sqWL-UrN=+[($,!Oj\aH=gm\*R@?X",T*Xd]4Rj9UOf]2s+VGjSduV4a%oNGMdW,'k,2jpE5Ss+/'<.9,1].Vfh[U>m:#3SeU\29FGC[J)`JGNLLKjhgpdoUm83te)jm'EBbs#/6,mJ[Gp/;$,"cs^u@mkTE2FZ7L7<g"7,hORMGgJ;NfZFB9Y]9rh=]UM#N2h&=1b#UHV>O98`6;+97ZgFa;i$]a\;art/]Ec&>>%WPL[NPM`D(p7<btD54kYQi/ZK[,;?RJ0"!Fr2+i*L8L[3,>3'"]8q0[HM^\E$W?dX&djl.1X8o2,'Pi\,<;m3*pYThe74kn1k2)FWOR4Mk1\K<holT5+e_)m4N+Zk:[E?\jS(%L'Lmr84;hMRpfq>)S5m)"6S+@2h??OESc8(T=H3%5>5cUj[\Vr4AD.[F\\ftJfN<1%7(X\_H=R\c9i>Vi\,B#sf!Z]*4(]br]l"(OVaD2+/))UWD@#e;t"gP2Pb_(s%rNEXm3dAg(?>=4T=d!kuRDf\Yi].Y8tnC.uFTAA]nMmL>U'OAZe0Fcs"o<]fUTK5+O,/)MPJ6*p)0bjJFH_#s2Yn`1YM#dS7\Db'[;U(H\>b=W\-R)/m+6/VM)^8Ld#\i2F\I/=:$"&M(K8V93)ShueVXT29Cdos:J3oH.Wet4>[[f_u!c%!#&l"0P9\,1O09kf^>`UDDN(6e][4bde\1o%U+G/<WSWXEYXFV8lXM5iBcOqe5VBXT/\+\8LPJQ!A1&J,8,on<7<#$?Jp9!DC&<@<?'GJ=qbHcGM@uTR2%XEbk-KDpKcl)7[I$*gO(lpH!;iCrHEt!"%qi0M!-RLp*G0+Zek+<'POr6'_UZ=0%\'nd&1Y8FKpEd7Ya-:67!*:luS8.a;@n"CNULAY7<6G50;JKo&`TJFfK'd=+@gh8'?J?tl-*QRXbRc[ZdSPpN<qXFlHr_C4PdiL"],EOD=jKEs.Lh[#_q/p4FY@g<P?IW_#AW1=-+e7TB2+]Y.NA'7WFk8Iac]q@UR#\KA.4X\npNmJBMO(O>W,3"=/nr(9OXei]5hJOVH37NP%C^iQG#N[(X=\::+rd,h0-*78ePRrfYHC--)+pLQH3CU'%oXY6u1V5<r[tA7hcl`g;8SRR;<!?IW%TO>nT?p'`!?%5P"a9@DE%_'"Cl#+b-tBQ"_dbWe/o\'Ag^BpV>_n:;p.riX9!'j(BR=au'3D]OXRACWC^C])NFp_+^$OXXA@J<%RY5DZYq<M^0aO8i,De2(>`mXVt:'54qcqFQMgXr4H7QcSP@Si5KNs+S)Lf?(%eV[D)&sRYhZpC;?Z_qeS=$F;k$@GQ`6:AXT[&"F+mOM6-QLASJ+3nk(8b??R.\+n$W.KE@ZS=X,J4K*/9^4&2ZN<[eE;E#*_;i.\;>pCQIGVF<Ac);#:A\Ycl>D+Yk*Vq4?Z^HZQ_^"$e.Sb)'eH,a^reoAIbTBD2U5'.t\3l->#IugRjQ8W9EG:AG(cM]ok$U70_E@b.Y=%r1B:#O*]Dj%99k%pCWrPZVP/E/M.$902)A)I4o"^naG&gTj&f/pBEI612s>FAjrAR9Q_5Cp,cKk>Mons@j5,ijGSn>5gk=g5U"e\o""e'X6E;4fguO'c[&a7bCVA[p0I'?S%'\c1UNBXs?<MO*Z&\CYUdb8@7\"k'anXj<LoAo=c:NQo%LN3Pc<J??PY\6M@%fP9(H@l>o2]Q!@)97N<F~>endstream
+GauHN>BcPr&:Vs/R"tC*FH9(V!!.L@F6R;+VJ5&XT'bbM!@=THj8a(drUi83DJClFS0iB_4I/0Fk0n!#;Z\HJP3f@k!kb)Ad5_4o@=A_T=*0g:_V+kFnN]r/Rh>qmBDc][A_dgM:oJ(^Y]QUAQ>Jq3iVnmj:Y;'L0IB^,c-S=UL8GNOfa+%+c1&c,p9PU*:^4L+'rpOG]U#[IjINkZUZuDo\ji@k/:4@ld7^g#@52V?Vd:dAdY@RsRBH$0V(L3@(::A8WD![gAt_HtnpbpD;H["$%%)h'30nrM")2eK_p8o*Q[sAkH'H1*PO_d/rs&'Z,fHT<Rh<XS;ci3IB[h:[3Bead@PVf(e_KZkJ@fLsg_GqWI2<[S$.8u:OU#@+'QL^Ar:Cm)#grk]-g"1eKIj'HBesHXBKlaJlc`SD:?m`CNmlMJ,H:(tMOk6JWWUbb.iS-IJ@gi\cY'a(0t8D9F+qXs&ZaRGaUAf++[gj!Uf!^Or#NQ:<kLMA>WDiYkV3J5S<<aE^cgS3i(jr*ptH*U"5#dYN!pm,f&=6kI-X!b:6:"H'0g[.I&T!5>G^9;&j?7"Nuu`2`$.UX]5kkt%r]E:>u[7VMnH6sqWL-UrN=+[($,!Oj\aH=gm\*R@?X",T*Xd]4Rj9UOf]2s+VGjSduV4a%oNGMdW,'k,2jpE5Ss+/'<.9,1].Vfh[U>m:#3SeU\29FGC[J)`JGNLLKjhgpdoUm83te)jm'EBbs#/6,mJ[Gp/;$,"cs^u@mkTE2FZ7L7<g"7,hORMGgJ;NfZFB9Y]9rh=]UM#N2h&=1b#UHV>O98`6;+97ZgFa;i$]a\;art/]Ec&>>%WPL[NPM`D(p7<btD54kYQi/ZK[,;?RJ0"!Fr2+i*L8L[3,>3'"]8q0[HM^\E$W?dX&djl.1X8o2,'Pi\,<;m3*pYThe74kn1k2)FWOR4Mk1\K<holT5+e_)m4N+Zk:[E?\jS(%L'Lmr84;hMRpfq>)S5m)"6S+@2h??OESc8(T=H3%5>5cUj[\Vr4AD.[F\\ftJfN<1%7(X\_H=R\c9i>Vi\,B#sf!Z]*4(]br]l"(OVaD2+/))UWD@#e;t"gP2Pb_(s%rNEXm3dAg(?>=4T=d!kuRDf\Yi].Y8tnC.uFTAA]nMmL>U'OAZe0Fcs"o<]fUTK5+O,/)MPJ6*p)0bjJFH_#s2Yn`1YM#dS7\Db'[;U(H\>b=W\-R)/m+6/VM)^8Ld#\i2F\I/=:$"&M(K8V93)ShueVXT29Cdos:J3oH.Wet4>[[f_u!c%!#&l"0P9\,1O09kf^>`UDDN(6e][4bde\1o%U+G/<WSWXEYXFV8lXM5iBcOqe5VBXT/\+\8LPJQ!A1&J,8,on<7<#$?Jp9!DC&<@<?'GJ=qbHcGM@uTR2%XEbk-KDpKcl)7[I$*gO(lpH!;iCrHEt!"%qi0M!-RLp*G0+Zek+<'POr6'_UZ=0%\'nd&1Y8FKpEd7Ya-:67!*:luS8.a;@n"CNULAY7<6G50;JKo&`TJFfK'd=+@gh8'?J?tl-*QRXbRc[ZdSPpN<qXFlHr_C4PdiL"],EOD=jKEs.Lh[#_q/p4FY@g<P?IW_#AW1=-+e7TB2+]Y.NA'7WFk8Iac]q@UR#\KA.4X\npNmJBMO(O>W,3"=/nr(9OXei]5hJOVH37NP%C^iQG#N[(X=\::+rd,h0-*78ePRrfYHC--)+pLQH3CU'%oXY6u1V5<r[tA7hcl`g;8SRR;<!?IW%TO>nT?p'`!?%5P"a9@DE%_'"Cl#+b-tBQ"_dbWe/o\'Ag^BpV>_n:;p.riX9!'j(BR=au'3D]OXRACWC^C])NFp_+^$OXXA@J<%RY5DZYq<M^0aO8i,De2(>`mXVt:'54qcqFQMgXr4H7QcSP@Si5KNs+S)Lf?(%eV[D)&sRYhZpC;?Z_qeS=$F;k$@GQ`6:AXT[&"F+mOM6-QLASJ+3nk(8b??R.\+n$W.KE@ZS=X,J4K*/9^4&2ZN<[eE;E#*_;i.\;>pCQIGVF<Ac);#:A\Ycl>D+Yk*Vq4?Z^HZQ_^"$e.Sb)'eH,a^reoAIbTBD2U5'.t\3l->#IugRjQ8W9EG:AG(cM]ok$U70_E@b.Y=%r1B:#O*]Dj%99k%pCWrPZVP/E/M.$902)A)I4o"^naG&gTj&f/pBEI612s>FAjrAR9Q_5Cp,cKk>Mons@j5,ijGSn>5gk=g5U"e\o""e'X6E;4fguO'c[&a7bCVA[p0I'?S%'\c1UNBXs?<MO*Z&\CYUdb8@7\"k'anXj<LoAo=c:NQo%LN3Pc<J??PY\6M@%fP9(H@l>o2]Q!@)97N<F~>
+endstream
 endobj
 15 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1237
+/Contents 16 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 17 0 R
+/F2 8 0 R
+/F3 9 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+16 0 obj
+<<
+/Length 3411
 >>
 stream
-Gatm:6$o(\&A@sBbgGgEYXf$2]fC)<9u$%lYt7a%aIq2N!qHDqj8Slq@DIQU,gF>K/Bbrp4h[8GL4G85V#$$JJ?ogd\0O<fKF^>8`?;gJMfA=WaKh@e&eFhK^)U^L],S6qoj&(f,8TGCLKq^6a3cJ"P8_I$QK(gL^?8]Gn,gNr.tWqM#9p#[r\ZI)^^Ul+i!'WANj,$7Y(Nr4[XEZ:&:TBh^iV@3I!.<6:#YYP'&Lkck*77jB\;2PP<b]E&sd0:54hA#h\1I1jVikCV8.IIR63i[I$KsP(K%/\8GK3o15E1dP[LWb'"4fF6)[_0_a5%m($eXcq=t<T\BI6-]e2T[j+K[IX91^-*uLag[@%Q'Ph#&'G.jI'fQ\"+j(2h@E2.=:j`BQ,[GG#4EB`a]/<naTEqns^E:ErS]+T?1cmm6+.X\VJnKn;W2qY(s3p$VEZ(DeJT+lFbmaiFc8l9JHGr3sfTpAIlHRH>&/>?CO9;StiO;n=&6Ns%n%Jo*<:ks_eFi$3Th"aS*HC[T#D9V102u.p<3aM&<PnJsF@q\:HK?@Zr6cC",5Usr^70OAU&^)",48>f+&F&t7+?6`.`aSmr24L#Tr\6)NLM/")Z?TN/[t@D<"C-a_.^K2o>X6"n(K%>n!X+r0JP<**C8(6af(!`@*3`i--R.G9Y/DO#JB1,JV9WH!i-2G_IgeHhb9]J.A@[s\K8Xsf#u^pRE0WjQPpc&=5N/)&2Y_]8PUgr*E0n[gS`h(d=i-kA`]B=0jtl/B>GHDK.2.COK?,fR<ZGJ1/8muS]:/u.>tHT4VDbY\AA5u\0uk5)5-?VRHTpq\LuhO'JkB!#<&%bLs80m3e7UBT]Y/=Y-_=bND6Kc-E"JLQ!qX!/kSWY65MM_64-'e$A._F=XJPo03&h?P'VjuOdfp5aUQ,LjNPTu$iZ1/N-Ku@d[Pnc?p7X5mgI]<Rp.5)>qLM([FV5+ORF@Q'7u,"n*E%-'F8^,XjC4Yh_q'gn^>%nZ5K=]j(q4oic/P=@I`(@.0p2juO&M=7VW&1CSYmZ/5H?o"[9?4eJG1.?I.-3:Nchu`@.JGZn]CSHgs_h46Wk2$8jt1iQWh"FRp$kODdpp5PO6\,HCN#/<h>3mZ.k*7\iRaCc5R7,XXjo4k$S:ND+WLe)#M-QB85dp#.-T5S^2CTU1i.\eRG3b4PsNr$7pXga$]FAoL`Z`7;VJ1;F:um-$DOjl8>$$4sa9'#c%D">>ips~>endstream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.039216 .039216 .039216 rg
+n 0 0 595.2756 841.8898 re f*
+Q
+q
+1 0 0 1 68.3622 767.1969 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F2 8 Tf .980392 .8 .082353 rg (07  ) Tj (  DASHBOARD FEATURES) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 741.1969 cm
+q
+.666667 .666667 .666667 rg
+BT 1 0 0 1 0 6.5 Tm /F1 9.5 Tf 16 TL (Interactive Power BI report with TomTom basemap:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 76.53543 596.1969 cm
+q
+.101961 .101961 .101961 rg
+n 0 137 442.2047 -24 re f*
+.066667 .066667 .066667 rg
+n 0 113 442.2047 -113 re f*
+.066667 .066667 .066667 rg
+n 0 113 442.2047 -25 re f*
+.078431 .078431 .078431 rg
+n 0 88 442.2047 -25 re f*
+.066667 .066667 .066667 rg
+n 0 63 442.2047 -38 re f*
+.078431 .078431 .078431 rg
+n 0 25 442.2047 -25 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 8 119 cm
+q
+.533333 .533333 .533333 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (Feature) Tj T* ET
+Q
+Q
+q
+1 0 0 1 132.7244 119 cm
+q
+.533333 .533333 .533333 rg
+BT 1 0 0 1 0 4 Tm /F2 8 Tf 12 TL (Description) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 94 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Choropleth map) Tj T* ET
+Q
+Q
+q
+1 0 0 1 132.7244 94 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Composite score and individual metrics shaded by zip code) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 69 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Ranked bar charts) Tj T* ET
+Q
+Q
+q
+1 0 0 1 132.7244 69 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (All 5 dimensions ranked across all 41 neighborhoods) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 31 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Variable selector) Tj T* ET
+Q
+Q
+q
+1 0 0 1 132.7244 31 cm
+q
+.960784 .960784 .960784 rg
+BT 1 0 0 1 0 17.5 Tm /F1 8.5 Tf 13 TL (Toggle between Education, Income, Home Value, Density, Unemployment on) Tj T* (one map) Tj T* ET
+Q
+Q
+q
+1 0 0 1 8 6 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Outlier annotations) Tj T* ET
+Q
+Q
+q
+1 0 0 1 132.7244 6 cm
+q
+.8 .8 .8 rg
+BT 1 0 0 1 0 4.5 Tm /F1 8.5 Tf 13 TL (Neighborhoods where metrics diverge from expectations flagged inline) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.227451 .227451 .227451 RG
+.5 w
+n 0 137 m 442.2047 137 l S
+n 0 0 m 442.2047 0 l S
+n 0 0 m 0 137 l S
+n 442.2047 0 m 442.2047 137 l S
+.121569 .121569 .121569 RG
+.3 w
+n 0 113 m 442.2047 113 l S
+n 0 88 m 442.2047 88 l S
+n 0 63 m 442.2047 63 l S
+n 0 25 m 442.2047 25 l S
+n 124.7244 0 m 124.7244 137 l S
+Q
+Q
+Q
+q
+1 0 0 1 68.3622 579.189 cm
+Q
+q
+1 0 0 1 68.3622 543.189 cm
+q
+BT 1 0 0 1 0 4 Tm 12 TL /F2 8 Tf .980392 .8 .082353 rg (08  ) Tj (  TOOLS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 517.189 cm
+q
+BT 1 0 0 1 0 6.5 Tm 16 TL /F1 9.5 Tf .666667 .666667 .666667 rg (Power BI  ) Tj (\267) Tj (  Excel \(min-max normalization pipeline\)  ) Tj (\267) Tj (  US Census API  ) Tj (\267) Tj (  ACS 5-year estimates) Tj T* ET
+Q
+Q
+q
+1 0 0 1 68.3622 502.689 cm
+q
+.5 w
+1 J
+.227451 .227451 .227451 RG
+n 0 0 m 458.5512 0 l S
+Q
+Q
+q
+1 0 0 1 68.3622 476.689 cm
+q
+BT 1 0 0 1 0 4.5 Tm 129.4356 0 Td 12 TL /F1 7.5 Tf .419608 .419608 .419608 rg (Boston Liveability Dashboard  ) Tj (\267) Tj (  Rohan Jauhari  ) Tj (\267) Tj (  May 2026) Tj T* -129.4356 0 Td ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.039216 0.039216 0.039216 rg
+n
+195 478 205 11 re
+f*
+0.419608 0.419608 0.419608 rg
+BT
+/F1-0 7.5 Tf
+9 TL
+ET
+BT
+1 0 0 1 229.4816 481.189 Tm
+(Boston Liveability Dashboard \267 May 2026) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+17 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
 endobj
 xref
-0 16
+0 18
 0000000000 65535 f 
-0000000061 00000 n 
-0000000112 00000 n 
-0000000219 00000 n 
-0000000331 00000 n 
+0000000015 00000 n 
+0000000054 00000 n 
+0000000134 00000 n 
+0000000183 00000 n 
 0000000436 00000 n 
-0000000641 00000 n 
-0000000846 00000 n 
-0000001051 00000 n 
-0000001256 00000 n 
-0000001325 00000 n 
-0000001606 00000 n 
-0000001684 00000 n 
-0000003750 00000 n 
-0000005363 00000 n 
-0000007777 00000 n 
+0000006810 00000 n 
+0000006917 00000 n 
+0000007024 00000 n 
+0000007136 00000 n 
+0000007241 00000 n 
+0000007443 00000 n 
+0000009057 00000 n 
+0000009109 00000 n 
+0000009311 00000 n 
+0000011726 00000 n 
+0000011982 00000 n 
+0000015446 00000 n 
 trailer
 <<
-/ID 
-[<7e378c8d1e1f26ac5c77199b2616bd42><7e378c8d1e1f26ac5c77199b2616bd42>]
-% ReportLab generated PDF document -- digest (opensource)
-
-/Info 10 0 R
-/Root 9 0 R
-/Size 16
+/Size 18
+/Root 3 0 R
+/Info 1 0 R
 >>
 startxref
-9106
+15554
 %%EOF
