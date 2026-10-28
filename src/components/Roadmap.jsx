@@ -87,7 +87,7 @@ export default function Roadmap() {
   const dynamicColor = getDynamicColor(progress)
   const activeMilestone = MILESTONES[activeIndex]
 
-  const logoSize = isMobile ? 34 : 48
+  const logoSize = isMobile ? 28 : 38
 
   return (
     <>
@@ -115,7 +115,7 @@ export default function Roadmap() {
           width: '100%',
           boxSizing: 'border-box',
           borderRadius: 0,
-          padding: isMobile ? '12px 16px 14px' : '14px 64px 16px',
+          padding: isMobile ? '8px 16px 8px' : '10px 64px 10px',
           background: isMobile ? 'rgba(10,10,10,0.8)' : 'rgba(10,10,10,0.75)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
@@ -127,7 +127,7 @@ export default function Roadmap() {
           {/* Header */}
           <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginBottom: isMobile ? 10 : 12,
+            marginBottom: isMobile ? 7 : 8,
             position: 'relative',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -169,7 +169,7 @@ export default function Roadmap() {
           </div>
 
           {/* Progress track */}
-          <div style={{ position: 'relative', marginBottom: 10 }}>
+          <div style={{ position: 'relative' }}>
             <div style={{
               height: 3, borderRadius: 999,
               background: 'rgba(255,255,255,0.1)',
@@ -204,7 +204,7 @@ export default function Roadmap() {
             </div>
 
             {/* Logos anchored directly below each dot */}
-            <div style={{ position: 'relative', height: logoSize + 22, marginTop: 8 }}>
+            <div style={{ position: 'relative', height: logoSize + 16, marginTop: 6 }}>
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N-1)) * 100
                 const isActive = i === activeIndex
@@ -222,7 +222,7 @@ export default function Roadmap() {
                     transform: `translateX(${tx})`,
                     display: 'flex', flexDirection: 'column',
                     alignItems: i === 0 ? 'flex-start' : i === N-1 ? 'flex-end' : 'center',
-                    gap: 4,
+                    gap: 3,
                   }}>
                     {m.logo ? (
                       <div style={{
@@ -257,7 +257,7 @@ export default function Roadmap() {
                       </div>
                     )}
                     <span style={{
-                      fontSize: isMobile ? 8 : 10,
+                      fontSize: isMobile ? 8 : 9,
                       fontWeight: 600,
                       color: isActive ? m.color : isPast ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.18)',
                       transition: 'color 0.4s ease',
