@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
@@ -29,6 +29,20 @@ export default function Roadmap() {
   const [show, setShow] = useState(false)
   const [progress, setProgress] = useState(0)
   const isMobile = useIsMobile()
+  const targetRef = useRef(0)
+
+  useEffect(() => {
+    let id
+    const tick = () => {
+      setProgress(p => {
+        const d = targetRef.current - p
+        return Math.abs(d) < 0.0005 ? targetRef.current : p + d * 0.12
+      })
+      id = requestAnimationFrame(tick)
+    }
+    id = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(id)
+  }, [])
 
   useEffect(() => {
     let rafId = null
@@ -56,7 +70,7 @@ export default function Roadmap() {
       const viewCenter = scrollY + viewH * 0.5
       const range      = end - start
       if (range <= 0) return
-      setProgress(Math.min(1, Math.max(0, (viewCenter - start) / range)))
+      targetRef.current = Math.min(1, Math.max(0, (viewCenter - start) / range))
     }
 
     const onScroll = () => {
@@ -165,24 +179,24 @@ export default function Roadmap() {
                 height: '100%', borderRadius: 999,
                 background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #facc15)',
                 width: `${progress * 100}%`,
-                transition: 'width 0.12s ease-out',
                 boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N-1)) * 100
                 const reached = i <= activeIndex
-                const isCurrent = i === activeIndex
+                const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
+                const size = 7 + 4 * prox
                 return (
                   <div key={m.id} style={{
                     position: 'absolute', top: '50%', left: `${pos}%`,
                     transform: 'translate(-50%, -50%)',
-                    width: isCurrent ? 11 : 7,
-                    height: isCurrent ? 11 : 7,
+                    width: size,
+                    height: size,
                     borderRadius: '50%',
                     background: reached ? m.color : 'rgba(255,255,255,0.15)',
                     border: `1.5px solid ${reached ? m.color : 'rgba(255,255,255,0.2)'}`,
-                    boxShadow: isCurrent ? `0 0 8px ${m.color}, 0 0 16px ${m.color}50` : 'none',
-                    transition: 'all 0.4s cubic-bezier(.22,1,.36,1)',
+                    boxShadow: prox > 0.05 ? `0 0 ${8 * prox}px ${m.color}, 0 0 ${16 * prox}px ${m.color}50` : 'none',
+                    transition: 'background 0.3s ease, border-color 0.3s ease',
                     zIndex: 2,
                   }} />
                 )
@@ -195,6 +209,9 @@ export default function Roadmap() {
                 const pos = (i / (N-1)) * 100
                 const isActive = i === activeIndex
                 const isPast = i < activeIndex
+                const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
+                const baseOpacity = progress * (N - 1) >= i ? 0.55 : 0.2
+                const logoOpacity = baseOpacity + (1 - baseOpacity) * prox
                 // edge alignment: first left, last right, others center
                 const tx = i === 0 ? '0%' : i === N-1 ? '-100%' : '-50%'
                 return (
@@ -214,10 +231,9 @@ export default function Roadmap() {
                         background: '#fff',
                         overflow: 'hidden',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        opacity: isActive ? 1 : isPast ? 0.55 : 0.2,
-                        transition: 'opacity 0.4s ease, box-shadow 0.4s ease',
-                        boxShadow: isActive
-                          ? `0 0 0 1.5px ${m.color}, 0 0 10px ${m.color}70`
+                        opacity: logoOpacity,
+                        boxShadow: prox > 0.05
+                          ? `0 0 0 1.5px ${m.color}, 0 0 ${10 * prox}px ${m.color}70`
                           : 'none',
                       }}>
                         <img src={m.logo} alt={m.company}
