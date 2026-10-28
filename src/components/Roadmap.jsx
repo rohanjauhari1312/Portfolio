@@ -73,7 +73,7 @@ export default function Roadmap() {
   const dynamicColor = getDynamicColor(progress)
   const activeMilestone = MILESTONES[activeIndex]
 
-  const logoSize = isMobile ? 22 : 28
+  const logoSize = isMobile ? 34 : 48
 
   return (
     <>
@@ -190,7 +190,7 @@ export default function Roadmap() {
             </div>
 
             {/* Logos anchored directly below each dot */}
-            <div style={{ position: 'relative', height: logoSize + 18, marginTop: 8 }}>
+            <div style={{ position: 'relative', height: logoSize + 22, marginTop: 8 }}>
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N-1)) * 100
                 const isActive = i === activeIndex
@@ -232,7 +232,7 @@ export default function Roadmap() {
                         transition: 'border-color 0.4s ease',
                         boxShadow: isActive ? `0 0 10px ${m.color}70` : 'none',
                       }}>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                           stroke={isActive ? m.color : 'rgba(255,255,255,0.25)'}
                           strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                           style={{ animation: isActive ? 'futurePulse 2s ease-in-out infinite' : 'none' }}>
@@ -241,7 +241,7 @@ export default function Roadmap() {
                       </div>
                     )}
                     <span style={{
-                      fontSize: isMobile ? 7 : 8,
+                      fontSize: isMobile ? 8 : 10,
                       fontWeight: 600,
                       color: isActive ? m.color : isPast ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.18)',
                       transition: 'color 0.4s ease',
