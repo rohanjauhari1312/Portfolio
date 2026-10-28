@@ -87,8 +87,9 @@ export default function Roadmap() {
       <div style={{
         position: 'fixed',
         bottom: isMobile ? 14 : 24,
-        left: '50%',
-        transform: `translateX(-50%) translateY(${show ? 0 : 60}px)`,
+        left: 0,
+        right: 0,
+        transform: `translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
         zIndex: 200,
@@ -97,9 +98,10 @@ export default function Roadmap() {
         <div style={{ animation: show ? 'tileFloat 4s ease-in-out infinite' : 'none', willChange: 'transform' }}>
         <div style={{
           position: 'relative',
-          width: isMobile ? 'calc(100vw - 40px)' : 560,
-          borderRadius: 18,
-          padding: isMobile ? '12px 16px 14px' : '14px 22px 16px',
+          width: '100%',
+          boxSizing: 'border-box',
+          borderRadius: 0,
+          padding: isMobile ? '12px 16px 14px' : '14px 64px 16px',
           background: isMobile ? 'rgba(10,10,10,0.8)' : 'rgba(10,10,10,0.75)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
