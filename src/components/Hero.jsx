@@ -273,10 +273,10 @@ export default function Hero({ onNavigate }) {
   }, [nameTyped])
 
   useEffect(() => {
-    if (!aboutTyped) return
+    if (!(isMobile ? introDone : aboutTyped)) return
     const t = setTimeout(() => setNeuralReady(true), isMobile ? 200 : 400)
     return () => clearTimeout(t)
-  }, [aboutTyped, isMobile])
+  }, [aboutTyped, introDone, isMobile])
 
   const handleNeuralReplay = () => {
     setNeuralReady(false)
@@ -380,20 +380,20 @@ export default function Hero({ onNavigate }) {
                 </div>
               </FadeIn>
 
-              {/* 3. About */}
+              {/* 3. NN card (no replay button on mobile) — above the about text so its button is on the first screen */}
+              <FadeIn delay={600}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} />
+                </div>
+              </FadeIn>
+
+              {/* 4. About */}
               <TypedLines
                 lines={ABOUT_LINES}
                 start={introDone}
                 onDone={() => setAboutTyped(true)}
                 style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, fontWeight: 600, lineHeight: 1.55, margin: 0, textAlign: 'center' }}
               />
-
-              {/* 4. NN card (no replay button on mobile) */}
-              <FadeIn delay={600}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <NeuralCard key={neuralKey} active={neuralReady} onNavigate={onNavigate} />
-                </div>
-              </FadeIn>
 
             </div>
           ) : (
