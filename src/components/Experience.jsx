@@ -30,6 +30,26 @@ const JOBS = [
     metrics: [],
   },
   {
+    id: 'northeastern',
+    company: 'Northeastern University',
+    logo: '/northeastern.png',
+    accentColor: '#ef4444',
+    bgColor: 'rgba(239,68,68,0.13)',
+    role: 'Research Assistant [Agentic Systems, Health Monitoring]',
+    period: 'Jan 2026 – Aug 2026',
+    duration: '8 months',
+    location: 'Boston, MA',
+    type: 'Research',
+    highlights: [
+      'Built an **agentic monitoring system** pulling real-time data from **5+ Apple Watch sensors**, reaching **85% accuracy** predicting patient falls and hospitalizations',
+    ],
+    tags: ['Agentic AI', 'Apple Watch', 'Health Monitoring', 'Research'],
+    metrics: [
+      { v: '85%', l: 'Prediction accuracy' },
+      { v: '5+', l: 'Apple Watch sensors' },
+    ],
+  },
+  {
     id: 'mckinsey',
     company: 'McKinsey & Company',
     href: 'https://www.mckinsey.com',
@@ -77,26 +97,6 @@ const JOBS = [
       { v: '90%', l: 'Effort cut' },
       { v: '33%', l: 'Client growth' },
       { v: '50%', l: 'Churn reduced' },
-    ],
-  },
-  {
-    id: 'northeastern',
-    company: 'Northeastern University',
-    logo: '/northeastern.png',
-    accentColor: '#ef4444',
-    bgColor: 'rgba(239,68,68,0.13)',
-    role: 'Research Assistant [Agentic Systems, Health Monitoring]',
-    period: 'Jan 2026 – Aug 2026',
-    duration: '8 months',
-    location: 'Boston, MA',
-    type: 'Research',
-    highlights: [
-      'Built an **agentic monitoring system** pulling real-time data from **5+ Apple Watch sensors**, reaching **85% accuracy** predicting patient falls and hospitalizations',
-    ],
-    tags: ['Agentic AI', 'Apple Watch', 'Health Monitoring', 'Research'],
-    metrics: [
-      { v: '85%', l: 'Prediction accuracy' },
-      { v: '5+', l: 'Apple Watch sensors' },
     ],
   },
 ]
