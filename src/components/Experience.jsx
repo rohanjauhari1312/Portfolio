@@ -13,6 +13,22 @@ function hl(text, color) {
 
 const JOBS = [
   {
+    id: 'doordash',
+    company: 'DoorDash',
+    href: 'https://www.doordash.com',
+    logo: '/doordash-logo.png',
+    accentColor: '#ff3008',
+    bgColor: 'rgba(255,48,8,0.13)',
+    role: 'Sr Associate, Strategy & Operations',
+    period: 'Nov 2026 – Present',
+    type: 'Full-time',
+    highlights: [
+      'Own **cost optimization** work on the Strategy & Operations team',
+    ],
+    tags: ['Strategy', 'Operations', 'Cost Optimization'],
+    metrics: [],
+  },
+  {
     id: 'mckinsey',
     company: 'McKinsey & Company',
     href: 'https://www.mckinsey.com',
@@ -213,7 +229,7 @@ function JobCard({ job, index, isMobile }) {
               </svg>
               {job.period}
             </span>
-            <span style={{
+            {job.location && <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
               fontSize: 11, fontWeight: 500,
               color: 'rgba(255,255,255,0.35)',
@@ -225,12 +241,12 @@ function JobCard({ job, index, isMobile }) {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
               </svg>
               {job.location}
-            </span>
+            </span>}
           </div>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 18, flexWrap: 'wrap' }}>
+      {job.metrics.length > 0 && <div style={{ display: 'flex', gap: 10, marginBottom: 18, flexWrap: 'wrap' }}>
         {job.metrics.map((m, i) => (
           <div key={i} style={{
             padding: '8px 14px', borderRadius: 10,
@@ -242,7 +258,7 @@ function JobCard({ job, index, isMobile }) {
             <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.38)', marginTop: 2, letterSpacing: '0.04em' }}>{m.l}</div>
           </div>
         ))}
-      </div>
+      </div>}
 
       <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {job.highlights.map((h, i) => (
