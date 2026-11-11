@@ -7,7 +7,8 @@ const MILESTONES = [
   { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
   { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
   { id: 'nu-research', company: 'NU Research',  logo: '/northeastern.png', color: '#f97316' },
-  { id: 'next',        company: 'Next',         logo: null,                color: '#facc15', future: true },
+  { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
+  { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
 ]
 
 const N = MILESTONES.length
@@ -177,7 +178,7 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #facc15)',
+                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #f97316, #ff3008, #facc15)',
                 width: `${progress * 100}%`,
                 boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
