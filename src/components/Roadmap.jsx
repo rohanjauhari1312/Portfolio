@@ -66,12 +66,11 @@ export default function Roadmap() {
         !projectsReached
       )
 
-      const start      = educationEl.offsetTop
-      const end        = projectsEl.offsetTop
-      const viewCenter = scrollY + viewH * 0.5
-      const range      = end - start
+      const start = educationEl.offsetTop - viewH * 0.8
+      const end   = projectsEl.offsetTop - viewH - 60
+      const range = end - start
       if (range <= 0) return
-      targetRef.current = Math.min(1, Math.max(0, (viewCenter - start) / range))
+      targetRef.current = Math.min(1, Math.max(0, (scrollY - start) / range))
     }
 
     const onScroll = () => {
@@ -88,7 +87,7 @@ export default function Roadmap() {
   const dynamicColor = getDynamicColor(progress)
   const activeMilestone = MILESTONES[activeIndex]
 
-  const logoSize = isMobile ? 28 : 38
+  const logoSize = isMobile ? 32 : 46
 
   return (
     <>
@@ -116,7 +115,7 @@ export default function Roadmap() {
           width: '100%',
           boxSizing: 'border-box',
           borderRadius: 0,
-          padding: isMobile ? '8px 16px 8px' : '10px 64px 10px',
+          padding: isMobile ? '8px 16px 8px' : '10px 28px 10px 64px',
           background: isMobile ? 'rgba(10,10,10,0.8)' : 'rgba(10,10,10,0.75)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
