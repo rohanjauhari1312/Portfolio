@@ -350,18 +350,6 @@ export default function Hero({ onNavigate }) {
                     </div>
 
                     <div style={{
-                      position: 'absolute', bottom: -8, right: -8,
-                      padding: '8px 12px', borderRadius: 12,
-                      background: 'rgba(10,10,10,0.92)',
-                      border: '1px solid rgba(250,204,21,0.2)',
-                      display: 'flex', alignItems: 'center', gap: 6,
-                      animation: 'badgeBounce 3s ease-in-out infinite',
-                    }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 8px #4ade80' }} />
-                      <span style={{ color: '#facc15', fontSize: 11, fontWeight: 600 }}>Open to Work</span>
-                    </div>
-
-                    <div style={{
                       position: 'absolute', top: -8, left: -8,
                       padding: '6px 10px', borderRadius: 10,
                       background: 'rgba(10,10,10,0.92)',
@@ -374,7 +362,7 @@ export default function Hero({ onNavigate }) {
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                       </svg>
-                      Boston, MA
+                      New York City
                     </div>
                   </div>
                 </div>
@@ -463,30 +451,6 @@ export default function Hero({ onNavigate }) {
 
                   <div
                     style={{
-                      position: 'absolute', bottom: -8, right: isMobile ? -8 : -16,
-                      padding: '10px 16px', borderRadius: 14,
-                      background: 'rgba(10,10,10,0.92)',
-                      border: '1px solid rgba(250,204,21,0.2)',
-                      backdropFilter: isMobile ? 'none' : 'blur(12px)',
-                      display: 'flex', alignItems: 'center', gap: 8,
-                      animation: 'badgeBounce 3s ease-in-out infinite',
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 7, height: 7, borderRadius: '50%',
-                        background: '#4ade80', boxShadow: '0 0 8px #4ade80',
-                        display: 'inline-block',
-                        animation: 'glowPulse 2s ease-in-out infinite',
-                      }}
-                    />
-                    <span style={{ color: '#facc15', fontSize: 12, fontWeight: 600 }}>
-                      Open to Work
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
                       position: 'absolute', top: -8, left: isMobile ? -8 : -20,
                       padding: '8px 14px', borderRadius: 12,
                       background: 'rgba(10,10,10,0.92)',
@@ -502,7 +466,7 @@ export default function Hero({ onNavigate }) {
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                     </svg>
-                    Boston, MA
+                    New York City
                   </div>
                 </div>
 
