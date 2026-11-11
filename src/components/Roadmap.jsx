@@ -103,7 +103,7 @@ export default function Roadmap() {
         position: 'fixed',
         bottom: isMobile ? 14 : 24,
         left: 0,
-        right: 0,
+        right: isMobile ? 0 : 380,
         transform: `translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
