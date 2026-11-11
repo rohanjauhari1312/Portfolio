@@ -10,7 +10,6 @@ const ABOUT_LINES = [
   { text: 'I conceptualize and build', highlight: 1 },
   { text: 'the right product' },
   { text: 'for the right audience' },
-  { text: 'at the right time' },
   { text: 'respecting constraints.' },
 ]
 
