@@ -21,6 +21,7 @@ const JOBS = [
     bgColor: 'rgba(255,48,8,0.13)',
     role: 'Sr Associate, Strategy & Operations',
     period: 'Nov 2026 – Present',
+    location: 'New York, NY',
     type: 'Full-time',
     highlights: [
       'Own **cost optimization** work on the Strategy & Operations team',
