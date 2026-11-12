@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
+import ModeToggle from './ModeToggle'
 
 const LINKS = [
   { label: 'About',    href: '#about',    path: '/about' },
@@ -11,7 +12,7 @@ const LINKS = [
   { label: 'Contact',  href: '#contact',  path: '/contact' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onNavigate }) {
   const [scrolled, setScrolled] = useState(false)
   const [visible,  setVisible]  = useState(false)
   const [active,   setActive]   = useState('')
@@ -88,10 +89,13 @@ export default function Navbar() {
           borderBottom: menuOpen ? '1px solid rgba(250,204,21,0.08)' : 'none',
           display: 'flex', flexDirection: 'column',
           paddingTop: menuOpen ? 52 : 0,
-          maxHeight: menuOpen ? 400 : 0,
+          maxHeight: menuOpen ? 460 : 0,
           overflow: 'hidden',
           transition: 'max-height 0.35s cubic-bezier(.22,1,.36,1), padding-top 0.35s cubic-bezier(.22,1,.36,1)',
         }}>
+          <div style={{ padding: '14px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <ModeToggle mode="professional" onChange={() => onNavigate('personal')} compact />
+          </div>
           {LINKS.map((link, i) => {
             const isActive = active === link.href.slice(1)
             return (
@@ -121,7 +125,7 @@ export default function Navbar() {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         height: 64,
-        display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         gap: 40,
         padding: '0 40px',
         background: scrolled ? 'rgba(10,10,10,0.55)' : 'transparent',
@@ -163,6 +167,7 @@ export default function Navbar() {
           )
         })}
       </nav>
+      <ModeToggle mode="professional" onChange={() => onNavigate('personal')} />
     </header>
   )
 }

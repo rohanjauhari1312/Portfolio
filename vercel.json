@@ -14,6 +14,7 @@
   ],
   "rewrites": [
     { "source": "/smartcart", "destination": "/index.html" },
+    { "source": "/personal", "destination": "/index.html" },
     { "source": "/watchlessai", "destination": "/index.html" },
     { "source": "/doordash", "destination": "/index.html" },
     { "source": "/swifthire", "destination": "/index.html" },

@@ -22,8 +22,9 @@ import RohBotDetail from './components/RohBotDetail'
 import WatchlessAIDetail from './components/WatchlessAIDetail'
 import DoorDashDetail from './components/DoorDashDetail'
 import SmartCartDetail from './components/SmartCartDetail'
+import PersonalPortfolio from './components/PersonalPortfolio'
 
-const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot', 'voice-agent', 'watchlessai', 'doordash', 'smartcart']
+const DETAIL_PATHS = ['nourish', 'swifthire', 'framer-demo', 'rohbot', 'voice-agent', 'watchlessai', 'doordash', 'smartcart', 'personal']
 const SECTION_PATHS = ['about', 'skills', 'education', 'experience', 'projects', 'achievements', 'contact']
 
 export default function App() {
@@ -115,12 +116,12 @@ export default function App() {
       `}</style>
       <div className="page-border" />
 
-      <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : view === 'swifthire' ? 'rgba(250,204,21,0.18)' : 'rgba(251,169,40,0.5)'} />
-      {!isMobile && <CustomCursor />}
+      {view !== 'personal' && <DotGrid dotColor={view === 'nourish' ? 'rgba(74,222,128,0.2)' : view === 'swifthire' ? 'rgba(250,204,21,0.18)' : 'rgba(251,169,40,0.5)'} />}
+      {!isMobile && view !== 'personal' && <CustomCursor />}
 
       {/* Portfolio — always mounted so Skills state survives navigation */}
       <div style={{
-        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo' || view === 'rohbot' || view === 'voice-agent' || view === 'watchlessai' || view === 'doordash' || view === 'smartcart') ? 'none' : 'block',
+        display: (view === 'nourish' || view === 'swifthire' || view === 'framer-demo' || view === 'rohbot' || view === 'voice-agent' || view === 'watchlessai' || view === 'doordash' || view === 'smartcart' || view === 'personal') ? 'none' : 'block',
         minHeight: '100vh',
         background: `
           radial-gradient(ellipse 70% 40% at 15% 10%, rgba(250,204,21,0.05) 0%, transparent 70%),
@@ -130,7 +131,7 @@ export default function App() {
         `,
         boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)',
       }}>
-        <Navbar />
+        <Navbar onNavigate={navigateTo} />
         <Hero onNavigate={navigateTo} />
         <Skills />
         <Education />
@@ -152,6 +153,7 @@ export default function App() {
       {view === 'watchlessai' && <WatchlessAIDetail onBack={navigateBack} />}
       {view === 'doordash' && <DoorDashDetail onBack={navigateBack} />}
       {view === 'smartcart' && <SmartCartDetail onBack={navigateBack} />}
+      {view === 'personal' && <PersonalPortfolio onBack={navigateBack} />}
     </>
   )
 }
