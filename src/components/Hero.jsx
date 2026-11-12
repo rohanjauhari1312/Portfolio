@@ -507,9 +507,9 @@ export default function Hero({ onNavigate }) {
                 transition: 'opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1)',
               }}>
                 Working at the intersection of{' '}
-                <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech</span>
-                {' '}and{' '}
-                <span style={{ color: '#facc15', fontWeight: 600 }}>business</span>
+                <span style={{ color: '#60a5fa', fontWeight: 600 }}>tech, finance, ops and strategy</span>
+                {' '}that drive{' '}
+                <span style={{ color: '#facc15', fontWeight: 600 }}>business growth</span>
               </p>
 
               <TypedLines
