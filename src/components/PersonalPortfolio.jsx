@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import TypedHeading from './TypedHeading'
 import ModeToggle from './ModeToggle'
+import Globe from './Globe'
 import useIsMobile from '../hooks/useIsMobile'
 
 const BG = '#faf8f3'
@@ -300,6 +301,12 @@ export default function PersonalPortfolio({ onBack }) {
     return { ...o, i: (o.i + dir + n) % n }
   })
   const close = () => setOpen(null)
+  const openBySrc = (src) => {
+    for (const s of SECTIONS) {
+      const i = s.photos.findIndex(ph => ph.src === src)
+      if (i >= 0) { setOpen({ id: s.id, i }); return }
+    }
+  }
 
   const gap = isMobile ? 10 : 16
   const pad = isMobile ? '0 20px' : '0 64px'
@@ -411,6 +418,7 @@ export default function PersonalPortfolio({ onBack }) {
         {SECTIONS.map((section, si) => (
           <section key={section.id} id={section.id} style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
             <SectionHeader section={section} index={si} />
+            {section.id === 'travel' && <Globe onOpenPhoto={openBySrc} />}
             <div style={{ columnCount: isMobile ? 2 : 3, columnGap: gap }}>
               {section.photos.map((photo, i) => (
                 <Tile
