@@ -13,7 +13,8 @@ const GRADIENT = {
   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
 }
 
-// Replace src: null with the real file, e.g. '/personal/travel-01.jpg'. ratio is width / height.
+const p = (name, ratio) => ({ src: `/personal/${name}.jpg`, ratio, caption: '' })
+
 const SECTIONS = [
   {
     id: 'travel',
@@ -21,17 +22,7 @@ const SECTIONS = [
     heading: "Places I've ",
     suffix: 'been.',
     sub: 'Trips, detours and the photos I took along the way.',
-    photos: [
-      { src: null, ratio: 0.8, caption: '' },
-      { src: null, ratio: 1.4, caption: '' },
-      { src: null, ratio: 1, caption: '' },
-      { src: null, ratio: 1.25, caption: '' },
-      { src: null, ratio: 0.75, caption: '' },
-      { src: null, ratio: 1.5, caption: '' },
-      { src: null, ratio: 0.9, caption: '' },
-      { src: null, ratio: 1.2, caption: '' },
-      { src: null, ratio: 0.8, caption: '' },
-    ],
+    photos: [p('travel-01', 0.8), p('travel-02', 0.8), p('travel-03', 0.8), p('travel-04', 0.903), p('travel-05', 1.094)],
   },
   {
     id: 'hobbies',
@@ -39,14 +30,7 @@ const SECTIONS = [
     heading: 'Things I do ',
     suffix: 'for fun.',
     sub: "What fills the hours that aren't work.",
-    photos: [
-      { src: null, ratio: 1.3, caption: '' },
-      { src: null, ratio: 0.85, caption: '' },
-      { src: null, ratio: 1, caption: '' },
-      { src: null, ratio: 0.8, caption: '' },
-      { src: null, ratio: 1.4, caption: '' },
-      { src: null, ratio: 1.1, caption: '' },
-    ],
+    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228)],
   },
   {
     id: 'moments',
@@ -54,18 +38,29 @@ const SECTIONS = [
     heading: 'People and ',
     suffix: 'moments.',
     sub: 'Friends, family and the occasions worth keeping.',
-    photos: [
-      { src: null, ratio: 0.8, caption: '' },
-      { src: null, ratio: 1.2, caption: '' },
-      { src: null, ratio: 1, caption: '' },
-      { src: null, ratio: 1.5, caption: '' },
-      { src: null, ratio: 0.9, caption: '' },
-      { src: null, ratio: 1.3, caption: '' },
-    ],
+    photos: [p('moments-01', 1), p('moments-02', 0.75), p('moments-03', 1.141)],
   },
 ]
 
-function Reveal({ children, delay = 0, style }) {
+const HERO_STACK = [
+  { src: '/personal/moments-01.jpg', x: -150, y: 30, r: -7 },
+  { src: '/personal/travel-02.jpg', x: 0, y: -10, r: 3 },
+  { src: '/personal/hobbies-04.jpg', x: 150, y: 50, r: 8 },
+]
+
+const subs = new Set()
+function useScrollLink(fn) {
+  const ref = useRef(fn)
+  ref.current = fn
+  useEffect(() => {
+    const cb = () => ref.current(window.scrollY, window.innerHeight)
+    subs.add(cb)
+    cb()
+    return () => { subs.delete(cb) }
+  }, [])
+}
+
+function Reveal({ children, delay = 0, from = 24, style }) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
   useEffect(() => {
@@ -79,8 +74,8 @@ function Reveal({ children, delay = 0, style }) {
   return (
     <div ref={ref} style={{
       opacity: visible ? 1 : 0,
-      transform: visible ? 'translateY(0)' : 'translateY(24px)',
-      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      transform: visible ? 'translateY(0) scale(1)' : `translateY(${from}px) scale(0.97)`,
+      transition: `opacity 0.8s ease ${delay}ms, transform 0.9s cubic-bezier(.22,1,.36,1) ${delay}ms`,
       ...style,
     }}>
       {children}
@@ -88,13 +83,13 @@ function Reveal({ children, delay = 0, style }) {
   )
 }
 
-function SectionHeader({ section }) {
+function SectionHeader({ section, index }) {
   return (
     <Reveal style={{ marginBottom: 36 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
         <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px rgba(250,204,21,0.8)' }} />
         <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: LABEL }}>
-          {section.label}
+          {String(index + 1).padStart(2, '0')} / {section.label}
         </span>
       </div>
       <TypedHeading
@@ -110,10 +105,21 @@ function SectionHeader({ section }) {
 
 function Tile({ photo, index, label, onOpen, gap }) {
   const [hover, setHover] = useState(false)
+  const imgRef = useRef(null)
+  const btnRef = useRef(null)
   const c = ACCENTS[index % ACCENTS.length]
+
+  useScrollLink((_, vh) => {
+    if (!imgRef.current || !btnRef.current) return
+    const r = btnRef.current.getBoundingClientRect()
+    const off = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh))
+    imgRef.current.style.transform = `translate3d(0, ${off * -6}%, 0) scale(1.14)`
+  })
+
   return (
-    <Reveal delay={(index % 3) * 80} style={{ breakInside: 'avoid', marginBottom: gap }}>
+    <Reveal delay={(index % 3) * 90} from={44} style={{ breakInside: 'avoid', marginBottom: gap }}>
       <button
+        ref={btnRef}
         onClick={onOpen}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -123,17 +129,21 @@ function Tile({ photo, index, label, onOpen, gap }) {
           borderRadius: 16, overflow: 'hidden', cursor: 'pointer', position: 'relative',
           aspectRatio: photo.ratio,
           background: photo.src ? '#fff' : `linear-gradient(135deg, ${c}40, ${c}0d)`,
-          boxShadow: hover ? '0 14px 34px rgba(0,0,0,0.12)' : '0 2px 10px rgba(0,0,0,0.04)',
-          transform: hover ? 'translateY(-3px)' : 'translateY(0)',
-          transition: 'transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s cubic-bezier(.22,1,.36,1)',
+          boxShadow: hover ? '0 14px 34px rgba(0,0,0,0.14)' : '0 2px 10px rgba(0,0,0,0.05)',
+          transition: 'box-shadow 0.4s cubic-bezier(.22,1,.36,1)',
         }}
       >
-        {photo.src ? (
-          <img src={photo.src} alt={photo.caption || ''} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-        ) : (
-          <span style={{ position: 'absolute', left: 14, bottom: 12, fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(23,23,23,0.35)' }}>
-            {label} {String(index + 1).padStart(2, '0')}
-          </span>
+        {photo.src && (
+          <img
+            ref={imgRef}
+            src={photo.src}
+            alt={photo.caption || ''}
+            loading="lazy"
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+              transform: 'scale(1.14)', transition: 'transform 0.6s cubic-bezier(.22,1,.36,1)', willChange: 'transform',
+            }}
+          />
         )}
         {photo.caption && (
           <span style={{
@@ -189,6 +199,7 @@ function Lightbox({ section, index, onClose, onStep }) {
         backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '64px clamp(12px, 6vw, 72px)',
+        animation: 'lbIn 0.35s cubic-bezier(.22,1,.36,1)',
       }}
     >
       <button
@@ -210,7 +221,7 @@ function Lightbox({ section, index, onClose, onStep }) {
 
       <div onClick={e => e.stopPropagation()} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, maxWidth: '100%', maxHeight: '100%' }}>
         {photo.src ? (
-          <img src={photo.src} alt={photo.caption || ''} style={{ maxWidth: '100%', maxHeight: 'calc(100vh - 170px)', borderRadius: 14, boxShadow: '0 20px 60px rgba(0,0,0,0.18)' }} />
+          <img key={photo.src} src={photo.src} alt={photo.caption || ''} style={{ maxWidth: '100%', maxHeight: 'calc(100vh - 170px)', borderRadius: 14, boxShadow: '0 20px 60px rgba(0,0,0,0.18)', animation: 'lbIn 0.35s cubic-bezier(.22,1,.36,1)' }} />
         ) : (
           <div style={{
             width: `min(80vw, calc((100vh - 170px) * ${photo.ratio}))`, aspectRatio: photo.ratio,
@@ -219,8 +230,8 @@ function Lightbox({ section, index, onClose, onStep }) {
           }} />
         )}
         <div style={{ fontSize: 13, color: MUTED, textAlign: 'center' }}>
-          {photo.caption || `${section.label} ${String(index + 1).padStart(2, '0')}`}
-          <span style={{ marginLeft: 10, color: 'rgba(23,23,23,0.35)' }}>{index + 1} / {section.photos.length}</span>
+          {photo.caption}
+          <span style={{ marginLeft: photo.caption ? 10 : 0, color: 'rgba(23,23,23,0.35)' }}>{index + 1} / {section.photos.length}</span>
         </div>
       </div>
     </div>
@@ -230,6 +241,11 @@ function Lightbox({ section, index, onClose, onStep }) {
 export default function PersonalPortfolio({ onBack }) {
   const isMobile = useIsMobile()
   const [open, setOpen] = useState(null)
+  const barRef = useRef(null)
+  const heroTextRef = useRef(null)
+  const stackRef = useRef(null)
+  const blobARef = useRef(null)
+  const blobBRef = useRef(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -239,12 +255,44 @@ export default function PersonalPortfolio({ onBack }) {
     const cursor = document.createElement('style')
     cursor.textContent = '* { cursor: auto !important; } button { cursor: pointer !important; }'
     document.head.appendChild(cursor)
+
+    let raf = null
+    const run = () => { raf = null; subs.forEach(f => f()) }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(run) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+
     return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf) cancelAnimationFrame(raf)
       document.documentElement.style.background = prev
       document.body.style.background = ''
       cursor.remove()
     }
   }, [])
+
+  useScrollLink((y, vh) => {
+    const doc = document.documentElement.scrollHeight - vh
+    if (barRef.current) barRef.current.style.transform = `scaleX(${doc > 0 ? Math.min(1, y / doc) : 0})`
+    const hp = Math.min(1, y / (vh * 0.7))
+    if (heroTextRef.current) {
+      heroTextRef.current.style.transform = `translate3d(0, ${y * 0.28}px, 0)`
+      heroTextRef.current.style.opacity = String(1 - hp * 0.85)
+    }
+    if (stackRef.current) {
+      const kids = stackRef.current.children
+      for (let i = 0; i < kids.length; i++) {
+        const s = HERO_STACK[i]
+        const spread = isMobile ? 0.55 : 1
+        kids[i].style.transform =
+          `translate3d(${s.x * spread * (1 + hp * 0.5)}px, ${s.y - hp * (60 + i * 30) + y * 0.05 * i}px, 0) rotate(${s.r * (1 + hp * 1.2)}deg) scale(${1 - hp * 0.12})`
+      }
+      stackRef.current.style.opacity = String(1 - hp * 0.7)
+    }
+    if (blobARef.current) blobARef.current.style.transform = `translate3d(0, ${y * -0.18}px, 0)`
+    if (blobBRef.current) blobBRef.current.style.transform = `translate3d(0, ${y * 0.12}px, 0)`
+  })
 
   const openSection = open ? SECTIONS.find(s => s.id === open.id) : null
   const step = (dir) => setOpen(o => {
@@ -255,18 +303,25 @@ export default function PersonalPortfolio({ onBack }) {
 
   const gap = isMobile ? 10 : 16
   const pad = isMobile ? '0 20px' : '0 64px'
+  const cardW = isMobile ? 150 : 220
+  const cardH = isMobile ? 200 : 290
 
   return (
     <div style={{
-      minHeight: '100vh', color: INK, background: BG,
-      backgroundImage: `
-        radial-gradient(ellipse 70% 40% at 15% 8%, rgba(250,204,21,0.16) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 35% at 85% 40%, rgba(96,165,250,0.10) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 30% at 20% 85%, rgba(251,146,60,0.10) 0%, transparent 60%),
-        radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)
-      `,
-      backgroundSize: 'auto, auto, auto, 28px 28px',
+      minHeight: '100vh', color: INK, background: BG, position: 'relative', overflow: 'hidden',
+      backgroundImage: 'radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)',
+      backgroundSize: '28px 28px',
     }}>
+      <style>{`@keyframes lbIn { from { opacity: 0; transform: scale(0.97) } to { opacity: 1; transform: scale(1) } }`}</style>
+
+      <div ref={blobARef} style={{ position: 'absolute', top: -120, left: -160, width: 620, height: 620, borderRadius: '50%', background: 'radial-gradient(circle, rgba(250,204,21,0.30), transparent 65%)', pointerEvents: 'none' }} />
+      <div ref={blobBRef} style={{ position: 'absolute', top: 700, right: -200, width: 640, height: 640, borderRadius: '50%', background: 'radial-gradient(circle, rgba(96,165,250,0.18), transparent 65%)', pointerEvents: 'none' }} />
+
+      <div ref={barRef} style={{
+        position: 'fixed', top: 0, left: 0, right: 0, height: 3, zIndex: 101,
+        background: 'linear-gradient(90deg, #facc15, #fb923c)', transformOrigin: 'left', transform: 'scaleX(0)',
+      }} />
+
       <header style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: 64,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24,
@@ -294,9 +349,13 @@ export default function PersonalPortfolio({ onBack }) {
         <ModeToggle mode="personal" onChange={() => onBack()} light compact={isMobile} />
       </header>
 
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: pad }}>
-        <section style={{ padding: isMobile ? '120px 0 56px' : '176px 0 96px' }}>
-          <Reveal>
+      <div style={{ maxWidth: 1320, margin: '0 auto', padding: pad, position: 'relative' }}>
+        <section style={{
+          minHeight: '100vh', display: 'flex', alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between',
+          gap: isMobile ? 40 : 64, padding: isMobile ? '110px 0 56px' : '96px 0 64px',
+        }}>
+          <div ref={heroTextRef} style={{ flex: 1, willChange: 'transform, opacity' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
               <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#facc15', boxShadow: '0 0 8px rgba(250,204,21,0.8)' }} />
               <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: LABEL }}>Personal</span>
@@ -308,7 +367,7 @@ export default function PersonalPortfolio({ onBack }) {
               suffixStyle={GRADIENT}
               style={{ fontSize: 'clamp(2.4rem,7vw,5.5rem)', fontWeight: 800, color: INK, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 22px' }}
             />
-            <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: 580 }}>
+            <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: 520 }}>
               Places I've been, what I do when I'm not shipping, and the people who make it worth it.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -326,16 +385,36 @@ export default function PersonalPortfolio({ onBack }) {
                 </button>
               ))}
             </div>
-          </Reveal>
+          </div>
+
+          <div style={{ position: 'relative', width: isMobile ? '100%' : 520, height: isMobile ? cardH + 60 : 440, flexShrink: 0 }}>
+            <div ref={stackRef} style={{ position: 'absolute', inset: 0, willChange: 'opacity' }}>
+              {HERO_STACK.map((s, i) => (
+                <img
+                  key={s.src}
+                  src={s.src}
+                  alt=""
+                  style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    width: cardW, height: cardH, marginLeft: -cardW / 2, marginTop: -cardH / 2,
+                    objectFit: 'cover', borderRadius: 16, border: '5px solid #fff',
+                    boxShadow: '0 18px 44px rgba(0,0,0,0.18)', zIndex: i === 1 ? 2 : 1,
+                    willChange: 'transform',
+                    transform: `translate3d(${s.x * (isMobile ? 0.55 : 1)}px, ${s.y}px, 0) rotate(${s.r}deg)`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </section>
 
-        {SECTIONS.map(section => (
+        {SECTIONS.map((section, si) => (
           <section key={section.id} id={section.id} style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
-            <SectionHeader section={section} />
+            <SectionHeader section={section} index={si} />
             <div style={{ columnCount: isMobile ? 2 : 3, columnGap: gap }}>
               {section.photos.map((photo, i) => (
                 <Tile
-                  key={i}
+                  key={photo.src}
                   photo={photo}
                   index={i}
                   label={section.label}
