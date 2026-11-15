@@ -2,6 +2,68 @@ import Anthropic from '@anthropic-ai/sdk'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+const N8N_BASE_URL = process.env.N8N_BASE_URL || 'https://n8n-production-0b2fc.up.railway.app'
+const WEBHOOK_HEADER_NAME = process.env.ROHBOT_WEBHOOK_HEADER_NAME || 'X-RohBot-Secret'
+const WEBHOOK_HEADER_VALUE = process.env.ROHBOT_WEBHOOK_HEADER_VALUE
+
+const TOOLS = [
+  {
+    name: 'check_availability',
+    description: "Check Rohan's calendar for open 30 minute call slots over the next two weeks, business hours, America/New_York. Always call this before offering the user specific times.",
+    input_schema: { type: 'object', properties: {}, required: [] },
+  },
+  {
+    name: 'book_call',
+    description: "Book a 30 minute call on Rohan's calendar. Only call this after check_availability has been called and the user picked one of the returned slots.",
+    input_schema: {
+      type: 'object',
+      properties: {
+        start: { type: 'string', description: 'ISO 8601 start datetime of the chosen slot, exactly as returned by check_availability' },
+        email: { type: 'string', description: "The user's email address, to send the calendar invite to" },
+        name: { type: 'string', description: "The user's name, if they gave it" },
+      },
+      required: ['start', 'email'],
+    },
+  },
+  {
+    name: 'send_email',
+    description: "Email the user Rohan's resume, or a copy of this chat transcript.",
+    input_schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', description: 'Recipient email address' },
+        type: { type: 'string', enum: ['resume', 'transcript'], description: 'Whether to send the resume or the chat transcript' },
+        transcript: { type: 'string', description: 'Full conversation transcript text, required when type is transcript' },
+      },
+      required: ['email', 'type'],
+    },
+  },
+]
+
+const TOOL_PATHS = {
+  check_availability: 'rohbot-check-availability',
+  book_call: 'rohbot-book-call',
+  send_email: 'rohbot-send-email',
+}
+
+async function callN8nTool(name, input) {
+  if (!WEBHOOK_HEADER_VALUE) {
+    return { error: 'Booking and email tools are not configured yet.' }
+  }
+  const res = await fetch(`${N8N_BASE_URL}/webhook/${TOOL_PATHS[name]}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      [WEBHOOK_HEADER_NAME]: WEBHOOK_HEADER_VALUE,
+    },
+    body: JSON.stringify(input || {}),
+  })
+  if (!res.ok) {
+    return { error: `Request failed with status ${res.status}` }
+  }
+  return res.json()
+}
+
 const SYSTEM = () => `You ARE Rohan Jauhari, speaking in first person on your own portfolio website. Answer as yourself ("I built", "I'm open to", "my experience"), never in the third person, never refer to "Rohan" as someone else.
 
 STYLE RULES (follow strictly):
@@ -12,18 +74,24 @@ STYLE RULES (follow strictly):
 - No bullet lists, no multi-paragraph answers unless someone explicitly asks for the full detail.
 - Never make something up. If you don't know, say so plainly and point them to email me at jauhari.r@northeastern.edu.
 
+CAPABILITIES:
+- You can actually check my calendar, book a real call, and email my resume or this transcript, using tools, not just talk about it.
+- If someone wants to schedule a call: call check_availability first, present 2 to 4 of the returned slots in plain language, then once they pick one and give their email, call book_call.
+- If someone wants the resume or this transcript emailed: ask for their email if they haven't given it, then call send_email with the right type.
+- Never claim you booked something or sent an email unless the corresponding tool actually returned success.
+
 TODAY'S DATE: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. Use this to judge whether events are past, present, or future, and use the correct tense. Things before today are done (I built, I worked, I graduated); things after today are upcoming (I'll start, I'm graduating). Never describe a past role as ongoing or a finished degree as in progress.
 
 ABOUT ROHAN:
-Rohan Jauhari is a Product Manager based in Boston, MA with 4+ years of experience building B2B SaaS products, AI systems, and data pipelines. He is currently pursuing an MS in Information Systems at Northeastern University (GPA 3.73, graduating Aug 2026) while open to full-time roles in Product Management, Product Analytics, and Product Operations — especially in AI, data, and SaaS.
+Rohan Jauhari is a Product Manager based in New York City with 4+ years of experience building B2B SaaS products, AI systems, and data pipelines. He is currently pursuing an MS in Information Systems at Northeastern University (GPA 3.76, graduating Aug 2026) while open to full-time roles in Product Management, Product Analytics, and Product Operations — especially in AI, data, and SaaS.
 
 EXPERIENCE:
 - McKinsey & Company — Product Analyst Intern (Aug 2025 – Dec 2025, Boston MA): Built Snowflake KPI pipelines + Power BI dashboards for 50+ features, redesigned AI agent data warehouse schemas (reduced SQL errors 40%), tracked engagement via Heap Analytics, automated Jira workflows saving ~85% operational effort.
 - Avo Automation — Product Engineer → Senior Product Engineer (Jan 2021 – Jun 2024, Bengaluru India): Drove 100% client expansion (JetBlue, Moody's, Church & Dwight), owned AI Enablement roadmap reducing manual effort 75%, introduced a patented feature cutting maintenance effort 90%, reduced churn 50%, built 50+ features contributing to 15% revenue growth.
-- Northeastern University — Graduate Research Assistant (Jan 2026 – Present): Research in AI-driven product systems and agentic workflows.
+- Northeastern University — Graduate Research Assistant (Jan 2026 – Aug 2026): Research in AI-driven product systems and agentic workflows. Built an agentic monitoring system pulling real-time data from 5+ Apple Watch sensors, reaching 85% accuracy predicting patient falls and hospitalizations.
 
 EDUCATION:
-- Northeastern University — MS Information Systems (Sep 2024 – Aug 2026), GPA 3.73, Boston MA
+- Northeastern University — MS Information Systems (Sep 2024 – Aug 2026), GPA 3.76, Boston MA
 - LNMIIT — BTech Computer Science (Jul 2017 – May 2021), Jaipur India
 
 SKILLS:
@@ -146,17 +214,45 @@ export default async function handler(req, res) {
   }
 
   try {
-    const stream = client.messages.stream({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 512,
-      system: SYSTEM(),
-      messages: recent,
-    })
+    let messages = recent
+    const MAX_TOOL_ROUNDS = 3
 
-    for await (const chunk of stream) {
-      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-        res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`)
+    for (let round = 0; round <= MAX_TOOL_ROUNDS; round++) {
+      const stream = client.messages.stream({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 512,
+        system: SYSTEM(),
+        messages,
+        tools: TOOLS,
+      })
+
+      for await (const chunk of stream) {
+        if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+          res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`)
+        }
       }
+
+      const finalMessage = await stream.finalMessage()
+
+      if (finalMessage.stop_reason !== 'tool_use' || round === MAX_TOOL_ROUNDS) break
+
+      const toolUseBlocks = finalMessage.content.filter(b => b.type === 'tool_use')
+      const toolResults = []
+      for (const block of toolUseBlocks) {
+        const result = await callN8nTool(block.name, block.input)
+        toolResults.push({
+          type: 'tool_result',
+          tool_use_id: block.id,
+          content: JSON.stringify(result),
+          is_error: !!result?.error,
+        })
+      }
+
+      messages = [
+        ...messages,
+        { role: 'assistant', content: finalMessage.content },
+        { role: 'user', content: toolResults },
+      ]
     }
 
     res.write('data: [DONE]\n\n')
