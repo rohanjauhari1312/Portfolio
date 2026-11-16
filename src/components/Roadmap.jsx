@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
-  { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
-  { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
-  { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
-  { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
-  { id: 'nu-ms',       company: 'Northeastern', logo: '/northeastern.png', color: '#ef4444' },
   { id: 'lnmiit',      company: 'LNMIIT',      logo: '/lnmiit.png',       color: '#60a5fa' },
+  { id: 'nu-ms',       company: 'Northeastern', logo: '/northeastern.png', color: '#ef4444' },
+  { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
+  { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
+  { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
+  { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
 ]
 
 const N = MILESTONES.length
@@ -176,13 +176,13 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #facc15, #ff3008, #1a73e8, #a855f7, #ef4444, #60a5fa)',
+                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #ff3008, #facc15)',
                 width: '100%',
-                clipPath: `inset(-6px 0 -6px ${progress * 100}%)`,
+                clipPath: `inset(-6px 0 -6px ${((0.5 + progress * (N - 1)) / N) * 100}%)`,
                 boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
               {MILESTONES.map((m, i) => {
-                const pos = (i / (N-1)) * 100
+                const pos = ((i + 0.5) / N) * 100
                 const reached = i >= activeIndex
                 const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
                 const size = 7 + 4 * prox
@@ -206,14 +206,14 @@ export default function Roadmap() {
             {/* Logos anchored directly below each dot */}
             <div style={{ position: 'relative', height: logoSize + 16, marginTop: 6 }}>
               {MILESTONES.map((m, i) => {
-                const pos = (i / (N-1)) * 100
+                const pos = ((i + 0.5) / N) * 100
                 const isActive = i === activeIndex
                 const isPast = i > activeIndex
                 const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
                 const baseOpacity = progress * (N - 1) <= i ? 0.55 : 0.2
                 const logoOpacity = baseOpacity + (1 - baseOpacity) * prox
                 // edge alignment: first left, last right, others center
-                const tx = i === 0 ? '0%' : i === N-1 ? '-100%' : '-50%'
+                const tx = '-50%'
                 return (
                   <div key={m.id} style={{
                     position: 'absolute',
@@ -221,7 +221,7 @@ export default function Roadmap() {
                     top: 0,
                     transform: `translateX(${tx})`,
                     display: 'flex', flexDirection: 'column',
-                    alignItems: i === 0 ? 'flex-start' : i === N-1 ? 'flex-end' : 'center',
+                    alignItems: 'center',
                     gap: 3,
                   }}>
                     {m.logo ? (
