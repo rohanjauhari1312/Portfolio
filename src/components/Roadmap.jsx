@@ -6,7 +6,6 @@ const MILESTONES = [
   { id: 'nu-ms',       company: 'Northeastern', logo: '/northeastern.png', color: '#ef4444' },
   { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
   { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
-  { id: 'nu-research', company: 'NU Research',  logo: '/northeastern.png', color: '#f97316' },
   { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
   { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
 ]
@@ -102,7 +101,7 @@ export default function Roadmap() {
         position: 'fixed',
         bottom: isMobile ? 14 : 24,
         left: 0,
-        right: isMobile ? 0 : 380,
+        right: isMobile ? 92 : 380,
         transform: `translateY(${show ? 0 : 60}px)`,
         opacity: show ? 1 : 0,
         transition: 'opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)',
