@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import useIsMobile from '../hooks/useIsMobile'
 
 const MILESTONES = [
-  { id: 'lnmiit',      company: 'LNMIIT',      logo: '/lnmiit.png',       color: '#60a5fa' },
+  { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
+  { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
+  { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
   { id: 'nu-ms',       company: 'Northeastern', logo: '/northeastern.png', color: '#ef4444' },
   { id: 'avo',         company: 'Avo',          logo: '/avo.jpeg',         color: '#a855f7' },
-  { id: 'mckinsey',    company: 'McKinsey',     logo: '/mckinsey.png',     color: '#1a73e8' },
-  { id: 'doordash',    company: 'DoorDash',     logo: '/doordash-logo.png', color: '#ff3008' },
-  { id: 'next',       company: 'Next',         logo: null,                color: '#facc15', future: true },
+  { id: 'lnmiit',      company: 'LNMIIT',      logo: '/lnmiit.png',       color: '#60a5fa' },
 ]
 
 const N = MILESTONES.length
@@ -176,7 +176,7 @@ export default function Roadmap() {
             }}>
               <div style={{
                 height: '100%', borderRadius: 999,
-                background: 'linear-gradient(to right, #60a5fa, #ef4444, #a855f7, #1a73e8, #ff3008, #facc15)',
+                background: 'linear-gradient(to right, #facc15, #ff3008, #1a73e8, #ef4444, #a855f7, #60a5fa)',
                 width: '100%',
                 clipPath: `inset(-6px 0 -6px ${((0.5 + progress * (N - 1)) / N) * 100}%)`,
                 boxShadow: `0 0 8px ${dynamicColor}80`,
