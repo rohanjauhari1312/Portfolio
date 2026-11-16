@@ -27,8 +27,7 @@ function getDynamicColor(progress) {
 
 export default function Roadmap() {
   const [show, setShow] = useState(false)
-  const [rawProgress, setProgress] = useState(0)
-  const progress = 1 - rawProgress
+  const [progress, setProgress] = useState(0)
   const isMobile = useIsMobile()
   const targetRef = useRef(0)
 
@@ -83,7 +82,7 @@ export default function Roadmap() {
     return () => { window.removeEventListener('scroll', onScroll); if (rafId) cancelAnimationFrame(rafId) }
   }, [])
 
-  const activeIndex = MILESTONES.reduce((acc, _, i) => progress >= i / (N-1) ? i : acc, 0)
+  const activeIndex = Math.min(N - 1, Math.ceil(progress * (N - 1) - 1e-6))
   const dynamicColor = getDynamicColor(progress)
   const activeMilestone = MILESTONES[activeIndex]
 
@@ -178,12 +177,13 @@ export default function Roadmap() {
               <div style={{
                 height: '100%', borderRadius: 999,
                 background: 'linear-gradient(to right, #facc15, #ff3008, #1a73e8, #a855f7, #ef4444, #60a5fa)',
-                width: `${progress * 100}%`,
+                width: '100%',
+                clipPath: `inset(-6px 0 -6px ${progress * 100}%)`,
                 boxShadow: `0 0 8px ${dynamicColor}80`,
               }} />
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N-1)) * 100
-                const reached = i <= activeIndex
+                const reached = i >= activeIndex
                 const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
                 const size = 7 + 4 * prox
                 return (
@@ -208,9 +208,9 @@ export default function Roadmap() {
               {MILESTONES.map((m, i) => {
                 const pos = (i / (N-1)) * 100
                 const isActive = i === activeIndex
-                const isPast = i < activeIndex
+                const isPast = i > activeIndex
                 const prox = Math.max(0, 1 - Math.abs(progress * (N - 1) - i))
-                const baseOpacity = progress * (N - 1) >= i ? 0.55 : 0.2
+                const baseOpacity = progress * (N - 1) <= i ? 0.55 : 0.2
                 const logoOpacity = baseOpacity + (1 - baseOpacity) * prox
                 // edge alignment: first left, last right, others center
                 const tx = i === 0 ? '0%' : i === N-1 ? '-100%' : '-50%'
