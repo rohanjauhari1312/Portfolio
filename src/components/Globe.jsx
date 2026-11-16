@@ -3,17 +3,14 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const RAD = Math.PI / 180
 
-const CAREER = '#a78bfa'
 const CONTINENT_COLORS = ['#facc15', '#4ade80', '#60a5fa', '#fb923c', '#a78bfa', '#2dd4bf']
 
 const PLACES = [
-  { name: 'New York City', lat: 40.73, lon: -73.99, photos: ['/personal/travel-03.jpg', '/personal/moments-01.jpg', '/personal/travel-02.jpg'],
-    career: [{ logo: '/doordash-logo.png', name: 'DoorDash' }] },
+  { name: 'New York City', lat: 40.73, lon: -73.99, photos: ['/personal/travel-03.jpg', '/personal/moments-01.jpg', '/personal/travel-02.jpg'] },
   { name: 'Washington, D.C.', lat: 38.89, lon: -77.035, photos: ['/personal/travel-01.jpg'] },
-  { name: 'Boston', lat: 42.36, lon: -71.05, photos: ['/personal/moments-03.jpg'],
-    career: [{ logo: '/northeastern.png', name: 'Northeastern' }, { logo: '/mckinsey.png', name: 'McKinsey' }] },
-  { name: 'Jaipur', lat: 26.91, lon: 75.79, career: [{ logo: '/lnmiit.png', name: 'LNMIIT' }] },
-  { name: 'Bangalore', lat: 12.97, lon: 77.59, career: [{ logo: '/avo.jpeg', name: 'Avo' }] },
+  { name: 'Boston', lat: 42.36, lon: -71.05, photos: ['/personal/moments-03.jpg'] },
+  { name: 'Jaipur', lat: 26.91, lon: 75.79 },
+  { name: 'Bangalore', lat: 12.97, lon: 77.59 },
   { name: 'New Jersey', lat: 40.1, lon: -74.5 },
   { name: 'Connecticut', lat: 41.6, lon: -72.7 },
   { name: 'Rhode Island', lat: 41.7, lon: -71.5 },
@@ -23,8 +20,6 @@ const PLACES = [
   { name: 'Georgia', lat: 32.7, lon: -83.4 },
   { name: 'Tennessee', lat: 35.8, lon: -86.4 },
 ]
-
-const ROUTE = ['Jaipur', 'Boston', 'Bangalore', 'Boston', 'New York City']
 
 function continent(lon, lat) {
   if (lat < -10 && lon > 110) return 5
@@ -199,25 +194,6 @@ export default function Globe({ onOpenPhoto }) {
         })
       }
 
-      ctx.strokeStyle = CAREER
-      ctx.lineWidth = 1.8
-      ctx.setLineDash([5, 4])
-      for (let i = 0; i < ROUTE.length - 1; i++) {
-        const a = PLACES.find(x => x.name === ROUTE[i]), b = PLACES.find(x => x.name === ROUTE[i + 1])
-        if (a.name === b.name) continue
-        const v = (l, o) => [Math.cos(o * RAD) * Math.cos(l * RAD), Math.cos(o * RAD) * Math.sin(l * RAD), Math.sin(o * RAD)]
-        const A = v(a.lon, a.lat), B = v(b.lon, b.lat)
-        const om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2])))
-        ctx.beginPath(); let pen = false
-        for (let t = 0; t <= 1.0001; t += 1 / 60) {
-          const k1 = Math.sin((1 - t) * om) / Math.sin(om), k2 = Math.sin(t * om) / Math.sin(om)
-          const x = k1 * A[0] + k2 * B[0], y = k1 * A[1] + k2 * B[1], z = k1 * A[2] + k2 * B[2]
-          const p = project(Math.atan2(y, x), Math.asin(z), c, R, cx, cy)
-          if (p.v > 0.02) { pen ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); pen = true } else pen = false
-        }
-        ctx.stroke()
-      }
-      ctx.setLineDash([])
       ctx.restore()
 
       PLACES.forEach((pl, i) => {
@@ -309,25 +285,10 @@ export default function Globe({ onOpenPhoto }) {
               transition: 'box-shadow 0.3s ease',
             } : {
               position: 'absolute', left: -5, top: -5, width: 10, height: 10, padding: 0,
-              borderRadius: '50%', border: '2px solid #fff', background: pl.career ? CAREER : '#f97316', cursor: 'pointer',
+              borderRadius: '50%', border: '2px solid #fff', background: '#f97316', cursor: 'pointer',
               boxShadow: '0 0 0 1px rgba(0,0,0,0.12)',
             }}
           />
-          {pl.career && (
-            <div style={{
-              position: 'absolute', left: 0, top: pl.photos ? -T / 2 - 34 : -36, transform: 'translateX(-50%)',
-              display: 'flex', gap: 3, pointerEvents: 'none',
-            }}>
-              {pl.career.map(cx => (
-                <span key={cx.name} style={{
-                  width: 26, height: 26, borderRadius: 7, background: '#fff', border: `2px solid ${CAREER}`,
-                  boxShadow: '0 3px 10px rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-                }}>
-                  <img src={cx.logo} alt={cx.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                </span>
-              ))}
-            </div>
-          )}
           {pl.photos && pl.photos.length > 1 && (
             <span style={{
               position: 'absolute', left: T / 2 - 10, top: -T / 2 - 6, minWidth: 18, height: 18, borderRadius: 9,
@@ -343,19 +304,10 @@ export default function Globe({ onOpenPhoto }) {
             background: 'rgba(255,255,255,0.88)', padding: '2px 8px', borderRadius: 6, pointerEvents: 'none',
             opacity: hover === i ? 1 : 0, transition: 'opacity 0.25s ease',
           }}>
-            {pl.career ? `${pl.name} · ${pl.career.map(x => x.name).join(' / ')}` : pl.name}
+            {pl.name}
           </span>
         </div>
       ))}
-
-      <div style={{ position: 'absolute', left: 14, bottom: 14, display: 'flex', gap: 12, zIndex: 4, fontSize: 11, fontWeight: 600, color: 'rgba(23,23,23,0.65)' }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f97316' }} />Travel
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: CAREER }} />Career
-        </span>
-      </div>
 
       <div style={{ position: 'absolute', right: 14, bottom: 14, display: 'flex', flexDirection: "column", gap: 6, zIndex: 4 }}>
         <button style={btn} onClick={() => zoom(1.6)} aria-label="Zoom in">+</button>

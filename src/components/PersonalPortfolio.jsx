@@ -43,6 +43,86 @@ const SECTIONS = [
   },
 ]
 
+const CYCLE_LINES = ['I travel.', 'I climb.', 'I dive.', 'I jump.']
+
+function CycleTyper({ lines, isMobile }) {
+  const [i, setI] = useState(0)
+  const [n, setN] = useState(0)
+  const [erasing, setErasing] = useState(false)
+  const [ready, setReady] = useState(false)
+  const text = lines[i]
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 1500)
+    return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    if (!ready) return
+    let t
+    if (!erasing && n < text.length) t = setTimeout(() => setN(n + 1), 80)
+    else if (!erasing) t = setTimeout(() => setErasing(true), 1600)
+    else if (n > 0) t = setTimeout(() => setN(n - 1), 40)
+    else { setErasing(false); setI((i + 1) % lines.length) }
+    return () => clearTimeout(t)
+  }, [ready, n, erasing, text, i, lines.length])
+
+  return (
+    <div style={{ minHeight: isMobile ? 40 : 52, marginBottom: 20, fontSize: isMobile ? 26 : 36, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+      <span style={GRADIENT}>{text.slice(0, n)}</span>
+      <span style={{
+        display: 'inline-block', width: 3, height: '0.85em', background: '#facc15', marginLeft: 3,
+        verticalAlign: 'middle', animation: 'typedBlink 1.06s step-end infinite',
+      }} />
+    </div>
+  )
+}
+
+const CAREER = [
+  { company: 'LNM Institute of Information Technology', logo: '/lnmiit.png', role: 'BTech, Computer Science', period: 'Jul 2017 – May 2021', location: 'Jaipur, India' },
+  { company: 'Avo Automation', logo: '/avo.jpeg', role: 'Product Intern to Sr Product Engineer', period: 'Jan 2021 – Jun 2024', location: 'Bengaluru, India' },
+  { company: 'Northeastern University', logo: '/northeastern.png', role: 'MS, Information Systems', period: 'Sep 2024 – Aug 2026', location: 'Boston, MA' },
+  { company: 'McKinsey & Company', logo: '/mckinsey.png', role: 'Product Analyst Intern, AI/ML Products', period: 'Aug 2025 – Dec 2025', location: 'Boston, MA' },
+  { company: 'Northeastern University', logo: '/northeastern.png', role: 'Research Assistant', period: 'Jan 2026 – Aug 2026', location: 'Boston, MA' },
+  { company: 'DoorDash', logo: '/doordash-logo.png', role: 'Sr Associate, Strategy & Operations', period: 'Nov 2026 – Present', location: 'New York, NY' },
+]
+
+const NAV = [...SECTIONS.map(s => ({ id: s.id, label: s.label })), { id: 'career', label: 'Career' }]
+
+function CareerTimeline({ isMobile }) {
+  return (
+    <div style={{ position: 'relative', maxWidth: 820 }}>
+      <div style={{ position: 'absolute', left: isMobile ? 35 : 39, top: 20, bottom: 20, width: 2, background: 'linear-gradient(to bottom, #facc15, #fb923c, #a78bfa)', opacity: 0.45 }} />
+      {CAREER.map((c, i) => {
+        const col = ACCENTS[i % ACCENTS.length]
+        const size = isMobile ? 56 : 64
+        return (
+          <Reveal key={c.company + c.period} delay={60} from={32} style={{ marginBottom: 14 }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: isMobile ? 14 : 20, position: 'relative',
+              padding: isMobile ? '12px 14px' : '14px 20px', borderRadius: 16,
+              background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(0,0,0,0.07)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+            }}>
+              <div style={{
+                width: size, height: size, flexShrink: 0, borderRadius: 14, background: '#fff', padding: 3, boxSizing: 'border-box',
+                border: `2px solid ${col}`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1,
+              }}>
+                <img src={c.logo} alt={c.company} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 10 }} />
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontSize: isMobile ? 15 : 17, fontWeight: 700, color: INK, letterSpacing: '-0.01em' }}>{c.company}</div>
+                <div style={{ fontSize: isMobile ? 13 : 14, color: MUTED, marginTop: 2 }}>{c.role}</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: LABEL, marginTop: 6 }}>{c.period} · {c.location}</div>
+              </div>
+            </div>
+          </Reveal>
+        )
+      })}
+    </div>
+  )
+}
+
 const HERO_STACK = [
   { src: '/personal/moments-01.jpg', x: -150, y: 30, r: -7 },
   { src: '/personal/travel-02.jpg', x: 0, y: -10, r: 3 },
@@ -99,7 +179,7 @@ function SectionHeader({ section, index }) {
         suffixStyle={GRADIENT}
         style={{ fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, color: INK, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 14px' }}
       />
-      <p style={{ fontSize: 16, color: MUTED, lineHeight: 1.7, margin: 0, maxWidth: 560 }}>{section.sub}</p>
+      {section.sub && <p style={{ fontSize: 16, color: MUTED, lineHeight: 1.7, margin: 0, maxWidth: 560 }}>{section.sub}</p>}
     </Reveal>
   )
 }
@@ -340,7 +420,7 @@ export default function PersonalPortfolio({ onBack }) {
           <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: '-0.01em' }}>Rohan Jauhari</span>
           {!isMobile && (
             <nav style={{ display: 'flex', gap: 28 }}>
-              {SECTIONS.map(s => (
+              {NAV.map(s => (
                 <a
                   key={s.id}
                   href={`#${s.id}`}
@@ -369,16 +449,21 @@ export default function PersonalPortfolio({ onBack }) {
             </div>
             <TypedHeading
               as="h1"
-              text="Life outside "
-              suffixText="work."
+              text="Rohan "
+              suffixText="Jauhari"
               suffixStyle={GRADIENT}
-              style={{ fontSize: 'clamp(2.4rem,7vw,5.5rem)', fontWeight: 800, color: INK, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 22px' }}
+              style={{ fontSize: 'clamp(2.4rem,7vw,5.5rem)', fontWeight: 800, color: INK, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 12px' }}
             />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f97316' }} />
+              <span style={{ fontSize: 15, fontWeight: 500, color: MUTED }}>New York City, USA</span>
+            </div>
+            <CycleTyper lines={CYCLE_LINES} isMobile={isMobile} />
             <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: 520 }}>
               Places I've been, what I do when I'm not shipping, and the people who make it worth it.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {SECTIONS.map(s => (
+              {NAV.map(s => (
                 <button
                   key={s.id}
                   onClick={() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' })}
@@ -433,6 +518,11 @@ export default function PersonalPortfolio({ onBack }) {
             </div>
           </section>
         ))}
+
+        <section id="career" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
+          <SectionHeader section={{ label: 'Career', heading: "Where I've ", suffix: 'worked.' }} index={SECTIONS.length} />
+          <CareerTimeline isMobile={isMobile} />
+        </section>
       </div>
 
       {open && <Lightbox section={openSection} index={open.i} onClose={close} onStep={step} />}
