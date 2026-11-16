@@ -31,7 +31,7 @@ const SECTIONS = [
     heading: 'Things I do ',
     suffix: 'for fun.',
     sub: "What fills the hours that aren't work.",
-    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228)],
+    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228), p('hobbies-05', 1.027)],
   },
   {
     id: 'moments',
@@ -43,57 +43,25 @@ const SECTIONS = [
   },
 ]
 
-const CYCLE_LINES = ['I travel.', 'I climb.', 'I dive.', 'I jump.']
-
-function CycleTyper({ lines, isMobile }) {
-  const [i, setI] = useState(0)
-  const [n, setN] = useState(0)
-  const [erasing, setErasing] = useState(false)
-  const [ready, setReady] = useState(false)
-  const text = lines[i]
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 1500)
-    return () => clearTimeout(t)
-  }, [])
-
-  useEffect(() => {
-    if (!ready) return
-    let t
-    if (!erasing && n < text.length) t = setTimeout(() => setN(n + 1), 80)
-    else if (!erasing) t = setTimeout(() => setErasing(true), 1600)
-    else if (n > 0) t = setTimeout(() => setN(n - 1), 40)
-    else { setErasing(false); setI((i + 1) % lines.length) }
-    return () => clearTimeout(t)
-  }, [ready, n, erasing, text, i, lines.length])
-
-  return (
-    <div style={{ minHeight: isMobile ? 40 : 52, marginBottom: 20, fontSize: isMobile ? 26 : 36, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-      <span style={GRADIENT}>{text.slice(0, n)}</span>
-      <span style={{
-        display: 'inline-block', width: 3, height: '0.85em', background: '#facc15', marginLeft: 3,
-        verticalAlign: 'middle', animation: 'typedBlink 1.06s step-end infinite',
-      }} />
-    </div>
-  )
-}
-
-const CAREER = [
-  { company: 'LNM Institute of Information Technology', logo: '/lnmiit.png', role: 'BTech, Computer Science', period: 'Jul 2017 – May 2021', location: 'Jaipur, India' },
-  { company: 'Avo Automation', logo: '/avo.jpeg', role: 'Product Intern to Sr Product Engineer', period: 'Jan 2021 – Jun 2024', location: 'Bengaluru, India' },
+const EDUCATION = [
   { company: 'Northeastern University', logo: '/northeastern.png', role: 'MS, Information Systems', period: 'Sep 2024 – Aug 2026', location: 'Boston, MA' },
-  { company: 'McKinsey & Company', logo: '/mckinsey.png', role: 'Product Analyst Intern, AI/ML Products', period: 'Aug 2025 – Dec 2025', location: 'Boston, MA' },
-  { company: 'Northeastern University', logo: '/northeastern.png', role: 'Research Assistant', period: 'Jan 2026 – Aug 2026', location: 'Boston, MA' },
-  { company: 'DoorDash', logo: '/doordash-logo.png', role: 'Sr Associate, Strategy & Operations', period: 'Nov 2026 – Present', location: 'New York, NY' },
+  { company: 'LNM Institute of Information Technology', logo: '/lnmiit.png', role: 'BTech, Computer Science', period: 'Jul 2017 – May 2021', location: 'Jaipur, India' },
 ]
 
-const NAV = [...SECTIONS.map(s => ({ id: s.id, label: s.label })), { id: 'career', label: 'Career' }]
+const WORK = [
+  { company: 'DoorDash', logo: '/doordash-logo.png', role: 'Sr Associate, Strategy & Operations', period: 'Nov 2026 – Present', location: 'New York, NY' },
+  { company: 'Northeastern University', logo: '/northeastern.png', role: 'Research Assistant', period: 'Jan 2026 – Aug 2026', location: 'Boston, MA' },
+  { company: 'McKinsey & Company', logo: '/mckinsey.png', role: 'Product Analyst Intern, AI/ML Products', period: 'Aug 2025 – Dec 2025', location: 'Boston, MA' },
+  { company: 'Avo Automation', logo: '/avo.jpeg', role: 'Product Intern to Sr Product Engineer', period: 'Jan 2021 – Jun 2024', location: 'Bengaluru, India' },
+]
 
-function CareerTimeline({ isMobile }) {
+const NAV = [...SECTIONS.map(s => ({ id: s.id, label: s.label })), { id: 'education', label: 'Education' }, { id: 'work', label: 'Work' }]
+
+function CareerTimeline({ items, isMobile }) {
   return (
     <div style={{ position: 'relative', maxWidth: 820 }}>
       <div style={{ position: 'absolute', left: isMobile ? 35 : 39, top: 20, bottom: 20, width: 2, background: 'linear-gradient(to bottom, #facc15, #fb923c, #a78bfa)', opacity: 0.45 }} />
-      {CAREER.map((c, i) => {
+      {items.map((c, i) => {
         const col = ACCENTS[i % ACCENTS.length]
         const size = isMobile ? 56 : 64
         return (
@@ -454,11 +422,10 @@ export default function PersonalPortfolio({ onBack }) {
               suffixStyle={GRADIENT}
               style={{ fontSize: 'clamp(2.4rem,7vw,5.5rem)', fontWeight: 800, color: INK, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 12px' }}
             />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f97316' }} />
               <span style={{ fontSize: 15, fontWeight: 500, color: MUTED }}>New York City, USA</span>
             </div>
-            <CycleTyper lines={CYCLE_LINES} isMobile={isMobile} />
             <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: 520 }}>
               Places I've been, what I do when I'm not shipping, and the people who make it worth it.
             </p>
@@ -519,9 +486,14 @@ export default function PersonalPortfolio({ onBack }) {
           </section>
         ))}
 
-        <section id="career" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
-          <SectionHeader section={{ label: 'Career', heading: "Where I've ", suffix: 'worked.' }} index={SECTIONS.length} />
-          <CareerTimeline isMobile={isMobile} />
+        <section id="education" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
+          <SectionHeader section={{ label: 'Education', heading: "Where I've ", suffix: 'studied.' }} index={SECTIONS.length} />
+          <CareerTimeline items={EDUCATION} isMobile={isMobile} />
+        </section>
+
+        <section id="work" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
+          <SectionHeader section={{ label: 'Work', heading: "Where I've ", suffix: 'worked.' }} index={SECTIONS.length + 1} />
+          <CareerTimeline items={WORK} isMobile={isMobile} />
         </section>
       </div>
 
