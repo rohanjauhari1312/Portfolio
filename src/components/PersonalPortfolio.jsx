@@ -31,7 +31,7 @@ const SECTIONS = [
     heading: 'Things I do ',
     suffix: 'for fun.',
     sub: "What fills the hours that aren't work.",
-    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228), p('hobbies-05', 1.027)],
+    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228), p('hobbies-05', 1.027), p('biking-01', 0.748), p('biking-02', 0.748), p('biking-03', 0.748), p('biking-04', 1.33), p('biking-05', 0.748)],
   },
   {
     id: 'moments',
