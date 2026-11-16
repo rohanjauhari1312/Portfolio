@@ -3,7 +3,7 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const RAD = Math.PI / 180
 
-const CONTINENT_COLORS = ['#facc15', '#4ade80', '#60a5fa', '#fb923c', '#a78bfa', '#2dd4bf']
+const LAND_COLOR = '#eab308'
 
 const PLACES = [
   { name: 'New York City', lat: 40.73, lon: -73.99, photos: ['/personal/travel-03.jpg', '/personal/moments-01.jpg', '/personal/travel-02.jpg'] },
@@ -113,8 +113,8 @@ export default function Globe({ onOpenPhoto }) {
   const canvasRef = useRef(null)
   const pinRefs = useRef([])
   const state = useRef({
-    cur: { lon: 70, lat: 18, z: 1 },
-    tgt: { lon: -76, lat: 30, z: 1 },
+    cur: { lon: 70, lat: 18, z: 2.4 },
+    tgt: { lon: -76, lat: 30, z: 2.4 },
     dots: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
   })
   const [hover, setHover] = useState(-1)
@@ -157,7 +157,7 @@ export default function Globe({ onOpenPhoto }) {
         canvas.width = w * dpr; canvas.height = h * dpr
       }
       const c = s.cur, t = s.tgt
-      if (!s.drag && !s.hovering && t.z <= 1.6) t.lon += 0.16
+      if (!s.drag && !s.hovering && t.z <= 3) t.lon += 0.4
       c.lon += (t.lon - c.lon) * 0.08
       c.lat += (t.lat - c.lat) * 0.08
       c.z += (t.z - c.z) * 0.08
@@ -197,8 +197,8 @@ export default function Globe({ onOpenPhoto }) {
 
       if (s.dots) {
         const r = Math.max(0.7, Math.min(2, R * 0.0048))
-        s.dots.forEach((d, k) => {
-          ctx.fillStyle = CONTINENT_COLORS[k]
+        s.dots.forEach(d => {
+          ctx.fillStyle = LAND_COLOR
           ctx.beginPath()
           for (let i = 0; i < d.length; i += 2) {
             const p = project(d[i], d[i + 1], c, R, cx, cy)
@@ -261,6 +261,7 @@ export default function Globe({ onOpenPhoto }) {
   }
 
   const T = 46
+  const T2 = 28
   const btn = {
     width: 34, height: 34, borderRadius: 10, border: '1px solid rgba(0,0,0,0.1)',
     background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)', cursor: 'pointer',
@@ -302,9 +303,11 @@ export default function Globe({ onOpenPhoto }) {
               boxShadow: hover === i ? '0 10px 26px rgba(0,0,0,0.28)' : '0 4px 14px rgba(0,0,0,0.22)',
               transition: 'box-shadow 0.3s ease',
             } : {
-              position: 'absolute', left: -5, top: -5, width: 10, height: 10, padding: 0,
-              borderRadius: '50%', border: '2px solid #fff', background: '#f97316', cursor: 'pointer',
-              boxShadow: '0 0 0 1px rgba(0,0,0,0.12)',
+              // placeholder thumbnail until a real photo is supplied for this place
+              position: 'absolute', left: -T2 / 2, top: -T2 / 2, width: T2, height: T2, padding: 0,
+              borderRadius: 9, border: '2px solid #fff', cursor: 'pointer',
+              background: 'linear-gradient(135deg, #fde68a, #fb923c)',
+              boxShadow: '0 3px 10px rgba(0,0,0,0.2)',
             }}
           />
           {pl.photos && pl.photos.length > 1 && (
@@ -317,7 +320,7 @@ export default function Globe({ onOpenPhoto }) {
             </span>
           )}
           <span style={{
-            position: 'absolute', left: 0, top: pl.photos ? T / 2 + 6 : 10, transform: 'translateX(-50%)',
+            position: 'absolute', left: 0, top: (pl.photos ? T : T2) / 2 + 6, transform: 'translateX(-50%)',
             whiteSpace: 'nowrap', fontSize: 11, fontWeight: 600, color: '#171717',
             background: 'rgba(255,255,255,0.88)', padding: '2px 8px', borderRadius: 6, pointerEvents: 'none',
             opacity: hover === i ? 1 : 0, transition: 'opacity 0.25s ease',
