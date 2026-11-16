@@ -92,7 +92,7 @@ const CONTACTS = [
 
 function ContactLinks({ isMobile }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 14, maxWidth: 820 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
       {CONTACTS.map(c => (
         <Reveal key={c.label} delay={60} from={32}>
           <a
@@ -112,7 +112,7 @@ function ContactLinks({ isMobile }) {
             </div>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: LABEL }}>{c.label}</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: INK, marginTop: 2, overflowWrap: 'anywhere' }}>{c.value}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: INK, marginTop: 2, whiteSpace: 'nowrap' }}>{c.value}</div>
             </div>
           </a>
         </Reveal>
@@ -490,24 +490,9 @@ export default function PersonalPortfolio({ onBack }) {
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f97316' }} />
               <span style={{ fontSize: 15, fontWeight: 500, color: MUTED }}>New York City, USA</span>
             </div>
-            <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: '0 0 32px', maxWidth: 520 }}>
+            <p style={{ fontSize: isMobile ? 16 : 18, color: MUTED, lineHeight: 1.7, margin: 0, maxWidth: 520 }}>
               Places I've been, what I do when I'm not shipping, and the people who make it worth it.
             </p>
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {NAV.map(s => (
-                <button
-                  key={s.id}
-                  onClick={() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' })}
-                  style={{
-                    padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600,
-                    background: 'rgba(255,255,255,0.6)', color: INK,
-                    border: '1px solid rgba(0,0,0,0.1)', backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
           </div>
 
           <div style={{ position: 'relative', width: isMobile ? '100%' : 520, height: isMobile ? cardH + 60 : 440, flexShrink: 0 }}>
