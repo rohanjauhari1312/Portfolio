@@ -65,8 +65,8 @@ const SOLOS = [
   ph('Mumbai', 19.08, 72.88, 'Mumbai'),
   ph('Ooty', 11.41, 76.7, 'Ooty'),
   ph('Gurugram', 28.46, 77.03, 'Gurugram'),
-  ph('Kerala', 10.5, 76.5), ph('Madhya Pradesh', 23.5, 78.5), ph('Chhattisgarh', 21.3, 81.8),
-  ph('Jharkhand', 23.6, 85.3), ph('West Bengal', 23.0, 87.9), ph('Punjab', 31.0, 75.3), ph('Jammu & Kashmir', 34.0, 74.8),
+  ph('Kerala', 10.5, 76.5), ph('Madhya Pradesh', 23.5, 78.5),
+  ph('Punjab', 31.0, 75.3), ph('Jammu & Kashmir', 34.0, 74.8),
 ]
 
 const resolve = t => (t && (t.startsWith('/') ? t : P(t)))
