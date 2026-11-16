@@ -3,10 +3,17 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const RAD = Math.PI / 180
 
+const CAREER = '#a78bfa'
+const CONTINENT_COLORS = ['#facc15', '#4ade80', '#60a5fa', '#fb923c', '#a78bfa', '#2dd4bf']
+
 const PLACES = [
-  { name: 'New York City', lat: 40.73, lon: -73.99, photos: ['/personal/travel-03.jpg', '/personal/moments-01.jpg', '/personal/travel-02.jpg'] },
+  { name: 'New York City', lat: 40.73, lon: -73.99, photos: ['/personal/travel-03.jpg', '/personal/moments-01.jpg', '/personal/travel-02.jpg'],
+    career: [{ logo: '/doordash-logo.png', name: 'DoorDash' }] },
   { name: 'Washington, D.C.', lat: 38.89, lon: -77.035, photos: ['/personal/travel-01.jpg'] },
-  { name: 'Boston', lat: 42.36, lon: -71.05, photos: ['/personal/moments-03.jpg'] },
+  { name: 'Boston', lat: 42.36, lon: -71.05, photos: ['/personal/moments-03.jpg'],
+    career: [{ logo: '/northeastern.png', name: 'Northeastern' }, { logo: '/mckinsey.png', name: 'McKinsey' }] },
+  { name: 'Jaipur', lat: 26.91, lon: 75.79, career: [{ logo: '/lnmiit.png', name: 'LNMIIT' }] },
+  { name: 'Bangalore', lat: 12.97, lon: 77.59, career: [{ logo: '/avo.jpeg', name: 'Avo' }] },
   { name: 'New Jersey', lat: 40.1, lon: -74.5 },
   { name: 'Connecticut', lat: 41.6, lon: -72.7 },
   { name: 'Rhode Island', lat: 41.7, lon: -71.5 },
@@ -16,6 +23,20 @@ const PLACES = [
   { name: 'Georgia', lat: 32.7, lon: -83.4 },
   { name: 'Tennessee', lat: 35.8, lon: -86.4 },
 ]
+
+const ROUTE = ['Jaipur', 'Boston', 'Bangalore', 'Boston', 'New York City']
+
+function continent(lon, lat) {
+  if (lat < -10 && lon > 110) return 5
+  if (lon >= 141 && lat < 0) return 5
+  if (lon < -25) return (lat >= 12 || lon < -83) ? 0 : 1
+  if (lat > 58 && lon < -10) return 0
+  if (lon <= 45 && lat >= 36 && !(lon > 26 && lat < 42)) return 2
+  if (lon >= -20 && lon < 34.5 && lat < 35.5) return 3
+  if (lon >= 34.5 && lon < 52 && lat < 12 && lat > -36) return 3
+  if (lon >= 25 && lon < 52 && lat <= -10) return 3
+  return 4
+}
 
 function decodeLand(topo) {
   const { scale, translate } = topo.transform
@@ -57,7 +78,7 @@ function landDots(polys, step) {
     p[0].forEach(([x, y]) => { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y })
     return [x0, x1, y0, y1]
   })
-  const out = []
+  const out = [[], [], [], [], [], []]
   for (let lat = -58; lat <= 84; lat += step) {
     const lonStep = step / Math.max(0.25, Math.cos(lat * RAD))
     for (let lon = -180; lon < 180; lon += lonStep) {
@@ -66,13 +87,13 @@ function landDots(polys, step) {
         if (lon < b[0] || lon > b[1] || lat < b[2] || lat > b[3]) continue
         const poly = polys[k]
         if (inRing(lon, lat, poly[0]) && !poly.slice(1).some(h => inRing(lon, lat, h))) {
-          out.push(lon * RAD, lat * RAD)
+          out[continent(lon, lat)].push(lon * RAD, lat * RAD)
           break
         }
       }
     }
   }
-  return new Float32Array(out)
+  return out.map(a => new Float32Array(a))
 }
 
 export default function Globe({ onOpenPhoto }) {
@@ -82,8 +103,8 @@ export default function Globe({ onOpenPhoto }) {
   const pinRefs = useRef([])
   const state = useRef({
     cur: { lon: 70, lat: 18, z: 1 },
-    tgt: { lon: -76, lat: 36, z: 2.3 },
-    dots: null, inView: false, drag: null, moved: 0,
+    tgt: { lon: -76, lat: 30, z: 1 },
+    dots: null, inView: false, drag: null, moved: 0, last: Date.now(),
   })
   const [hover, setHover] = useState(-1)
 
@@ -125,18 +146,19 @@ export default function Globe({ onOpenPhoto }) {
         canvas.width = w * dpr; canvas.height = h * dpr
       }
       const c = s.cur, t = s.tgt
+      if (!s.drag && t.z <= 1.6 && Date.now() - s.last > 3500) t.lon += 0.16
       c.lon += (t.lon - c.lon) * 0.08
       c.lat += (t.lat - c.lat) * 0.08
       c.z += (t.z - c.z) * 0.08
 
-      const R = Math.min(w, h) * 0.46 * c.z
+      const R = Math.min(w, h) * 0.43 * c.z
       const cx = w / 2, cy = h / 2
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       ctx.clearRect(0, 0, w, h)
 
       const g = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R)
-      g.addColorStop(0, '#ffffff')
-      g.addColorStop(1, '#efeadb')
+      g.addColorStop(0, '#f6fbff')
+      g.addColorStop(1, '#d9e8f6')
       ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2)
       ctx.fillStyle = g; ctx.fill()
       ctx.strokeStyle = 'rgba(0,0,0,0.09)'; ctx.lineWidth = 1; ctx.stroke()
@@ -163,18 +185,39 @@ export default function Globe({ onOpenPhoto }) {
       }
 
       if (s.dots) {
-        const d = s.dots
         const r = Math.max(0.7, Math.min(2, R * 0.0048))
-        ctx.fillStyle = '#cfc7b0'
-        ctx.beginPath()
-        for (let i = 0; i < d.length; i += 2) {
-          const p = project(d[i], d[i + 1], c, R, cx, cy)
-          if (p.v <= 0.02) continue
-          ctx.moveTo(p.x + r, p.y)
-          ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-        }
-        ctx.fill()
+        s.dots.forEach((d, k) => {
+          ctx.fillStyle = CONTINENT_COLORS[k]
+          ctx.beginPath()
+          for (let i = 0; i < d.length; i += 2) {
+            const p = project(d[i], d[i + 1], c, R, cx, cy)
+            if (p.v <= 0.02) continue
+            ctx.moveTo(p.x + r, p.y)
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+          }
+          ctx.fill()
+        })
       }
+
+      ctx.strokeStyle = CAREER
+      ctx.lineWidth = 1.8
+      ctx.setLineDash([5, 4])
+      for (let i = 0; i < ROUTE.length - 1; i++) {
+        const a = PLACES.find(x => x.name === ROUTE[i]), b = PLACES.find(x => x.name === ROUTE[i + 1])
+        if (a.name === b.name) continue
+        const v = (l, o) => [Math.cos(o * RAD) * Math.cos(l * RAD), Math.cos(o * RAD) * Math.sin(l * RAD), Math.sin(o * RAD)]
+        const A = v(a.lon, a.lat), B = v(b.lon, b.lat)
+        const om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2])))
+        ctx.beginPath(); let pen = false
+        for (let t = 0; t <= 1.0001; t += 1 / 60) {
+          const k1 = Math.sin((1 - t) * om) / Math.sin(om), k2 = Math.sin(t * om) / Math.sin(om)
+          const x = k1 * A[0] + k2 * B[0], y = k1 * A[1] + k2 * B[1], z = k1 * A[2] + k2 * B[2]
+          const p = project(Math.atan2(y, x), Math.asin(z), c, R, cx, cy)
+          if (p.v > 0.02) { pen ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); pen = true } else pen = false
+        }
+        ctx.stroke()
+      }
+      ctx.setLineDash([])
       ctx.restore()
 
       PLACES.forEach((pl, i) => {
@@ -182,7 +225,8 @@ export default function Globe({ onOpenPhoto }) {
         if (!el) return
         const p = project(pl.lon * RAD, pl.lat * RAD, c, R, cx, cy)
         const vis = Math.max(0, Math.min(1, (p.v - 0.05) / 0.2))
-        el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`
+        const k = Math.min(1, 0.6 + (c.z - 1) * 0.2)
+        el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${k})`
         el.style.opacity = vis
         el.style.pointerEvents = vis > 0.5 ? 'auto' : 'none'
       })
@@ -195,6 +239,7 @@ export default function Globe({ onOpenPhoto }) {
     const s = state.current
     s.drag = { x: e.clientX, y: e.clientY }
     s.moved = 0
+    s.last = Date.now()
   }
   const onMove = e => {
     const s = state.current
@@ -203,20 +248,22 @@ export default function Globe({ onOpenPhoto }) {
     s.drag = { x: e.clientX, y: e.clientY }
     s.moved += Math.abs(dx) + Math.abs(dy)
     if (s.moved > 6 && !e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.setPointerCapture(e.pointerId)
-    const deg = 57.3 / (Math.min(wrapRef.current.clientWidth, wrapRef.current.clientHeight) * 0.46 * s.cur.z)
+    const deg = 57.3 / (Math.min(wrapRef.current.clientWidth, wrapRef.current.clientHeight) * 0.43 * s.cur.z)
     s.tgt.lon = s.cur.lon = s.tgt.lon - dx * deg
     s.tgt.lat = s.cur.lat = Math.max(-80, Math.min(80, s.tgt.lat + dy * deg))
   }
-  const onUp = () => { state.current.drag = null }
+  const onUp = () => { state.current.drag = null; state.current.last = Date.now() }
 
   const zoom = f => {
     const t = state.current.tgt
+    state.current.last = Date.now()
     t.z = Math.max(1, Math.min(8, t.z * f))
   }
 
   const pick = pl => {
     if (state.current.moved > 6) return
     const t = state.current.tgt
+    state.current.last = Date.now()
     t.lon = pl.lon; t.lat = pl.lat; t.z = Math.max(t.z, 4.5)
     if (pl.photos) onOpenPhoto(pl.photos[0])
   }
@@ -236,7 +283,7 @@ export default function Globe({ onOpenPhoto }) {
       onPointerUp={onUp}
       onPointerCancel={onUp}
       style={{
-        position: 'relative', width: '100%', height: isMobile ? 380 : 560, marginBottom: isMobile ? 32 : 48,
+        position: 'relative', width: '100%', height: isMobile ? 320 : 400, marginBottom: isMobile ? 32 : 48,
         borderRadius: 20, overflow: 'hidden', touchAction: 'pan-y', cursor: 'grab',
         background: 'rgba(255,255,255,0.35)', border: '1px solid rgba(0,0,0,0.07)',
       }}
@@ -247,7 +294,7 @@ export default function Globe({ onOpenPhoto }) {
         <div
           key={pl.name}
           ref={el => { pinRefs.current[i] = el }}
-          style={{ position: 'absolute', left: 0, top: 0, willChange: 'transform, opacity', zIndex: pl.photos ? 3 : 2 }}
+          style={{ position: 'absolute', left: 0, top: 0, willChange: 'transform, opacity', zIndex: hover === i ? 10 : pl.photos ? 3 : 2 }}
         >
           <button
             onClick={() => pick(pl)}
@@ -262,10 +309,25 @@ export default function Globe({ onOpenPhoto }) {
               transition: 'box-shadow 0.3s ease',
             } : {
               position: 'absolute', left: -5, top: -5, width: 10, height: 10, padding: 0,
-              borderRadius: '50%', border: '2px solid #fff', background: '#f97316', cursor: 'pointer',
+              borderRadius: '50%', border: '2px solid #fff', background: pl.career ? CAREER : '#f97316', cursor: 'pointer',
               boxShadow: '0 0 0 1px rgba(0,0,0,0.12)',
             }}
           />
+          {pl.career && (
+            <div style={{
+              position: 'absolute', left: 0, top: pl.photos ? -T / 2 - 34 : -36, transform: 'translateX(-50%)',
+              display: 'flex', gap: 3, pointerEvents: 'none',
+            }}>
+              {pl.career.map(cx => (
+                <span key={cx.name} style={{
+                  width: 26, height: 26, borderRadius: 7, background: '#fff', border: `2px solid ${CAREER}`,
+                  boxShadow: '0 3px 10px rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+                }}>
+                  <img src={cx.logo} alt={cx.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </span>
+              ))}
+            </div>
+          )}
           {pl.photos && pl.photos.length > 1 && (
             <span style={{
               position: 'absolute', left: T / 2 - 10, top: -T / 2 - 6, minWidth: 18, height: 18, borderRadius: 9,
@@ -281,12 +343,21 @@ export default function Globe({ onOpenPhoto }) {
             background: 'rgba(255,255,255,0.88)', padding: '2px 8px', borderRadius: 6, pointerEvents: 'none',
             opacity: hover === i ? 1 : 0, transition: 'opacity 0.25s ease',
           }}>
-            {pl.name}
+            {pl.career ? `${pl.name} · ${pl.career.map(x => x.name).join(' / ')}` : pl.name}
           </span>
         </div>
       ))}
 
-      <div style={{ position: 'absolute', right: 14, bottom: 14, display: 'flex', flexDirection: 'column', gap: 6, zIndex: 4 }}>
+      <div style={{ position: 'absolute', left: 14, bottom: 14, display: 'flex', gap: 12, zIndex: 4, fontSize: 11, fontWeight: 600, color: 'rgba(23,23,23,0.65)' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f97316' }} />Travel
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: CAREER }} />Career
+        </span>
+      </div>
+
+      <div style={{ position: 'absolute', right: 14, bottom: 14, display: 'flex', flexDirection: "column", gap: 6, zIndex: 4 }}>
         <button style={btn} onClick={() => zoom(1.6)} aria-label="Zoom in">+</button>
         <button style={btn} onClick={() => zoom(1 / 1.6)} aria-label="Zoom out">&minus;</button>
       </div>
