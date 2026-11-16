@@ -31,7 +31,7 @@ const SECTIONS = [
     heading: 'Things I do ',
     suffix: 'for fun.',
     sub: "What fills the hours that aren't work.",
-    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228), p('hobbies-05', 1.027), p('biking-01', 0.748), p('biking-02', 0.748), p('biking-03', 0.748), p('biking-04', 1.33), p('biking-05', 0.748)],
+    photos: [p('hobbies-01', 0.75), p('hobbies-02', 1.626), p('hobbies-03', 1), p('hobbies-04', 1.228), p('hobbies-05', 1.027)],
   },
   {
     id: 'moments',
@@ -55,7 +55,71 @@ const WORK = [
   { company: 'Avo Automation', logo: '/avo.jpeg', role: 'Product Intern to Sr Product Engineer', period: 'Jan 2021 – Jun 2024', location: 'Bengaluru, India' },
 ]
 
-const NAV = [...SECTIONS.map(s => ({ id: s.id, label: s.label })), { id: 'education', label: 'Education' }, { id: 'work', label: 'Work' }]
+const NAV = [...SECTIONS.map(s => ({ id: s.id, label: s.label })), { id: 'education', label: 'Education' }, { id: 'work', label: 'Work' }, { id: 'contact', label: 'Contact' }]
+
+const svgProps = { viewBox: '0 0 24 24', width: 28, height: 28, fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' }
+const CONTACTS = [
+  {
+    label: 'Instagram', value: '@rohan_jauhari', href: 'https://www.instagram.com/rohan_jauhari/', color: '#e1306c',
+    icon: (
+      <svg {...svgProps}>
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4.2" />
+        <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    label: 'LinkedIn', value: 'rohanjauhari', href: 'https://www.linkedin.com/in/rohanjauhari/', color: '#0a66c2',
+    icon: (
+      <svg {...svgProps} fill="currentColor" stroke="none">
+        <rect x="3" y="9" width="4" height="12" rx="0.6" />
+        <circle cx="5" cy="5" r="2.2" />
+        <path d="M10 9h3.8v1.7c.6-1.1 2-2 3.9-2 3.6 0 4.3 2.3 4.3 5.3V21h-4v-6.1c0-1.5-.1-2.9-1.9-2.9s-2.1 1.4-2.1 2.8V21H10z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Email', value: 'rohanjauhari13@gmail.com', href: 'mailto:rohanjauhari13@gmail.com', color: '#fb923c',
+    icon: (
+      <svg {...svgProps}>
+        <rect x="3" y="5" width="18" height="14" rx="3" />
+        <path d="M3.5 7.5l8.5 6 8.5-6" />
+      </svg>
+    ),
+  },
+]
+
+function ContactLinks({ isMobile }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 14, maxWidth: 820 }}>
+      {CONTACTS.map(c => (
+        <Reveal key={c.label} delay={60} from={32}>
+          <a
+            href={c.href}
+            target={c.href.startsWith('mailto') ? undefined : '_blank'}
+            rel="noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', borderRadius: 16, textDecoration: 'none',
+              background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(0,0,0,0.07)', boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+            }}
+          >
+            <div style={{
+              width: 56, height: 56, flexShrink: 0, borderRadius: 14, background: '#fff', boxSizing: 'border-box',
+              border: `2px solid ${c.color}`, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              {c.icon}
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: LABEL }}>{c.label}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: INK, marginTop: 2, overflowWrap: 'anywhere' }}>{c.value}</div>
+            </div>
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  )
+}
 
 function CareerTimeline({ items, isMobile }) {
   return (
@@ -494,6 +558,11 @@ export default function PersonalPortfolio({ onBack }) {
         <section id="work" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
           <SectionHeader section={{ label: 'Work', heading: "Where I've ", suffix: 'worked.' }} index={SECTIONS.length + 1} />
           <CareerTimeline items={WORK} isMobile={isMobile} />
+        </section>
+
+        <section id="contact" style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
+          <SectionHeader section={{ label: 'Contact', heading: 'Say ', suffix: 'hello.' }} index={SECTIONS.length + 2} />
+          <ContactLinks isMobile={isMobile} />
         </section>
       </div>
 
