@@ -11,6 +11,22 @@ const PLACES = [
   { name: 'Boston', lat: 42.36, lon: -71.05, photos: ['/personal/moments-03.jpg'] },
   { name: 'Jaipur', lat: 26.91, lon: 75.79 },
   { name: 'Bangalore', lat: 12.97, lon: 77.59 },
+  { name: 'Gujarat', lat: 22.7, lon: 71.6 },
+  { name: 'Maharashtra', lat: 19.5, lon: 76.0 },
+  { name: 'Goa', lat: 15.3, lon: 74.1 },
+  { name: 'Kerala', lat: 10.5, lon: 76.5 },
+  { name: 'Tamil Nadu', lat: 11.1, lon: 78.4 },
+  { name: 'Madhya Pradesh', lat: 23.5, lon: 78.5 },
+  { name: 'Chhattisgarh', lat: 21.3, lon: 81.8 },
+  { name: 'Jharkhand', lat: 23.6, lon: 85.3 },
+  { name: 'West Bengal', lat: 23.0, lon: 87.9 },
+  { name: 'Uttar Pradesh', lat: 26.8, lon: 80.9 },
+  { name: 'Delhi', lat: 28.61, lon: 77.21 },
+  { name: 'Haryana', lat: 29.1, lon: 76.1 },
+  { name: 'Punjab', lat: 31.0, lon: 75.3 },
+  { name: 'Jammu & Kashmir', lat: 34.0, lon: 74.8 },
+  { name: 'Buran Ghati', lat: 31.3, lon: 77.95 },
+  { name: 'Chandrashila', lat: 30.49, lon: 79.21 },
   { name: 'New Jersey', lat: 40.1, lon: -74.5 },
   { name: 'Connecticut', lat: 41.6, lon: -72.7 },
   { name: 'Rhode Island', lat: 41.7, lon: -71.5 },
@@ -99,7 +115,7 @@ export default function Globe({ onOpenPhoto }) {
   const state = useRef({
     cur: { lon: 70, lat: 18, z: 1 },
     tgt: { lon: -76, lat: 30, z: 1 },
-    dots: null, inView: false, drag: null, moved: 0, last: Date.now(),
+    dots: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
   })
   const [hover, setHover] = useState(-1)
 
@@ -141,7 +157,7 @@ export default function Globe({ onOpenPhoto }) {
         canvas.width = w * dpr; canvas.height = h * dpr
       }
       const c = s.cur, t = s.tgt
-      if (!s.drag && t.z <= 1.6 && Date.now() - s.last > 3500) t.lon += 0.16
+      if (!s.drag && !s.hovering && t.z <= 1.6) t.lon += 0.16
       c.lon += (t.lon - c.lon) * 0.08
       c.lat += (t.lat - c.lat) * 0.08
       c.z += (t.z - c.z) * 0.08
@@ -254,6 +270,8 @@ export default function Globe({ onOpenPhoto }) {
   return (
     <div
       ref={wrapRef}
+      onMouseEnter={() => { state.current.hovering = true }}
+      onMouseLeave={() => { state.current.hovering = false }}
       onPointerDown={onDown}
       onPointerMove={onMove}
       onPointerUp={onUp}
