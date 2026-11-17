@@ -519,7 +519,12 @@ export default function PersonalPortfolio({ onBack }) {
         {SECTIONS.map((section, si) => (
           <section key={section.id} id={section.id} style={{ padding: isMobile ? '24px 0 56px' : '40px 0 96px' }}>
             <SectionHeader section={section} index={si} />
-            {section.id === 'travel' && <Globe onOpenPhoto={openBySrc} />}
+            {section.id === 'travel' && (
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: isMobile ? 32 : 48 }}>
+                <Globe region="us" onOpenPhoto={openBySrc} />
+                <Globe region="india" onOpenPhoto={openBySrc} />
+              </div>
+            )}
             {section.id !== 'travel' && <div style={{ columnCount: isMobile ? 2 : 3, columnGap: gap }}>
               {section.photos.map((photo, i) => (
                 <Tile

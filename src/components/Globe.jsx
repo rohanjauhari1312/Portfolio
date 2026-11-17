@@ -74,16 +74,39 @@ const SOLOS = [
 
 const resolve = t => (t && (t.startsWith('/') ? t : P(t)))
 
-const ITEMS = []
-SOLOS.forEach(p => ITEMS.push({ ...p, thumb: p.thumb, kind: 'solo', rank: p.photos ? 0 : 1 }))
-GROUPS.forEach(g => {
-  const gi = ITEMS.length
-  ITEMS.push({ name: g.name, lat: g.lat, lon: g.lon, thumb: resolve(g.cover), photos: g.photos, kind: 'group', n: g.places.length, rank: g.photos ? 0 : 1, childThumbs: g.places.map(p => p.thumb).filter(t => t && t !== resolve(g.cover)) })
-  g.places.forEach(p => ITEMS.push({ ...p, kind: 'child', parent: gi, rank: p.photos ? 0 : 2 }))
-})
-const ORDER = ITEMS.map((_, i) => i).sort((a, b) => ITEMS[a].rank - ITEMS[b].rank)
+const REGIONS = {
+  us: {
+    label: 'United States', center: { lon: -96, lat: 38 }, fitW: 0.5, fitH: 0.32,
+    box: { lonLo: -128, lonHi: -65, latLo: 24, latHi: 50 },
+    pan: { lonLo: -125, lonHi: -67, latLo: 25, latHi: 48 },
+  },
+  india: {
+    label: 'India', center: { lon: 80, lat: 22 }, fitW: 0.37, fitH: 0.3,
+    box: { lonLo: 66, lonHi: 99, latLo: 5, latHi: 38 },
+    pan: { lonLo: 70, lonHi: 95, latLo: 8, latHi: 34 },
+  },
+}
 
-const EXPAND_Z = 3.6
+const inBox = (b, o) => o.lat >= b.latLo && o.lat <= b.latHi && o.lon >= b.lonLo && o.lon <= b.lonHi
+
+function buildSet(box) {
+  const items = []
+  SOLOS.filter(p => inBox(box, p)).forEach(p => items.push({ ...p, kind: 'solo', rank: p.photos ? 0 : 1 }))
+  GROUPS.filter(g => inBox(box, g)).forEach(g => {
+    const gi = items.length
+    items.push({ name: g.name, lat: g.lat, lon: g.lon, thumb: resolve(g.cover), photos: g.photos, kind: 'group', n: g.places.length, rank: g.photos ? 0 : 1, childThumbs: g.places.map(p => p.thumb).filter(t => t && t !== resolve(g.cover)) })
+    g.places.forEach(p => items.push({ ...p, kind: 'child', parent: gi, rank: p.photos ? 0 : 2 }))
+  })
+  const order = items.map((_, i) => i).sort((a, b) => items[a].rank - items[b].rank)
+  return { items, order }
+}
+const SETS = { us: buildSet(REGIONS.us.box), india: buildSet(REGIONS.india.box) }
+
+let dataP
+const loadData = () => dataP || (dataP = Promise.all([
+  fetch('/land-50m.json').then(r => r.json()).then(t => buildMask(decodeLand(t))),
+  fetch('/borders.json').then(r => r.json()),
+]))
 
 function decodeLand(topo) {
   const { scale, translate } = topo.transform
@@ -143,8 +166,10 @@ const slidesOf = it => {
   return it.photos || it.slides || (it.thumb ? [it.thumb] : [])
 }
 
-export default function Globe({ onOpenPhoto }) {
+export default function Globe({ onOpenPhoto, region }) {
   const isMobile = useIsMobile()
+  const R0 = REGIONS[region]
+  const { items: ITEMS, order: ORDER } = SETS[region]
   const wrapRef = useRef(null)
   const canvasRef = useRef(null)
   const pinRefs = useRef([])
@@ -152,24 +177,22 @@ export default function Globe({ onOpenPhoto }) {
   const popRef = useRef(null)
   const hoverRef = useRef(-1)
   const state = useRef({
-    cur: { lon: 70, lat: 18, z: 2.4 },
-    tgt: { lon: -76, lat: 30, z: 2.4 },
-    mask: null, borders: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
+    cur: { ...R0.center, z: 3 },
+    tgt: { ...R0.center, z: 3 },
+    z0: 0, mask: null, borders: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
   })
   const [hover, setHover] = useState(-1)
   const [slide, setSlide] = useState(0)
 
   useEffect(() => {
     let dead = false
-    fetch('/land-50m.json').then(r => r.json()).then(t => {
+    loadData().then(([mask, b]) => {
       if (dead) return
-      state.current.mask = buildMask(decodeLand(t))
-    })
-    fetch('/borders.json').then(r => r.json()).then(b => {
-      if (dead) return
+      const bx = R0.box
+      state.current.mask = mask
       state.current.borders = {
-        lines: b.lines.map(l => Float32Array.from(l, (v, i) => v * RAD)),
-        names: b.names.map(([n, lo, la]) => [n.toUpperCase(), lo * RAD, la * RAD]),
+        lines: b.lines.filter(l => inBox(bx, { lon: l[0], lat: l[1] })).map(l => Float32Array.from(l, v => v * RAD)),
+        names: b.names.filter(([, lo, la]) => inBox(bx, { lon: lo, lat: la })).map(([n, lo, la]) => [n.toUpperCase(), lo * RAD, la * RAD]),
       }
     })
     return () => { dead = true }
@@ -212,7 +235,12 @@ export default function Globe({ onOpenPhoto }) {
         canvas.width = w * dpr; canvas.height = h * dpr
       }
       const c = s.cur, t = s.tgt
-      if (!s.drag && !s.hovering && t.z <= 3) t.lon += 0.4
+      if (!s.z0) {
+        const base = Math.min(w, h) * 0.43
+        s.z0 = Math.max(w / 2 / (R0.fitW * base), h / 2 / (R0.fitH * base))
+        c.z = t.z = s.z0
+      }
+      const z0 = s.z0
       c.lon += (t.lon - c.lon) * 0.08
       c.lat += (t.lat - c.lat) * 0.08
       c.z += (t.z - c.z) * 0.08
@@ -283,10 +311,9 @@ export default function Globe({ onOpenPhoto }) {
         ctx.fill()
       }
 
-      if (s.borders && c.z > 2.6) {
-        const a = Math.min(1, (c.z - 2.6) / 1.2)
+      if (s.borders) {
         const spL = Math.sin(c.lat * RAD), cpL = Math.cos(c.lat * RAD), cLon = c.lon * RAD
-        ctx.strokeStyle = `rgba(120,53,15,${0.55 * a})`
+        ctx.strokeStyle = 'rgba(120,53,15,0.55)'
         ctx.lineWidth = Math.min(1.3, 0.6 + c.z * 0.04)
         ctx.beginPath()
         s.borders.lines.forEach(ln => {
@@ -301,7 +328,7 @@ export default function Globe({ onOpenPhoto }) {
         })
         ctx.stroke()
 
-        const na = Math.min(1, (c.z - 3) / 1) * Math.max(0, Math.min(1, (13 - c.z) / 3))
+        const na = Math.max(0, Math.min(1, (z0 * 4 - c.z) / z0))
         if (na > 0.02) {
           ctx.font = '600 10px system-ui, sans-serif'
           ctx.textAlign = 'center'
@@ -317,9 +344,9 @@ export default function Globe({ onOpenPhoto }) {
       ctx.restore()
 
       const k = Math.min(1, 0.6 + (c.z - 1) * 0.2)
-      const gf = Math.max(0, Math.min(1, (EXPAND_Z + 0.4 - c.z) / 0.8))
+      const gf = Math.max(0, Math.min(1, (z0 * 1.6 + 0.4 - c.z) / 0.8))
       const gap = 32 * k
-      const labelsOn = c.z >= 6
+      const labelsOn = c.z >= z0 * 2.2
       const placed = []
       const shown = new Array(ITEMS.length).fill(null)
       ORDER.forEach(i => {
@@ -385,15 +412,16 @@ export default function Globe({ onOpenPhoto }) {
     s.moved += Math.abs(dx) + Math.abs(dy)
     if (s.moved > 6 && !e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.setPointerCapture(e.pointerId)
     const deg = 57.3 / (Math.min(wrapRef.current.clientWidth, wrapRef.current.clientHeight) * 0.43 * s.cur.z)
-    s.tgt.lon = s.cur.lon = s.tgt.lon - dx * deg
-    s.tgt.lat = s.cur.lat = Math.max(-80, Math.min(80, s.tgt.lat + dy * deg))
+    const pn = R0.pan
+    s.tgt.lon = s.cur.lon = Math.max(pn.lonLo, Math.min(pn.lonHi, s.tgt.lon - dx * deg))
+    s.tgt.lat = s.cur.lat = Math.max(pn.latLo, Math.min(pn.latHi, s.tgt.lat + dy * deg))
   }
   const onUp = () => { state.current.drag = null; state.current.last = Date.now() }
 
   const zoom = f => {
     const t = state.current.tgt
     state.current.last = Date.now()
-    t.z = Math.max(1, Math.min(40, t.z * f))
+    t.z = Math.max(state.current.z0 || 1, Math.min(40, t.z * f))
   }
 
   const pick = pl => {
@@ -420,12 +448,16 @@ export default function Globe({ onOpenPhoto }) {
       onPointerUp={onUp}
       onPointerCancel={onUp}
       style={{
-        position: 'relative', width: '100%', height: isMobile ? 320 : 400, marginBottom: isMobile ? 32 : 48,
+        position: 'relative', width: '100%', height: isMobile ? 320 : 400,
         borderRadius: 20, overflow: 'hidden', touchAction: 'pan-y', cursor: 'grab',
         background: 'rgba(255,255,255,0.35)', border: '1px solid rgba(0,0,0,0.07)',
       }}
     >
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />
+      <span style={{
+        position: 'absolute', left: 14, top: 14, zIndex: 4, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em',
+        textTransform: 'uppercase', color: '#171717', background: 'rgba(255,255,255,0.8)', padding: '4px 10px', borderRadius: 8, pointerEvents: 'none',
+      }}>{R0.label}</span>
 
       {ITEMS.map((pl, i) => {
         const big = !!pl.photos
