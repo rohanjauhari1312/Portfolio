@@ -6,32 +6,35 @@ const RAD = Math.PI / 180
 const LAND_COLOR = '#eab308'
 
 const P = n => `/personal/places/${n}.jpg`
-const ph = (name, lat, lon, thumb) => ({ name, lat, lon, thumb: thumb && P(thumb) })
+const ph = (name, lat, lon, thumb, n = 1) => ({
+  name, lat, lon, thumb: thumb && P(thumb),
+  slides: thumb ? Array.from({ length: n }, (_, i) => P(i ? `${thumb}-${i + 1}` : thumb)) : [],
+})
 
 // groups with several places collapse to one thumbnail until you zoom in
 const GROUPS = [
   { name: 'Massachusetts', lat: 42.3, lon: -71.4, cover: '/personal/moments-03.jpg', photos: ['/personal/moments-03.jpg'], places: [
-    { name: 'Boston', lat: 42.36, lon: -71.06, thumb: '/personal/moments-03.jpg', photos: ['/personal/moments-03.jpg'] },
-    ph('Cambridge', 42.37, -71.11, 'Cambridge'), ph('Somerville', 42.39, -71.1, 'Somerville'), ph('Watertown', 42.37, -71.18, 'Watertown'),
-    ph('Stoneham', 42.48, -71.1, 'Stoneham'), ph('Salem', 42.52, -70.9, 'Salem'), ph('Nahant', 42.43, -70.92, 'Nahant'),
-    ph('Wrentham', 42.07, -71.33, 'Wrentham'), ph('Sharon', 42.12, -71.18, 'Sharon'),
+    { name: 'Boston', lat: 42.36, lon: -71.06, thumb: '/personal/moments-03.jpg', photos: ['/personal/moments-03.jpg'], slides: ['/personal/moments-03.jpg', P('Boston-2'), P('Boston-3'), P('Boston-4')] },
+    ph('Cambridge', 42.37, -71.11, 'Cambridge'), ph('Somerville', 42.39, -71.1, 'Somerville', 4), ph('Watertown', 42.37, -71.18, 'Watertown', 4),
+    ph('Stoneham', 42.48, -71.1, 'Stoneham', 4), ph('Salem', 42.52, -70.9, 'Salem', 4), ph('Nahant', 42.43, -70.92, 'Nahant', 4),
+    ph('Wrentham', 42.07, -71.33, 'Wrentham', 3), ph('Sharon', 42.12, -71.18, 'Sharon'),
   ] },
   { name: 'New Hampshire', lat: 43.6, lon: -71.4, cover: 'Gilford', places: [
-    ph('Gilford', 43.55, -71.41, 'Gilford'), ph('Laconia', 43.53, -71.47, 'Laconia'), ph('Alton', 43.45, -71.22, 'Alton'),
+    ph('Gilford', 43.55, -71.41, 'Gilford', 4), ph('Laconia', 43.53, -71.47, 'Laconia', 4), ph('Alton', 43.45, -71.22, 'Alton', 4),
   ] },
   { name: 'Maine', lat: 44.0, lon: -70.4, cover: 'Ogunquit', places: [
-    ph('Ogunquit', 43.25, -70.6, 'Ogunquit'), ph('Auburn', 44.1, -70.23, 'Auburn'),
+    ph('Ogunquit', 43.25, -70.6, 'Ogunquit', 4), ph('Auburn', 44.1, -70.23, 'Auburn'),
   ] },
   { name: 'Connecticut', lat: 41.6, lon: -72.5, cover: 'Willington', places: [
-    ph('Willington', 41.89, -72.26, 'Willington'), ph('Tolland', 41.87, -72.37, 'Tolland'), ph('Stonington', 41.34, -71.91, 'Stonington'),
+    ph('Willington', 41.89, -72.26, 'Willington', 4), ph('Tolland', 41.87, -72.37, 'Tolland', 4), ph('Stonington', 41.34, -71.91, 'Stonington', 4),
   ] },
   { name: 'New Jersey', lat: 40.5, lon: -74.4, cover: 'JerseyCity', places: [
-    ph('Jersey City', 40.73, -74.06, 'JerseyCity'), ph('Hoboken', 40.74, -74.03, 'Hoboken'), ph('Secaucus', 40.79, -74.06, 'Secaucus'),
-    ph('Kearny', 40.77, -74.12, 'Kearny'), ph('Newark', 40.74, -74.17, 'Newark'), ph('Robbinsville', 40.22, -74.6, 'Robbinsville'),
+    ph('Jersey City', 40.73, -74.06, 'JerseyCity', 4), ph('Hoboken', 40.74, -74.03, 'Hoboken', 4), ph('Secaucus', 40.79, -74.06, 'Secaucus', 4),
+    ph('Kearny', 40.77, -74.12, 'Kearny', 4), ph('Newark', 40.74, -74.17, 'Newark'), ph('Robbinsville', 40.22, -74.6, 'Robbinsville', 4),
   ] },
   { name: 'Gujarat', lat: 22.6, lon: 72.4, cover: 'Ahmedabad', places: [
-    ph('Ahmedabad', 23.02, 72.57, 'Ahmedabad'), ph('Gandhinagar', 23.22, 72.65, 'Gandhinagar'), ph('Raysan', 23.19, 72.64, 'Raysan'),
-    ph('Nadiad', 22.69, 72.86, 'Nadiad'), ph('Saputara', 20.58, 73.75, 'Saputara'), ph('Diu', 20.71, 70.99, 'Diu'),
+    ph('Ahmedabad', 23.02, 72.57, 'Ahmedabad', 4), ph('Gandhinagar', 23.22, 72.65, 'Gandhinagar'), ph('Raysan', 23.19, 72.64, 'Raysan'),
+    ph('Nadiad', 22.69, 72.86, 'Nadiad'), ph('Saputara', 20.58, 73.75, 'Saputara', 4), ph('Diu', 20.71, 70.99, 'Diu'),
   ] },
   { name: 'Rajasthan', lat: 26.0, lon: 74.0, cover: 'Jaipur', places: [
     ph('Jaipur', 26.91, 75.79, 'Jaipur'), ph('Udaipur', 24.58, 73.68, 'Udaipur'), ph('Abu Road', 24.48, 72.78, 'Aburaj'),
@@ -75,24 +78,12 @@ const ITEMS = []
 SOLOS.forEach(p => ITEMS.push({ ...p, thumb: p.thumb, kind: 'solo', rank: p.photos ? 0 : 1 }))
 GROUPS.forEach(g => {
   const gi = ITEMS.length
-  ITEMS.push({ name: g.name, lat: g.lat, lon: g.lon, thumb: resolve(g.cover), photos: g.photos, kind: 'group', n: g.places.length, rank: g.photos ? 0 : 1 })
+  ITEMS.push({ name: g.name, lat: g.lat, lon: g.lon, thumb: resolve(g.cover), photos: g.photos, kind: 'group', n: g.places.length, rank: g.photos ? 0 : 1, childThumbs: g.places.map(p => p.thumb).filter(t => t && t !== resolve(g.cover)) })
   g.places.forEach(p => ITEMS.push({ ...p, kind: 'child', parent: gi, rank: p.photos ? 0 : 2 }))
 })
 const ORDER = ITEMS.map((_, i) => i).sort((a, b) => ITEMS[a].rank - ITEMS[b].rank)
 
 const EXPAND_Z = 3.6
-
-function continent(lon, lat) {
-  if (lat < -10 && lon > 110) return 5
-  if (lon >= 141 && lat < 0) return 5
-  if (lon < -25) return (lat >= 12 || lon < -83) ? 0 : 1
-  if (lat > 58 && lon < -10) return 0
-  if (lon <= 45 && lat >= 36 && !(lon > 26 && lat < 42)) return 2
-  if (lon >= -20 && lon < 34.5 && lat < 35.5) return 3
-  if (lon >= 34.5 && lon < 52 && lat < 12 && lat > -36) return 3
-  if (lon >= 25 && lon < 52 && lat <= -10) return 3
-  return 4
-}
 
 function decodeLand(topo) {
   const { scale, translate } = topo.transform
@@ -119,37 +110,37 @@ function decodeLand(topo) {
   return polys
 }
 
-function inRing(x, y, r) {
-  let inside = false
-  for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
-    const [xi, yi] = r[i], [xj, yj] = r[j]
-    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside
-  }
-  return inside
+const MASK_W = 4096
+const MASK_H = 2048
+
+function buildMask(polys) {
+  const cv = document.createElement('canvas')
+  cv.width = MASK_W; cv.height = MASK_H
+  const g = cv.getContext('2d', { willReadFrequently: true })
+  g.beginPath()
+  polys.forEach(poly => poly.forEach(ring => {
+    ring.forEach(([x, y], i) => {
+      const px = ((x + 180) / 360) * MASK_W, py = ((90 - y) / 180) * MASK_H
+      i ? g.lineTo(px, py) : g.moveTo(px, py)
+    })
+    g.closePath()
+  }))
+  g.fill('evenodd')
+  const d = g.getImageData(0, 0, MASK_W, MASK_H).data
+  const m = new Uint8Array(MASK_W * MASK_H)
+  for (let i = 0; i < m.length; i++) m[i] = d[i * 4 + 3] > 127 ? 1 : 0
+  return m
 }
 
-function landDots(polys, step) {
-  const boxes = polys.map(p => {
-    let x0 = 181, x1 = -181, y0 = 91, y1 = -91
-    p[0].forEach(([x, y]) => { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y })
-    return [x0, x1, y0, y1]
-  })
-  const out = [[], [], [], [], [], []]
-  for (let lat = -58; lat <= 84; lat += step) {
-    const lonStep = step / Math.max(0.25, Math.cos(lat * RAD))
-    for (let lon = -180; lon < 180; lon += lonStep) {
-      for (let k = 0; k < polys.length; k++) {
-        const b = boxes[k]
-        if (lon < b[0] || lon > b[1] || lat < b[2] || lat > b[3]) continue
-        const poly = polys[k]
-        if (inRing(lon, lat, poly[0]) && !poly.slice(1).some(h => inRing(lon, lat, h))) {
-          out[continent(lon, lat)].push(lon * RAD, lat * RAD)
-          break
-        }
-      }
-    }
-  }
-  return out.map(a => new Float32Array(a))
+const T = 46
+const T2 = 28
+const PW = 240
+const PH = 206
+
+const slidesOf = it => {
+  if (it.kind === 'group') return [it.thumb, ...it.childThumbs].filter(Boolean)
+  if (it.slides && it.slides.length > 1) return it.slides
+  return it.photos || it.slides || (it.thumb ? [it.thumb] : [])
 }
 
 export default function Globe({ onOpenPhoto }) {
@@ -157,21 +148,40 @@ export default function Globe({ onOpenPhoto }) {
   const wrapRef = useRef(null)
   const canvasRef = useRef(null)
   const pinRefs = useRef([])
+  const labelRefs = useRef([])
+  const popRef = useRef(null)
+  const hoverRef = useRef(-1)
   const state = useRef({
     cur: { lon: 70, lat: 18, z: 2.4 },
     tgt: { lon: -76, lat: 30, z: 2.4 },
-    dots: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
+    mask: null, borders: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
   })
   const [hover, setHover] = useState(-1)
+  const [slide, setSlide] = useState(0)
 
   useEffect(() => {
     let dead = false
-    fetch('/land-110m.json').then(r => r.json()).then(t => {
+    fetch('/land-50m.json').then(r => r.json()).then(t => {
       if (dead) return
-      state.current.dots = landDots(decodeLand(t), 0.9)
+      state.current.mask = buildMask(decodeLand(t))
+    })
+    fetch('/borders.json').then(r => r.json()).then(b => {
+      if (dead) return
+      state.current.borders = {
+        lines: b.lines.map(l => Float32Array.from(l, (v, i) => v * RAD)),
+        names: b.names.map(([n, lo, la]) => [n.toUpperCase(), lo * RAD, la * RAD]),
+      }
     })
     return () => { dead = true }
   }, [])
+
+  useEffect(() => {
+    setSlide(0)
+    if (hover < 0 || slidesOf(ITEMS[hover]).length < 2) return
+    const n = slidesOf(ITEMS[hover]).length
+    const id = setInterval(() => setSlide(i => (i + 1) % n), 1400)
+    return () => clearInterval(id)
+  }, [hover])
 
   useEffect(() => {
     const s = state.current
@@ -240,19 +250,68 @@ export default function Globe({ onOpenPhoto }) {
         ctx.stroke()
       }
 
-      if (s.dots) {
-        const r = Math.max(0.7, Math.min(2, R * 0.0048))
-        s.dots.forEach(d => {
-          ctx.fillStyle = LAND_COLOR
-          ctx.beginPath()
-          for (let i = 0; i < d.length; i += 2) {
-            const p = project(d[i], d[i + 1], c, R, cx, cy)
-            if (p.v <= 0.02) continue
-            ctx.moveTo(p.x + r, p.y)
-            ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+      if (s.mask) {
+        const px0 = 0.9 * RAD * R
+        const kk = Math.max(0, Math.ceil(Math.log2(px0 / 7.5)))
+        const step = 0.9 / 2 ** kk
+        const sp = px0 / 2 ** kk
+        const r = Math.max(0.8, Math.min(2.2, sp * 0.3))
+        const ext = Math.asin(Math.min(1, Math.hypot(w, h) / 2 / R)) / RAD
+        const latLo = c.lat - ext, latHi = c.lat + ext
+        const wide = latLo <= -89 || latHi >= 89
+        const lonExt = wide ? 180 : Math.min(180, ext / Math.cos(Math.min(89, Math.max(Math.abs(latLo), Math.abs(latHi))) * RAD))
+        const spL = Math.sin(c.lat * RAD), cpL = Math.cos(c.lat * RAD), cLon = c.lon * RAD
+        ctx.fillStyle = LAND_COLOR
+        ctx.beginPath()
+        for (let la = Math.ceil(Math.max(-58, latLo) / step); la * step <= Math.min(84, latHi); la++) {
+          const lat = la * step
+          const sl = Math.sin(lat * RAD), cl = Math.cos(lat * RAD)
+          const lonStep = step / Math.max(0.25, cl)
+          const iy = ((90 - lat) / 180 * MASK_H) | 0
+          for (let lj = Math.ceil((c.lon - lonExt) / lonStep); lj * lonStep <= c.lon + lonExt; lj++) {
+            const lon = lj * lonStep
+            const ix = ((((lon + 180) % 360) + 360) % 360 / 360 * MASK_W) | 0
+            if (!s.mask[iy * MASK_W + ix]) continue
+            const dl = lon * RAD - cLon, cd = Math.cos(dl)
+            if (spL * sl + cpL * cl * cd <= 0.02) continue
+            const x = cx + R * cl * Math.sin(dl), y = cy - R * (cpL * sl - spL * cl * cd)
+            if (x < -r || x > w + r || y < -r || y > h + r) continue
+            ctx.moveTo(x + r, y)
+            ctx.arc(x, y, r, 0, Math.PI * 2)
           }
-          ctx.fill()
+        }
+        ctx.fill()
+      }
+
+      if (s.borders && c.z > 2.6) {
+        const a = Math.min(1, (c.z - 2.6) / 1.2)
+        const spL = Math.sin(c.lat * RAD), cpL = Math.cos(c.lat * RAD), cLon = c.lon * RAD
+        ctx.strokeStyle = `rgba(120,53,15,${0.55 * a})`
+        ctx.lineWidth = Math.min(1.3, 0.6 + c.z * 0.04)
+        ctx.beginPath()
+        s.borders.lines.forEach(ln => {
+          let pen = false
+          for (let i = 0; i < ln.length; i += 2) {
+            const sl = Math.sin(ln[i + 1]), cl = Math.cos(ln[i + 1]), dl = ln[i] - cLon, cd = Math.cos(dl)
+            if (spL * sl + cpL * cl * cd <= 0.02) { pen = false; continue }
+            const x = cx + R * cl * Math.sin(dl), y = cy - R * (cpL * sl - spL * cl * cd)
+            pen ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
+            pen = true
+          }
         })
+        ctx.stroke()
+
+        const na = Math.min(1, (c.z - 3) / 1) * Math.max(0, Math.min(1, (13 - c.z) / 3))
+        if (na > 0.02) {
+          ctx.font = '600 10px system-ui, sans-serif'
+          ctx.textAlign = 'center'
+          ctx.fillStyle = `rgba(92,40,8,${0.7 * na})`
+          s.borders.names.forEach(([name, lo, la]) => {
+            const p = project(lo, la, c, R, cx, cy)
+            if (p.v < 0.4 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) return
+            ctx.fillText(name, p.x, p.y)
+          })
+        }
       }
 
       ctx.restore()
@@ -260,6 +319,7 @@ export default function Globe({ onOpenPhoto }) {
       const k = Math.min(1, 0.6 + (c.z - 1) * 0.2)
       const gf = Math.max(0, Math.min(1, (EXPAND_Z + 0.4 - c.z) / 0.8))
       const gap = 32 * k
+      const labelsOn = c.z >= 6
       const placed = []
       const shown = new Array(ITEMS.length).fill(null)
       ORDER.forEach(i => {
@@ -269,8 +329,15 @@ export default function Globe({ onOpenPhoto }) {
         const lvl = it.kind === 'solo' ? 1 : it.kind === 'group' ? gf : 1 - gf
         let vis = limb * lvl
         if (vis > 0.02) {
-          if (placed.some(q => Math.hypot(q.x - p.x, q.y - p.y) < gap)) vis = 0
-          else placed.push(p)
+          const size = (it.photos ? T : T2) * k
+          const box = labelsOn && it.kind !== 'group'
+            ? { x: p.x, y: p.y + 13, hw: Math.max(size, it.name.length * 6 + 16) / 2, hh: (size + 26) / 2 }
+            : { x: p.x, y: p.y, hw: gap / 2, hh: gap / 2 }
+          const hit = placed.some(q => labelsOn
+            ? Math.abs(q.x - box.x) < q.hw + box.hw && Math.abs(q.y - box.y) < q.hh + box.hh
+            : Math.hypot(q.x - p.x, q.y - p.y) < gap)
+          if (hit) vis = 0
+          else placed.push(box)
         }
         shown[i] = { p, vis }
       })
@@ -281,7 +348,24 @@ export default function Globe({ onOpenPhoto }) {
         el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${k})`
         el.style.opacity = vis
         el.style.pointerEvents = vis > 0.5 ? 'auto' : 'none'
+        const lb = labelRefs.current[i]
+        if (lb) lb.style.opacity = hoverRef.current === i || (labelsOn && it.kind !== 'group' && vis > 0.5) ? 1 : 0
       })
+
+      const pop = popRef.current
+      if (pop) {
+        const hi = hoverRef.current
+        if (hi >= 0 && shown[hi].vis > 0.5 && slidesOf(ITEMS[hi]).length) {
+          const { p } = shown[hi]
+          const half = ((ITEMS[hi].photos ? T : T2) / 2) * k + 10
+          let top = p.y - half - PH
+          if (top < 8) top = p.y + half
+          top = Math.max(8, Math.min(h - PH - 8, top))
+          const left = Math.max(8, Math.min(w - PW - 8, p.x - PW / 2))
+          pop.style.transform = `translate3d(${left}px, ${top}px, 0)`
+          pop.style.opacity = 1
+        } else pop.style.opacity = 0
+      }
     }
     raf = requestAnimationFrame(frame)
     return () => { cancelAnimationFrame(raf); io.disconnect() }
@@ -309,7 +393,7 @@ export default function Globe({ onOpenPhoto }) {
   const zoom = f => {
     const t = state.current.tgt
     state.current.last = Date.now()
-    t.z = Math.max(1, Math.min(14, t.z * f))
+    t.z = Math.max(1, Math.min(40, t.z * f))
   }
 
   const pick = pl => {
@@ -320,8 +404,6 @@ export default function Globe({ onOpenPhoto }) {
     if (pl.photos) onOpenPhoto(pl.photos[0])
   }
 
-  const T = 46
-  const T2 = 28
   const btn = {
     width: 34, height: 34, borderRadius: 10, border: '1px solid rgba(0,0,0,0.1)',
     background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)', cursor: 'pointer',
@@ -356,8 +438,8 @@ export default function Globe({ onOpenPhoto }) {
           >
             <button
               onClick={() => pick(pl)}
-              onMouseEnter={() => setHover(i)}
-              onMouseLeave={() => setHover(-1)}
+              onMouseEnter={() => { hoverRef.current = i; setHover(i) }}
+              onMouseLeave={() => { hoverRef.current = -1; setHover(-1) }}
               aria-label={big ? `Open photos from ${pl.name}` : pl.name}
               style={{
                 position: 'absolute', left: -size / 2, top: -size / 2, width: size, height: size, padding: 0,
@@ -378,17 +460,50 @@ export default function Globe({ onOpenPhoto }) {
                 {pl.kind === 'group' ? pl.n : pl.photos.length}
               </span>
             )}
-            <span style={{
+            <span ref={el => { labelRefs.current[i] = el }} style={{
               position: 'absolute', left: 0, top: size / 2 + 6, transform: 'translateX(-50%)',
               whiteSpace: 'nowrap', fontSize: 11, fontWeight: 600, color: '#171717',
               background: 'rgba(255,255,255,0.88)', padding: '2px 8px', borderRadius: 6, pointerEvents: 'none',
-              opacity: hover === i ? 1 : 0, transition: 'opacity 0.25s ease',
+              opacity: 0, transition: 'opacity 0.25s ease',
             }}>
               {pl.name}
             </span>
           </div>
         )
       })}
+
+      <div ref={popRef} style={{
+        position: 'absolute', left: 0, top: 0, width: PW, height: PH, opacity: 0, zIndex: 20, pointerEvents: 'none',
+        padding: 6, boxSizing: 'border-box', borderRadius: 16, background: '#fff', boxShadow: '0 18px 48px rgba(0,0,0,0.28)',
+        transition: 'opacity 0.2s ease',
+      }}>
+        {hover >= 0 && (() => {
+          const it = ITEMS[hover]
+          const sl = slidesOf(it)
+          return (
+            <>
+              <div style={{ position: 'relative', width: '100%', height: PH - 46, borderRadius: 11, overflow: 'hidden', background: 'linear-gradient(135deg, #fde68a, #fb923c)' }}>
+                {sl.map((src, j) => (
+                  <div key={src} style={{
+                    position: 'absolute', inset: 0, background: `url(${src}) center/cover`,
+                    opacity: j === slide % sl.length ? 1 : 0, transition: 'opacity 0.5s ease',
+                  }} />
+                ))}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 34, padding: '0 4px' }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#171717' }}>{it.name}</span>
+                {sl.length > 1 && (
+                  <span style={{ display: 'flex', gap: 4 }}>
+                    {sl.map((_, j) => (
+                      <span key={j} style={{ width: 5, height: 5, borderRadius: '50%', background: j === slide % sl.length ? '#171717' : 'rgba(0,0,0,0.18)' }} />
+                    ))}
+                  </span>
+                )}
+              </div>
+            </>
+          )
+        })()}
+      </div>
 
       <div style={{ position: 'absolute', right: 14, bottom: 14, display: 'flex', flexDirection: "column", gap: 6, zIndex: 4 }}>
         <button style={btn} onClick={() => zoom(1.6)} aria-label="Zoom in">+</button>
