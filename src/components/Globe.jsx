@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import useIsMobile from '../hooks/useIsMobile'
 
 const RAD = Math.PI / 180
@@ -157,8 +158,8 @@ function buildMask(polys) {
 
 const T = 46
 const T2 = 28
-const PW = 240
-const PH = 206
+const PW = 300
+const PH = 262
 
 const slidesOf = it => {
   if (it.kind === 'group') return [it.thumb, ...it.childThumbs].filter(Boolean)
@@ -183,6 +184,9 @@ export default function Globe({ onOpenPhoto, region }) {
   })
   const [hover, setHover] = useState(-1)
   const [slide, setSlide] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const [big, setBig] = useState(null)
+  const leaveT = useRef(0)
 
   useEffect(() => {
     let dead = false
@@ -198,13 +202,31 @@ export default function Globe({ onOpenPhoto, region }) {
     return () => { dead = true }
   }, [])
 
+  useEffect(() => { setSlide(0); setPaused(false) }, [hover])
+
   useEffect(() => {
-    setSlide(0)
-    if (hover < 0 || slidesOf(ITEMS[hover]).length < 2) return
+    if (hover < 0 || paused || big || slidesOf(ITEMS[hover]).length < 2) return
     const n = slidesOf(ITEMS[hover]).length
-    const id = setInterval(() => setSlide(i => (i + 1) % n), 1400)
+    const id = setInterval(() => setSlide(i => (i + 1) % n), 1800)
     return () => clearInterval(id)
-  }, [hover])
+  }, [hover, paused, big])
+
+  useEffect(() => {
+    if (!big) return
+    const onKey = e => {
+      if (e.key === 'Escape') setBig(null)
+      else if (e.key === 'ArrowRight') setBig(b => ({ ...b, i: (b.i + 1) % b.list.length }))
+      else if (e.key === 'ArrowLeft') setBig(b => ({ ...b, i: (b.i - 1 + b.list.length) % b.list.length }))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [big])
+
+  const enter = i => { clearTimeout(leaveT.current); hoverRef.current = i; setHover(i) }
+  const leave = () => {
+    clearTimeout(leaveT.current)
+    leaveT.current = setTimeout(() => { hoverRef.current = -1; setHover(-1) }, 280)
+  }
 
   useEffect(() => {
     const s = state.current
@@ -283,7 +305,7 @@ export default function Globe({ onOpenPhoto, region }) {
         const kk = Math.max(0, Math.ceil(Math.log2(px0 / 7.5)))
         const step = 0.9 / 2 ** kk
         const sp = px0 / 2 ** kk
-        const r = Math.max(0.8, Math.min(2.2, sp * 0.3))
+        const r = Math.max(0.5, Math.min(1.3, sp * 0.17))
         const ext = Math.asin(Math.min(1, Math.hypot(w, h) / 2 / R)) / RAD
         const latLo = c.lat - ext, latHi = c.lat + ext
         const wide = latLo <= -89 || latHi >= 89
@@ -327,18 +349,6 @@ export default function Globe({ onOpenPhoto, region }) {
           }
         })
         ctx.stroke()
-
-        const na = Math.max(0, Math.min(1, (z0 * 4 - c.z) / z0))
-        if (na > 0.02) {
-          ctx.font = '600 10px system-ui, sans-serif'
-          ctx.textAlign = 'center'
-          ctx.fillStyle = `rgba(92,40,8,${0.7 * na})`
-          s.borders.names.forEach(([name, lo, la]) => {
-            const p = project(lo, la, c, R, cx, cy)
-            if (p.v < 0.4 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) return
-            ctx.fillText(name, p.x, p.y)
-          })
-        }
       }
 
       ctx.restore()
@@ -384,14 +394,15 @@ export default function Globe({ onOpenPhoto, region }) {
         const hi = hoverRef.current
         if (hi >= 0 && shown[hi].vis > 0.5 && slidesOf(ITEMS[hi]).length) {
           const { p } = shown[hi]
-          const half = ((ITEMS[hi].photos ? T : T2) / 2) * k + 10
+          const half = ((ITEMS[hi].photos ? T : T2) / 2) * k + 4
           let top = p.y - half - PH
           if (top < 8) top = p.y + half
           top = Math.max(8, Math.min(h - PH - 8, top))
           const left = Math.max(8, Math.min(w - PW - 8, p.x - PW / 2))
           pop.style.transform = `translate3d(${left}px, ${top}px, 0)`
           pop.style.opacity = 1
-        } else pop.style.opacity = 0
+          pop.style.pointerEvents = 'auto'
+        } else { pop.style.opacity = 0; pop.style.pointerEvents = 'none' }
       }
     }
     raf = requestAnimationFrame(frame)
@@ -432,6 +443,11 @@ export default function Globe({ onOpenPhoto, region }) {
     if (pl.photos) onOpenPhoto(pl.photos[0])
   }
 
+  const ctl = {
+    width: 26, height: 26, borderRadius: 8, border: 'none', background: 'rgba(0,0,0,0.06)', cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0,
+  }
+
   const btn = {
     width: 34, height: 34, borderRadius: 10, border: '1px solid rgba(0,0,0,0.1)',
     background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)', cursor: 'pointer',
@@ -470,8 +486,8 @@ export default function Globe({ onOpenPhoto, region }) {
           >
             <button
               onClick={() => pick(pl)}
-              onMouseEnter={() => { hoverRef.current = i; setHover(i) }}
-              onMouseLeave={() => { hoverRef.current = -1; setHover(-1) }}
+              onMouseEnter={() => enter(i)}
+              onMouseLeave={leave}
               aria-label={big ? `Open photos from ${pl.name}` : pl.name}
               style={{
                 position: 'absolute', left: -size / 2, top: -size / 2, width: size, height: size, padding: 0,
@@ -504,8 +520,8 @@ export default function Globe({ onOpenPhoto, region }) {
         )
       })}
 
-      <div ref={popRef} style={{
-        position: 'absolute', left: 0, top: 0, width: PW, height: PH, opacity: 0, zIndex: 20, pointerEvents: 'none',
+      <div ref={popRef} onMouseEnter={() => clearTimeout(leaveT.current)} onMouseLeave={leave} onPointerDown={e => e.stopPropagation()} style={{
+        position: 'absolute', left: 0, top: 0, width: PW, height: PH, opacity: 0, zIndex: 20, pointerEvents: 'none', cursor: 'default',
         padding: 6, boxSizing: 'border-box', borderRadius: 16, background: '#fff', boxShadow: '0 18px 48px rgba(0,0,0,0.28)',
         transition: 'opacity 0.2s ease',
       }}>
@@ -524,18 +540,56 @@ export default function Globe({ onOpenPhoto, region }) {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 34, padding: '0 4px' }}>
                 <span style={{ fontSize: 12, fontWeight: 600, color: '#171717' }}>{it.name}</span>
-                {sl.length > 1 && (
-                  <span style={{ display: 'flex', gap: 4 }}>
-                    {sl.map((_, j) => (
-                      <span key={j} style={{ width: 5, height: 5, borderRadius: '50%', background: j === slide % sl.length ? '#171717' : 'rgba(0,0,0,0.18)' }} />
-                    ))}
-                  </span>
-                )}
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {sl.length > 1 && (
+                    <span style={{ display: 'flex', gap: 4 }}>
+                      {sl.map((_, j) => (
+                        <span key={j} style={{ width: 5, height: 5, borderRadius: '50%', background: j === slide % sl.length ? '#171717' : 'rgba(0,0,0,0.18)' }} />
+                      ))}
+                    </span>
+                  )}
+                  {sl.length > 1 && (
+                    <button onClick={() => setPaused(v => !v)} aria-label={paused ? 'Play slideshow' : 'Pause slideshow'} style={ctl}>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="#171717">
+                        {paused ? <path d="M3 1.5v9l7.5-4.5z" /> : <><rect x="2.5" y="1.5" width="2.5" height="9" rx="0.5" /><rect x="7" y="1.5" width="2.5" height="9" rx="0.5" /></>}
+                      </svg>
+                    </button>
+                  )}
+                  <button onClick={() => setBig({ list: sl, i: slide % sl.length })} aria-label="Enlarge photo" style={ctl}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#171717" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M7.5 1.5h3v3M4.5 10.5h-3v-3M10.5 1.5L7 5M1.5 10.5L5 7" />
+                    </svg>
+                  </button>
+                </span>
               </div>
             </>
           )
         })()}
       </div>
+
+      {big && createPortal(
+        <div onClick={() => setBig(null)} style={{
+          position: 'fixed', inset: 0, zIndex: 1000, background: 'rgba(10,10,10,0.92)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out',
+        }}>
+          <img src={big.list[big.i]} alt="" onClick={e => e.stopPropagation()} style={{
+            maxWidth: '92vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: 12, cursor: 'default',
+          }} />
+          {big.list.length > 1 && [-1, 1].map(d => (
+            <button key={d} onClick={e => { e.stopPropagation(); setBig(b => ({ ...b, i: (b.i + d + b.list.length) % b.list.length })) }}
+              aria-label={d < 0 ? 'Previous photo' : 'Next photo'} style={{
+                position: 'absolute', top: '50%', [d < 0 ? 'left' : 'right']: 16, transform: 'translateY(-50%)',
+                width: 40, height: 40, borderRadius: 12, border: '1px solid rgba(255,255,255,0.2)',
+                background: 'rgba(255,255,255,0.1)', color: '#fff', fontSize: 20, cursor: 'pointer',
+              }}>{d < 0 ? '\u2039' : '\u203a'}</button>
+          ))}
+          <button onClick={() => setBig(null)} aria-label="Close" style={{
+            position: 'absolute', top: 16, right: 16, width: 40, height: 40, borderRadius: 12,
+            border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', color: '#fff', fontSize: 20, cursor: 'pointer',
+          }}>&times;</button>
+        </div>,
+        document.body
+      )}
 
       <div style={{ position: 'absolute', right: 14, bottom: 14, display: 'flex', flexDirection: "column", gap: 6, zIndex: 4 }}>
         <button style={btn} onClick={() => zoom(1.6)} aria-label="Zoom in">+</button>
