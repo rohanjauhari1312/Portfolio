@@ -4,7 +4,7 @@ import useIsMobile from '../hooks/useIsMobile'
 
 const RAD = Math.PI / 180
 
-const LAND_COLOR = '#eab308'
+const LAND_COLOR = '#a16207'
 
 const P = n => `/personal/places/${n}.jpg`
 const ph = (name, lat, lon, thumb, n = 1) => ({
@@ -104,10 +104,7 @@ function buildSet(box) {
 const SETS = { us: buildSet(REGIONS.us.box), india: buildSet(REGIONS.india.box) }
 
 let dataP
-const loadData = () => dataP || (dataP = Promise.all([
-  fetch('/land-50m.json').then(r => r.json()).then(t => buildMask(decodeLand(t))),
-  fetch('/borders.json').then(r => r.json()),
-]))
+const loadData = () => dataP || (dataP = fetch('/land-50m.json').then(r => r.json()).then(t => buildMask(decodeLand(t))))
 
 function decodeLand(topo) {
   const { scale, translate } = topo.transform
@@ -180,7 +177,7 @@ export default function Globe({ onOpenPhoto, region }) {
   const state = useRef({
     cur: { ...R0.center, z: 3 },
     tgt: { ...R0.center, z: 3 },
-    z0: 0, mask: null, borders: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
+    z0: 0, mask: null, inView: false, drag: null, moved: 0, last: Date.now(), hovering: false,
   })
   const [hover, setHover] = useState(-1)
   const [slide, setSlide] = useState(0)
@@ -190,15 +187,7 @@ export default function Globe({ onOpenPhoto, region }) {
 
   useEffect(() => {
     let dead = false
-    loadData().then(([mask, b]) => {
-      if (dead) return
-      const bx = R0.box
-      state.current.mask = mask
-      state.current.borders = {
-        lines: b.lines.filter(l => inBox(bx, { lon: l[0], lat: l[1] })).map(l => Float32Array.from(l, v => v * RAD)),
-        names: b.names.filter(([, lo, la]) => inBox(bx, { lon: lo, lat: la })).map(([n, lo, la]) => [n.toUpperCase(), lo * RAD, la * RAD]),
-      }
-    })
+    loadData().then(mask => { if (!dead) state.current.mask = mask })
     return () => { dead = true }
   }, [])
 
@@ -331,24 +320,6 @@ export default function Globe({ onOpenPhoto, region }) {
           }
         }
         ctx.fill()
-      }
-
-      if (s.borders) {
-        const spL = Math.sin(c.lat * RAD), cpL = Math.cos(c.lat * RAD), cLon = c.lon * RAD
-        ctx.strokeStyle = 'rgba(120,53,15,0.55)'
-        ctx.lineWidth = Math.min(1.3, 0.6 + c.z * 0.04)
-        ctx.beginPath()
-        s.borders.lines.forEach(ln => {
-          let pen = false
-          for (let i = 0; i < ln.length; i += 2) {
-            const sl = Math.sin(ln[i + 1]), cl = Math.cos(ln[i + 1]), dl = ln[i] - cLon, cd = Math.cos(dl)
-            if (spL * sl + cpL * cl * cd <= 0.02) { pen = false; continue }
-            const x = cx + R * cl * Math.sin(dl), y = cy - R * (cpL * sl - spL * cl * cd)
-            pen ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
-            pen = true
-          }
-        })
-        ctx.stroke()
       }
 
       ctx.restore()
